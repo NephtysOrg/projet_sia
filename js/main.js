@@ -30,7 +30,15 @@ function init() {
         scene.add(axis);
 
       player = new Player(invader1_data,3);
-      player.rotation.x = 10* Math.PI/180;
+      player.position.y = min_height;
+      //player.rotation.x = 10* Math.PI/180;
+      
+      var g = new THREE.PlaneGeometry(map_width,map_height,10);
+      var m = new THREE.MeshBasicMaterial({color : 0xe576523});
+      var plane = new THREE.Mesh(g,m);
+      scene.add(plane);
+      
+      
 
       
       //console.log(struct.position.x+','+struct.position.y+','+struct.position.z);
@@ -42,7 +50,7 @@ function animate() {
     requestAnimationFrame(animate);
     render();
     
-    //player.animate();
+
       if (keyboard.pressed("left")){
           var dir = [-1,0,0];
           if(player.position.x > min_width)
@@ -53,7 +61,11 @@ function animate() {
           if(player.position.x < max_width)
                 player.move(dir);
       }
-    
+      if(keyboard.pressed("space")){
+          console.log(player.can_fire);
+          player.fire();
+      }
+    player.moveBullet();
     cameraControls.update();
 }
 
