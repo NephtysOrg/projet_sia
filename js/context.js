@@ -6,8 +6,9 @@ var scene, renderer;
 var camera, cameraControl;
 var mesh;
 var player;
+var arm;
 var unit_size = 1 ;
-var player_speed = 10;
+var player_speed = 5;
 var keyboard = new THREEx.KeyboardState();
 var clock ;
 var map_width = 200;
@@ -27,6 +28,14 @@ var invader1_data = [   [0,0,2,0,0,0,0,0,2,0,0],
                         [1,0,1,1,1,1,1,1,1,0,1],
                         [1,0,1,0,0,0,0,0,1,0,1],
                         [0,0,0,1,1,0,1,1,0,0,0] ];
+                    
+var player_data = [
+                        [0,0,0,0,0,1,0,0,0,0,0],
+                        [0,0,1,0,1,2,1,0,1,0,0],
+                        [0,0,1,1,2,3,2,1,1,0,0],
+                        [0,0,1,1,2,3,2,1,1,0,0],
+                        [0,1,1,1,1,2,1,1,1,1,0],
+                        [1,1,1,1,1,1,1,1,1,1,1] ];
                     
  
 var block_data = [      [1,1,1,1,1,1,1,1,1,1,1],

@@ -10,11 +10,10 @@ function Bullet(bullet_data,speed,owner){
    this.owner = owner;
    
    Structure3d.call(this,bullet_data);
-   scene.add(this);
 };
 
-// Create a Structure3d.prototype object that inherits from Group.prototype
-Bullet.prototype = Object.create(THREE.Group.prototype);
+// Create a Bullet.prototype object that inherits from Group.prototype
+Bullet.prototype = Object.create(Structure3d.prototype);
 // Set the "constructor" property to refer to Bullet
 Bullet.prototype.constructor = Bullet;
 

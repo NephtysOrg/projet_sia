@@ -8,7 +8,7 @@ function Player(player_data,lives){
     this.lives=lives;
     this.bullets = new Array();
     this.direction = [0,1,0]; //pointing to -z (Player direction)
-    this.score;
+    this.score = 0;
     this.can_fire = true;
     Structure3d.call(this,player_data);
 };
@@ -25,6 +25,7 @@ Player.prototype.fire = function() {
         this.can_fire=false;
         var tmp_bullet = new Bullet(bullet_data,10,this);
         tmp_bullet.position.set(this.position.x,this.position.y,this.position.z);
+        scene.add(tmp_bullet);
         this.bullets.push(tmp_bullet);
         var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
         setTimeout(function () {
