@@ -31,17 +31,18 @@ function init() {
 
     player = new Player(player_data, 3);
     player.position.y = min_height;
+    player.position.z += 5;
     
     var datas = [invader1_data,invader1_data,invader1_data,invader1_data];
     var scores = [100,200,300,400];
-    var speeds = [10,10,10,10];
-    var alien_numbers = [10,5,8,2];
+    var speeds = [1,1,1,1];
+    var alien_numbers = [5,5,5,5];
     arm = new Army(4,alien_numbers,speeds,datas,scores);
     scene.add(arm);
     //player.rotation.x = 10* Math.PI/180;
-    var bati = new Battalion(invader1_data,10,100,5);
-    console.log(bati.leftOverflow());
-    var g = new THREE.PlaneGeometry(map_width, map_height, 10);
+//    var bati = new Battalion(invader1_data,10,100,5);
+//    scene.add(bati);
+    var g = new THREE.PlaneGeometry(map_width+margin, map_height+margin, 10);
     var m = new THREE.MeshBasicMaterial({color: 0xe576523});
     var plane = new THREE.Mesh(g, m);
     scene.add(plane);
@@ -58,6 +59,7 @@ function animate() {
     requestAnimationFrame(animate);
     render();
 
+    cameraControls.update();
 
     if (keyboard.pressed("left")) {
         var dir = [-1, 0, 0];
@@ -75,7 +77,6 @@ function animate() {
     }
     player.moveBullet();
     //arm.move();
-    cameraControls.update();
 }
 
 function render() {

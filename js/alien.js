@@ -1,3 +1,10 @@
+/**
+ * 
+ * @param {type} alien_data
+ * @param {type} speed
+ * @param {type} score_value
+ * @returns {Alien}
+ */
 function Alien(alien_data,speed,score_value){
    this.speed = speed;
    this.score_value = score_value;

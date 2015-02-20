@@ -1,19 +1,30 @@
+/**
+ * 
+ * @param {type} batalion_data
+ * @param {type} battalion_speed
+ * @param {type} alien_point
+ * @param {type} alien_number
+ * @returns {Battalion}
+ */
 function Battalion(batalion_data, battalion_speed, alien_point, alien_number) {
     THREE.Group.call(this);
     this.aliens = new Array();
+    this.speed = battalion_speed;
+    this.direction = [1, 0, 0];
 
-    console.log('-> Battalion() ' + alien_number);
+    console.log('-> Battalion() ');
 
-
-    var step = map_width / alien_number
+    var step = map_width / alien_number;
     for (var i = -alien_number / 2; i < alien_number / 2; i++) {
         var tmp_alien = new Alien(batalion_data, battalion_speed, alien_point);
         tmp_alien.position.x = i * step;
-        this.add(tmp_alien);
         this.aliens.push(tmp_alien);
+        this.add(tmp_alien);
     }
-    console.log('<- Battalion() ' + this.aliens.length);
-};
+
+    console.log('<- Battalion() ');
+}
+;
 
 // Create a Battalion.prototype object that inherits from Group.prototype
 Battalion.prototype = Object.create(THREE.Group.prototype);
@@ -21,27 +32,38 @@ Battalion.prototype = Object.create(THREE.Group.prototype);
 Battalion.prototype.constructor = Battalion;
 
 
-Battalion.prototype.move = function (direction) {
-    for (var i = 0; i < this.aliens.length; i++) {
-            this.aliens[i].move(direction);
+Battalion.prototype.move = function () {
+    var bottom = [0, -this.aliens[0].height, 0];
+     for (var i = 0; i < this.aliens.length; i++) {
+        this.aliens[i].move(this.direction);
+    }
+    if (this.leftOverflow() || this.rightOverflow()) {
+        for (var i = 0; i < this.aliens.length; i++) {
+            this.aliens[i].move(bottom);
+        }
+        this.direction[0] = -this.direction[0];
+        this.direction[1] = -this.direction[1];
+        this.direction[2] = -this.direction[2];
+    }
+   
+
+};
+
+
+Battalion.prototype.rightOverflow = function () {
+    //console.log("Max_bat : " + this.aliens[this.aliens.length - 1].position.x);
+    if (this.aliens[this.aliens.length - 1].position.x >= max_width) {
+        return true;
+    } else {
+        return false;
     }
 };
 
-
-Battalion.prototytpe.rightOverflow = function (){
-    if(this.aliens[this.aliens.length - 1].position.x < max_width){
-        console.log("not right overflow");
-        return false;
-    }else{
+Battalion.prototype.leftOverflow = function () {
+    //console.log("Min_bat : " + this.aliens[0].position.x);
+    if (this.aliens[0].position.x < min_width) {
         return true;
-    } 
-};
-
-Battalion.prototytpe.leftOverflow = function (){
-    if(this.aliens[0].position.x > min_width){
-        console.log("not left overflow");
+    } else {
         return false;
-    }else{
-        return true;
     }
 };

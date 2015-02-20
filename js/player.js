@@ -23,8 +23,8 @@ Player.prototype.fire = function() {
     if(this.can_fire){
          console.log("-> player.fire()");
         this.can_fire=false;
-        var tmp_bullet = new Bullet(bullet_data,10,this);
-        tmp_bullet.position.set(this.position.x,this.position.y,this.position.z);
+        var tmp_bullet = new Bullet(bullet_data,1,this);
+        tmp_bullet.position.set(this.position.x,this.position.y+1,this.position.z);
         scene.add(tmp_bullet);
         this.bullets.push(tmp_bullet);
         var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
