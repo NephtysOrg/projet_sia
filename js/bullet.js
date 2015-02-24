@@ -21,6 +21,10 @@ Bullet.prototype.constructor = Bullet;
 Bullet.prototype.move = function(direction) {
         console.log("-> bullet.move()");
         this.direction = direction;
+         if(this.position.y >= max_height ||this.position.y <= min_height){
+            console.log("removing");
+            this.owner.destroyBullet(this);
+        }
         this.translateX(direction[0]*this.speed);
         this.translateY(direction[1]*this.speed);
         this.translateZ(direction[2]*this.speed);
@@ -31,11 +35,16 @@ Bullet.prototype.move = function(direction) {
 
 Bullet.prototype.collide = function (){
     // Just for the f*** raycaster who only accpet vectors
-    var vector_direction = new THREE.Vector3(this.direction[0],this.direction[1],this.direction[2]);
-//    console.log("bullet pos : "+this.position.y +"bullet dir : "+this.direction);
-//    console.log(scene.children);
-    this.raycaster.set(this.position,vector_direction);
+        var vector_direction = new THREE.Vector3(this.direction[0],this.direction[1],this.direction[2]);
+        this.raycaster.set(this.position,vector_direction);
     	// calculate objects intersecting the picking ray
-	var intersects = this.raycaster.intersectObjects( army ,true);
-        console.log(intersects);
+        var intersects = this.raycaster.intersectObjects( army.children,true );
+        if(intersects.length > 0){
+            if(intersects[0].object.parent instanceof Alien && intersects[0].distance <= 10 && this.owner instanceof Player){
+                console.log('Player killed alien');
+                console.log(army.battalions);
+                army.destroyAlien(intersects[0].object.parent);
+                this.owner.destroyBullet(this);
+            }
+        }
 }

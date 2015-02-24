@@ -6,18 +6,19 @@
  * @param {type} alien_number
  * @returns {Battalion}
  */
-function Battalion(batalion_data, battalion_speed, alien_point, alien_number) {
+function Battalion(batalion_data, battalion_speed, alien_point, alien_number, position_y, arm) {
     THREE.Group.call(this);
     this.aliens = new Array();
     this.speed = battalion_speed;
     this.direction = [1, 0, 0];
-
+    this.army = arm;
     console.log('-> Battalion() ');
 
     var step = map_width / alien_number;
     for (var i = -alien_number / 2; i < alien_number / 2; i++) {
-        var tmp_alien = new Alien(batalion_data, battalion_speed, alien_point);
+        var tmp_alien = new Alien(batalion_data, battalion_speed, alien_point,this);
         tmp_alien.position.x = i * step;
+        tmp_alien.position.y = position_y;
         this.aliens.push(tmp_alien);
         this.add(tmp_alien);
     }
@@ -65,5 +66,24 @@ Battalion.prototype.leftOverflow = function () {
         return true;
     } else {
         return false;
+    }
+};
+
+Battalion.prototype.printPosition = function() {
+    for(var i = 0 ; i < this.aliens.length; i++){
+        console.log("   Alien["+i+"]");
+        this.aliens[i].printPosition();
+    } 
+}
+
+Battalion.prototype.destroyAlien = function(alien){
+    var i = this.aliens.indexOf(alien);
+    if(i>-1){
+        this.remove(this.aliens[i]);
+        scene.remove(this.aliens[i]);
+        this.aliens.splice(i, 1);
+    }
+    if(this.aliens.length === 0){
+        this.army.destroyBatallion(this);
     }
 };

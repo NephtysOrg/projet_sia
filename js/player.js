@@ -23,8 +23,8 @@ Player.prototype.fire = function() {
     if(this.can_fire){
          console.log("-> player.fire()");
         this.can_fire=false;
-        var tmp_bullet = new Bullet(bullet_data,1,this);
-        tmp_bullet.position.set(this.position.x,this.position.y+1,this.position.z);
+        var tmp_bullet = new Bullet(bullet_data,10,this);
+        tmp_bullet.position.set(this.position.x,this.position.y+5,this.position.z);
         scene.add(tmp_bullet);
         this.bullets.push(tmp_bullet);
         var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
@@ -47,13 +47,23 @@ Player.prototype.move = function(direction) {
 
 };
 
+Player.prototype.destroyBullet = function(bullet){
+    var i = this.bullets.indexOf(bullet);
+    scene.remove(this.bullets[i]);
+    console.log(this.bullets);
+    this.bullets.splice(i, 1);
+    console.log(this.bullets);
+};
+
 Player.prototype.moveBullet = function() {
     for (var i=0; i< this.bullets.length ; i++){
         this.bullets[i].move(this.direction);
         if(this.bullets[i].position.y >= max_height ){
             console.log("removing");
-            scene.remove(this.bullets[i]);
-            this.bullets.splice(i, 1);
+            this.destroyBullet(this.bullets[i]);
         }
     }
 };
+
+
+

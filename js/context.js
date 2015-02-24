@@ -6,7 +6,7 @@ var scene, renderer;
 var camera, cameraControl;
 var mesh;
 var player;
-var arm;
+var army;
 var unit_size = 1 ;
 var player_speed = 5;
 var keyboard = new THREEx.KeyboardState();

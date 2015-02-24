@@ -5,10 +5,11 @@
  * @param {type} score_value
  * @returns {Alien}
  */
-function Alien(alien_data,speed,score_value){
+function Alien(alien_data,speed,score_value, batallion){
    this.speed = speed;
    this.score_value = score_value;
    this.bullets = new Array();
+   this.batallion = batallion;
    
    Structure3d.call(this,alien_data);
 };
@@ -19,11 +20,11 @@ Alien.prototype = Object.create(Structure3d.prototype);
 Alien.prototype.constructor = Alien;
 
 Alien.prototype.move = function(direction) {
-        console.log("-> Alien.move()");
+        //console.log("-> Alien.move()");
         this.translateX(direction[0]*this.speed);
         this.translateY(direction[1]*this.speed);
         this.translateZ(direction[2]*this.speed);
-        console.log("<- Alien.move()");
+        //console.log("<- Alien.move()");
 
 };
 
@@ -42,3 +43,7 @@ Alien.prototype.fire = function() {
     console.log("<- alien.fire()");
     }
 };
+
+Alien.prototype.printPosition = function() {
+    console.log(this.position);
+}

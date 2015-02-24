@@ -31,27 +31,20 @@ function init() {
 
     player = new Player(player_data, 3);
     player.position.y = min_height;
-    player.position.z += 5;
+    scene.add(player);
     
     var datas = [invader1_data,invader1_data,invader1_data,invader1_data];
     var scores = [100,200,300,400];
     var speeds = [1,1,1,1];
     var alien_numbers = [5,5,5,5];
-    arm = new Army(4,alien_numbers,speeds,datas,scores);
-    scene.add(arm);
-    //player.rotation.x = 10* Math.PI/180;
-//    var bati = new Battalion(invader1_data,10,100,5);
-//    scene.add(bati);
+    army = new Army(4,alien_numbers,speeds,datas,scores);
+    scene.add(army);
+
     var g = new THREE.PlaneGeometry(map_width+margin, map_height+margin, 10);
     var m = new THREE.MeshBasicMaterial({color: 0xe576523});
     var plane = new THREE.Mesh(g, m);
     scene.add(plane);
 
-
-
-
-    //console.log(struct.position.x+','+struct.position.y+','+struct.position.z);
-    scene.add(player);
 }
 
 
@@ -75,12 +68,17 @@ function animate() {
         console.log(player.can_fire);
         player.fire();
     }
-    player.moveBullet();
-    //arm.move();
+    //player.moveBullet();
+    for(var i = 0; i< player.bullets.length; i++){
+         player.bullets[i].move(player.direction)
+    }
+    army.move();
+   
 }
 
 function render() {
-    renderer.render(scene, camera);
+
+                renderer.render( scene, camera );
 }
 
 

@@ -14,9 +14,9 @@ function Army(batallion_number,alien_numbers,speeds,datas,scores){
 
     
     for(var i = 0; i < batallion_number ;i++){
-            var tmp = new Battalion(datas[i],speeds[i],scores[i],alien_numbers[i]);
+            var tmp = new Battalion(datas[i],speeds[i],scores[i],alien_numbers[i],max_height - (i*step),this);
             this.battalions.push(tmp);
-            tmp.position.y = max_height - (i*step);
+            //tmp.position.y = max_height - (i*step);
             this.add(tmp);
     }
 };
@@ -29,5 +29,25 @@ Army.prototype.constructor = Army;
 Army.prototype.move = function (){
     for (var i =0; i<this.battalions.length; i++){
         this.battalions[i].move();
+    }
+}
+
+Army.prototype.destroyAlien = function(alien){
+    alien.batallion.destroyAlien(alien);
+}
+
+Army.prototype.destroyBatallion = function(batallion){
+    var i = this.battalions.indexOf(batallion);
+    if(i>-1){
+        this.remove(this.battalions[i]);
+        scene.remove(this.battalions[i]);
+        this.battalions.splice(i, 1);
+    }
+}
+
+Army.prototype.printPosition = function () {
+    for(var i = 0; i < this.battalions.length; i++){
+        console.log("Battalion["+i+"]");
+        this.battalions[i].printPosition();
     }
 }
