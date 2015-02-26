@@ -11,8 +11,8 @@ var unit_size = 1 ;
 var player_speed = 5;
 var keyboard = new THREEx.KeyboardState();
 var clock ;
-var map_width = 200;
-var map_height = 300;
+var map_width = 300;
+var map_height = 500;
 var max_height = map_height/2;
 var min_height = -map_height/2;
 

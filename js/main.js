@@ -13,7 +13,7 @@ function init() {
     scene = new THREE.Scene();
     // put a camera in the scene
     camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.set(0, 0, 500);
+    camera.position.set(0, 0, 800);
     scene.add(camera);
     // create a camera contol
     cameraControls = new THREE.OrbitControls(camera);
@@ -30,7 +30,7 @@ function init() {
     scene.add(axis);
 
     player = new Player(player_data, 3);
-    player.position.y = min_height;
+    player.position.y = min_height+player.height;
     scene.add(player);
     
     var datas = [invader1_data,invader1_data,invader1_data,invader1_data];
@@ -65,20 +65,21 @@ function animate() {
             player.move(dir);
     }
     if (keyboard.pressed("space")) {
-        console.log(player.can_fire);
         player.fire();
+        
+
     }
-    //player.moveBullet();
-    for(var i = 0; i< player.bullets.length; i++){
-         player.bullets[i].move(player.direction)
+        if (keyboard.pressed("a")) {
+        army.fire();
     }
+    player.moveBullets();
+    army.fire();
     army.move();
-   
+    army.moveBullets();
 }
 
 function render() {
-
-                renderer.render( scene, camera );
+    renderer.render( scene, camera );
 }
 
 

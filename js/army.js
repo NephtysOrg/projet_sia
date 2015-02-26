@@ -50,4 +50,16 @@ Army.prototype.printPosition = function () {
         console.log("Battalion["+i+"]");
         this.battalions[i].printPosition();
     }
-}
+};
+
+Army.prototype.fire = function (){
+    for (var i = 0; i < this.battalions.length; i++){
+            this.battalions[i].fire();
+    }
+};
+
+Army.prototype.moveBullets = function (){
+    for (var i = 0; i < this.battalions.length; i++){
+        this.battalions[i].moveBullets();
+    }
+};

@@ -10,7 +10,8 @@ function Alien(alien_data,speed,score_value, batallion){
    this.score_value = score_value;
    this.bullets = new Array();
    this.batallion = batallion;
-   
+   this.direction = [0,-1,0]; //pointing to -y (Alien direction)
+   this.can_fire = true;
    Structure3d.call(this,alien_data);
 };
 
@@ -33,16 +34,36 @@ Alien.prototype.fire = function() {
          console.log("-> alien.fire()");
         this.can_fire=false;
         var tmp_bullet = new Bullet(bullet_data,10,this);
-        tmp_bullet.position.set(this.position.x,this.position.y,this.position.z);
+        tmp_bullet.position.set(this.position.x,this.position.y+5,this.position.z);
+        scene.add(tmp_bullet);
         this.bullets.push(tmp_bullet);
         var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
         setTimeout(function () {
                 that.can_fire = true;
-            }, 200);
+            }, 200 * (Math.floor((Math.random() * 100) + 1)));
             
     console.log("<- alien.fire()");
     }
 };
+
+Alien.prototype.destroyBullet = function(bullet){
+    var i = this.bullets.indexOf(bullet);
+    scene.remove(this.bullets[i]);
+//    console.log(this.bullets);
+    this.bullets.splice(i, 1);
+//    console.log(this.bullets);
+};
+
+Alien.prototype.moveBullets = function() {
+    for (var i=0; i< this.bullets.length ; i++){
+        this.bullets[i].move(this.direction);
+        if(this.bullets[i] && this.bullets[i].position.y <= min_height ){
+            console.log("removing");
+            this.destroyBullet(this.bullets[i]);
+        }
+    }
+};
+
 
 Alien.prototype.printPosition = function() {
     console.log(this.position);

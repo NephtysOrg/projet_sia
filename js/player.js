@@ -7,7 +7,7 @@
 function Player(player_data,lives){
     this.lives=lives;
     this.bullets = new Array();
-    this.direction = [0,1,0]; //pointing to -z (Player direction)
+    this.direction = [0,1,0]; //pointing to y (Player direction)
     this.score = 0;
     this.can_fire = true;
     Structure3d.call(this,player_data);
@@ -55,10 +55,10 @@ Player.prototype.destroyBullet = function(bullet){
     console.log(this.bullets);
 };
 
-Player.prototype.moveBullet = function() {
+Player.prototype.moveBullets = function() {
     for (var i=0; i< this.bullets.length ; i++){
         this.bullets[i].move(this.direction);
-        if(this.bullets[i].position.y >= max_height ){
+        if(this.bullets[i] && this.bullets[i].position.y >= max_height ){
             console.log("removing");
             this.destroyBullet(this.bullets[i]);
         }

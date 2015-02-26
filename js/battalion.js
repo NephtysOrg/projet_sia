@@ -79,11 +79,28 @@ Battalion.prototype.printPosition = function() {
 Battalion.prototype.destroyAlien = function(alien){
     var i = this.aliens.indexOf(alien);
     if(i>-1){
-        this.remove(this.aliens[i]);
+        // Removing bullets of alien, not realist but funny
+        for (var j =0; j<this.aliens[i].bullets.length; j++){
+            this.aliens[i].destroyBullet(this.aliens[i].bullets[j]);
+        }
         scene.remove(this.aliens[i]);
+        this.remove(this.aliens[i]);
         this.aliens.splice(i, 1);
     }
     if(this.aliens.length === 0){
         this.army.destroyBatallion(this);
+    }
+};
+
+Battalion.prototype.fire = function () {
+    for(var i = 0; i < this.aliens.length; i++){
+        if(i === Math.floor((Math.random() * this.aliens.length)))
+        this.aliens[i].fire();
+    }
+};
+
+Battalion.prototype.moveBullets = function (){
+    for (var i = 0; i < this.aliens.length; i++){
+        this.aliens[i].moveBullets();
     }
 };
