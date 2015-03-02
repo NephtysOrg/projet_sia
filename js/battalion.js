@@ -34,13 +34,15 @@ Battalion.prototype.constructor = Battalion;
 
 
 Battalion.prototype.move = function () {
-    var bottom = [0, -this.aliens[0].height, 0];
+    var bottom = [0, -this.aliens[0].height/this.speed, 0];
      for (var i = 0; i < this.aliens.length; i++) {
         this.aliens[i].move(this.direction);
     }
-    if (this.leftOverflow() || this.rightOverflow()) {
-        for (var i = 0; i < this.aliens.length; i++) {
-            this.aliens[i].move(bottom);
+    if ((this.leftOverflow() || this.rightOverflow())) {
+        if(!this.bottomOverflow()){
+            for (var i = 0; i < this.aliens.length; i++) {
+                this.aliens[i].move(bottom);
+            }
         }
         this.direction[0] = -this.direction[0];
         this.direction[1] = -this.direction[1];
@@ -69,6 +71,18 @@ Battalion.prototype.leftOverflow = function () {
     }
 };
 
+Battalion.prototype.bottomOverflow = function () {
+    var my_index = this.army.battalions.indexOf(this);
+    if((my_index >= 0) && (my_index < this.army.battalions.length -1)){
+        console.log(this.aliens[0].position.y -this.army.battalions[my_index+1].aliens[0].position.y);
+        console.log("Height : " +this.aliens[0].height);
+        if(this.army.battalions[my_index+1] && (this.aliens[0].position.y -this.army.battalions[my_index+1].aliens[0].position.y <=3*this.aliens[0].height)){
+            return true;
+        }
+    }
+    return false;
+}
+
 Battalion.prototype.printPosition = function() {
     for(var i = 0 ; i < this.aliens.length; i++){
         console.log("   Alien["+i+"]");
@@ -94,7 +108,7 @@ Battalion.prototype.destroyAlien = function(alien){
 
 Battalion.prototype.fire = function () {
     for(var i = 0; i < this.aliens.length; i++){
-        if(i === Math.floor((Math.random() * this.aliens.length)))
+        if(i > Math.floor((Math.random() * this.aliens.length)))
         this.aliens[i].fire();
     }
 };

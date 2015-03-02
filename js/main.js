@@ -44,8 +44,8 @@ function init() {
     
     var datas = [invader1_data,invader1_data,invader1_data,invader1_data];
     var scores = [100,200,300,400];
-    var speeds = [1,1,1,1];
-    var alien_numbers = [5,5,5,5];
+    var speeds = [1,25,10,10];
+    var alien_numbers = [5,3,2,1];
     army = new Army(4,alien_numbers,speeds,datas,scores);
     scene.add(army);
 
