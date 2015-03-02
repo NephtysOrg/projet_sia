@@ -13,6 +13,7 @@ function Alien(alien_data,speed,score_value, batallion){
    this.direction = [0,-1,0]; //pointing to -y (Alien direction)
    this.can_fire = true;
    Structure3d.call(this,alien_data);
+   this.scale.set(2,2,2);
 };
 
 // Create a Structure3d.prototype object that inherits from Structure3d.prototype
@@ -57,7 +58,7 @@ Alien.prototype.destroyBullet = function(bullet){
 Alien.prototype.moveBullets = function() {
     for (var i=0; i< this.bullets.length ; i++){
         this.bullets[i].move(this.direction);
-        if(this.bullets[i] && this.bullets[i].position.y <= min_height ){
+        if(this.bullets[i] && this.bullets[i].position.y <= min_height - margin ){
             console.log("removing");
             this.destroyBullet(this.bullets[i]);
         }
