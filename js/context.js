@@ -15,7 +15,7 @@ var map_width = 500;
 var map_height = 500;
 var max_height = map_height/2;
 var min_height = -map_height/2;
-
+    var rotWorldMatrix;
 var max_width = map_width/2;
 var min_width = -map_width/2;
 var margin = 50;

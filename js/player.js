@@ -11,6 +11,8 @@ function Player(player_data,lives){
     this.score = 0;
     this.can_fire = true;
     Structure3d.call(this,player_data);
+       this.rotation.z += -90* Math.PI / 180;
+   this.scale.set(2,2,2);
 };
 
 // Create a Player.prototype object that inherits from Structure3d.prototype
@@ -39,10 +41,9 @@ Player.prototype.fire = function() {
 
 Player.prototype.move = function(direction) {
   console.log("-> player.move()");
-    // Think to a clock...
-        this.translateX(direction[0]*player_speed);
-        this.translateY(direction[1]*player_speed);
-        this.translateZ(direction[2]*player_speed);
+        this.position.x +=(direction[0]*player_speed);
+        this.position.y +=(direction[1]*player_speed);
+        this.position.z +=(direction[2]*player_speed);
   console.log("-> player.move()");
 
 };

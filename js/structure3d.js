@@ -34,3 +34,11 @@ Structure3d.prototype = Object.create(THREE.Group.prototype);
 // Set the "constructor" property to refer to Structure3d
 Structure3d.prototype.constructor = Structure3d;
 
+Structure3d.prototype.my_rotate = function (axis, radians){
+    rotWorldMatrix = new THREE.Matrix4();
+    rotWorldMatrix.makeRotationAxis(axis.normalize(), radians);
+        rotWorldMatrix.multiply(this.matrix);                // pre-multiply
+
+    this.matrix = rotWorldMatrix;
+   this.rotation.setFromRotationMatrix(this.matrix);
+};

@@ -12,7 +12,10 @@ function Alien(alien_data,speed,score_value, batallion){
    this.batallion = batallion;
    this.direction = [0,-1,0]; //pointing to -y (Alien direction)
    this.can_fire = true;
+   
+
    Structure3d.call(this,alien_data);
+   this.rotation.z += -90* Math.PI / 180;
    this.scale.set(2,2,2);
 };
 
@@ -23,9 +26,10 @@ Alien.prototype.constructor = Alien;
 
 Alien.prototype.move = function(direction) {
         //console.log("-> Alien.move()");
-        this.translateX(direction[0]*this.speed);
-        this.translateY(direction[1]*this.speed);
-        this.translateZ(direction[2]*this.speed);
+        this.position.x += (direction[0]*this.speed);
+        this.position.y += (direction[1]*this.speed);
+        this.position.z +=(direction[2]*this.speed);
+        console.log(this.direction);
         //console.log("<- Alien.move()");
 
 };

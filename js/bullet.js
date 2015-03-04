@@ -9,7 +9,7 @@ function Bullet(bullet_data, speed, owner) {
     this.speed = speed;
     this.owner = owner;
     this.direction;
-    this.raycaster = new THREE.Raycaster();
+    this.raycaster = new THREE.Raycaster(); // Vertical
     Structure3d.call(this, bullet_data);
 }
 ;
