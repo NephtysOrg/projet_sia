@@ -36,7 +36,7 @@ Alien.prototype.move = function(direction) {
 
 Alien.prototype.fire = function() {
     if(this.can_fire){
-         console.log("-> alien.fire()");
+        console.log("-> alien.fire()");
         this.can_fire=false;
         var tmp_bullet = new Bullet(bullet_data,10,this);
         tmp_bullet.position.set(this.position.x,this.position.y+5,this.position.z);
@@ -72,4 +72,4 @@ Alien.prototype.moveBullets = function() {
 
 Alien.prototype.printPosition = function() {
     console.log(this.position);
-}
+};

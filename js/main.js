@@ -28,10 +28,19 @@ function init() {
     // Game goes here
     var axis = buildAxes(1000);
     scene.add(axis);
-
+    
+    //we add here a player
     player = new Player(player_data, 3);
     player.position.y = min_height+player.height;
     scene.add(player);
+    
+    //we add four bunkers
+    bunker = new Bunker(bunker_data, 4);
+    bunker.position.y = min_height + 100;
+    bunker.rotation.z = -90 * Math.PI/180;
+    //bunker.rotation.y = 90 * Math.PI/180;
+    scene.add(bunker);
+    
     
     var datas = [invader1_data,invader1_data,invader1_data,invader1_data];
     var scores = [100,200,300,400];

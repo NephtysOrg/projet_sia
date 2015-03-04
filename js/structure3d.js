@@ -22,7 +22,7 @@ function Structure3d(mesh_data){
             }
         }
     }
-    // adding hitbox for collision detectio
+   // adding hitbox for collision detection
    hitbox = new THREE.Mesh(new THREE.BoxGeometry(unit_size*this.width,unit_size*this.height,unit_size*this.depth),new THREE.MeshBasicMaterial({wireframe : true}));
    hitbox.translateX((this.width/2) - (unit_size/2));
    hitbox.translateY((this.height/2)- (unit_size/2));
