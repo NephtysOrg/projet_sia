@@ -88,11 +88,11 @@ Battalion.prototype.destroyAlien = function (alien) {
     if (i > -1) {
         console.log("->destroyAlien()");
         // Removing bullets of alien, not realist but funny
-        for (var j = 0; j < this.aliens[i].bullets.length; j++) {
-            this.aliens[i].destroyBullet(this.aliens[i].bullets[j]);
+        while(this.aliens[i].bullets.length > 0){
+                this.aliens[i].destroyBullet(this.aliens[i].bullets[this.aliens[i].bullets.length-1]);
         }
-        scene.remove(this.aliens[i]);
         this.remove(this.aliens[i]);
+        //scene.remove(this.aliens[i]);
         this.aliens.splice(i, 1);
         console.log("<-destroyAlien()");
     }

@@ -44,25 +44,25 @@ Bullet.prototype.collide = function () {
     if (intersects.length > 0) {
         var intersect = intersects[0].object.parent;
         
-        if (intersect instanceof Alien && intersects[0].distance <= 10 && this.owner instanceof Player) {
+        if (intersect instanceof Alien && intersects[0].distance <= 5 && this.owner instanceof Player) {
             console.log('Player killed alien');
             level.army.destroyAlien(intersect);
             this.owner.score += intersect.score_value;
             this.owner.destroyBullet(this);
         }
-        if (intersect instanceof Bullet && intersects[0].distance <= 10) {
+        if (intersect instanceof Bullet && intersects[0].distance <= 5) {
             console.log('bullet killed bullet');
             intersect.owner.destroyBullet(intersect);
             this.owner.destroyBullet(this);
         }
         
-        if (intersect instanceof Player && intersects[0].distance <= 10 && this.owner instanceof Alien) 	{
+        if (intersect instanceof Player && intersects[0].distance <= 5 && this.owner instanceof Alien) 	{
             console.log('Alien killed player');
             this.owner.lives--;
             this.owner.destroyBullet(this);
         }
         
-        if (intersect instanceof Bunker && intersects[0].distance <= 10 ){
+        if (intersect instanceof Bunker && intersects[0].distance <= 5 ){
             console.log('Bunker touched by a bullet');
             console.log(intersect[0].object);
             intersect.autoDestruction(); 

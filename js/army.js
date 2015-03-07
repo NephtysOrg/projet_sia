@@ -69,22 +69,14 @@ Army.prototype.moveBullets = function () {
 };
 
 Army.prototype.animate = function () {
-    //this.fire();
-    //this.move();
-    //this.moveBullets();
+   this.fire();
+    this.move();
+   this.moveBullets();
 };
 
 Army.prototype.killAll = function () {
-    while (this.operationnal) {
-        console.log("->killall()");
-        for (var i = 0; i < this.battalions.length; i++) {
-            for (var j = 0; j < this.battalions[i].aliens.length; j++) {
-                console.log(level.children);
-                console.log("i=" + i);
-                console.log("j=" + j);
-                this.battalions[i].destroyAlien(this.battalions[i].aliens[j]);
-            }
-        }
-        console.log("<-killall()");
+    while (this.battalions.length>0) {
+        while(this.battalions[this.battalions.length-1].aliens.length > 0)
+            this.battalions[this.battalions.length-1].destroyAlien(this.battalions[this.battalions.length-1].aliens[this.battalions[this.battalions.length-1].aliens.length-1]);
     }
 };

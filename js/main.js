@@ -71,12 +71,20 @@ function animate() {
     if (keyboard.pressed("space")) {
         player.fire();
     }
-
+    
     if (keyboard.pressed("k")) {
         level.army.killAll();                 
     }
     player.moveBullets();
-    level.army.animate();
+    
+    if(level.army.operationnal)
+        level.army.animate();
+    else{
+        difficulty++;
+        level = new Level(difficulty);
+        level.init();
+        scene.add(level);
+    }
 
 }
 
