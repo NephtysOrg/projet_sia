@@ -28,28 +28,23 @@ function init() {
     // Game goes here
     var axis = buildAxes(1000);
     scene.add(axis);
-    
+
     //we add here a player
     player = new Player(player_data, 3);
-    player.position.y = min_height+player.height;
+    player.position.y = min_height + player.height;
     scene.add(player);
-    
+
     //we add four bunkers
     bunker = new Bunker(bunker_data, 4);
     bunker.position.y = min_height + 100;
-    bunker.rotation.z = -90 * Math.PI/180;
+    bunker.rotation.z = -90 * Math.PI / 180;
     //bunker.rotation.y = 90 * Math.PI/180;
-    scene.add(bunker);
-    
-    
-    var datas = [invader1_data,invader1_data,invader1_data,invader1_data];
-    var scores = [100,200,300,400];
-    var speeds = [10,1,1,1];
-    var alien_numbers = [9,5,2,1];
-    army = new Army(4,alien_numbers,speeds,datas,scores);
-    scene.add(army);
 
-    var g = new THREE.PlaneGeometry(map_width+margin, map_height+margin, 10);
+    level = new Level(difficulty);
+    level.init();
+    scene.add(level);
+
+    var g = new THREE.PlaneGeometry(map_width + margin, map_height + margin, 10);
     var m = new THREE.MeshBasicMaterial({color: 0xe576523});
     var plane = new THREE.Mesh(g, m);
     scene.add(plane);
@@ -75,20 +70,18 @@ function animate() {
     }
     if (keyboard.pressed("space")) {
         player.fire();
-        
-
     }
-        if (keyboard.pressed("a")) {
-        army.fire();
+
+    if (keyboard.pressed("k")) {
+        level.army.killAll();                 
     }
     player.moveBullets();
-    army.fire();
-    army.move();
-    army.moveBullets();
+    level.army.animate();
+
 }
 
 function render() {
-    renderer.render( scene, camera );
+    renderer.render(scene, camera);
 }
 
 

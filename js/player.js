@@ -11,8 +11,8 @@ function Player(player_data,lives){
     this.score = 0;
     this.can_fire = true;
     Structure3d.call(this,player_data);
-       this.rotation.z += -90* Math.PI / 180;
-   this.scale.set(2,2,2);
+    this.rotation.z += -90* Math.PI / 180;
+    this.scale.set(4,4,4);
 };
 
 // Create a Player.prototype object that inherits from Structure3d.prototype

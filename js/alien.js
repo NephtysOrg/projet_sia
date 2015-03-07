@@ -29,7 +29,6 @@ Alien.prototype.move = function(direction) {
         this.position.x += (direction[0]*this.speed);
         this.position.y += (direction[1]*this.speed);
         this.position.z +=(direction[2]*this.speed);
-        console.log(this.direction);
         //console.log("<- Alien.move()");
 
 };
@@ -45,7 +44,7 @@ Alien.prototype.fire = function() {
         var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
         setTimeout(function () {
                 that.can_fire = true;
-            }, 200 * (Math.floor((Math.random() * 100) + 1)));
+            }, 50 * (Math.floor((Math.random() * 100) + 1)));
             
     console.log("<- alien.fire()");
     }
@@ -54,16 +53,13 @@ Alien.prototype.fire = function() {
 Alien.prototype.destroyBullet = function(bullet){
     var i = this.bullets.indexOf(bullet);
     scene.remove(this.bullets[i]);
-//    console.log(this.bullets);
     this.bullets.splice(i, 1);
-//    console.log(this.bullets);
 };
 
 Alien.prototype.moveBullets = function() {
     for (var i=0; i< this.bullets.length ; i++){
         this.bullets[i].move(this.direction);
         if(this.bullets[i] && this.bullets[i].position.y <= min_height - margin ){
-            console.log("removing");
             this.destroyBullet(this.bullets[i]);
         }
     }

@@ -46,7 +46,7 @@ Bullet.prototype.collide = function () {
         
         if (intersect instanceof Alien && intersects[0].distance <= 10 && this.owner instanceof Player) {
             console.log('Player killed alien');
-            army.destroyAlien(intersect);
+            level.army.destroyAlien(intersect);
             this.owner.score += intersect.score_value;
             this.owner.destroyBullet(this);
         }

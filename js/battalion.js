@@ -6,24 +6,21 @@
  * @param {type} alien_number
  * @returns {Battalion}
  */
-function Battalion(batalion_data, battalion_speed, alien_point, alien_number, position_y, arm) {
+function Battalion(batalion_data, battalion_speed, alien_point, alien_number, position_y, army) {
     THREE.Group.call(this);
     this.aliens = new Array();
     this.speed = battalion_speed;
     this.direction = [1, 0, 0];
-    this.army = arm;
-    console.log('-> Battalion() ');
+    this.army = army;
 
     var step = map_width / alien_number;
     for (var i = -alien_number / 2; i < alien_number / 2; i++) {
-        var tmp_alien = new Alien(batalion_data, battalion_speed, alien_point,this);
+        var tmp_alien = new Alien(batalion_data, battalion_speed, alien_point, this);
         tmp_alien.position.x = i * step;
         tmp_alien.position.y = position_y;
         this.aliens.push(tmp_alien);
         this.add(tmp_alien);
     }
-
-    console.log('<- Battalion() ');
 }
 ;
 
@@ -34,12 +31,12 @@ Battalion.prototype.constructor = Battalion;
 
 
 Battalion.prototype.move = function () {
-    var bottom = [0, -this.aliens[0].height/this.speed, 0];
-     for (var i = 0; i < this.aliens.length; i++) {
+    var bottom = [0, -this.aliens[0].height / this.speed, 0];
+    for (var i = 0; i < this.aliens.length; i++) {
         this.aliens[i].move(this.direction);
     }
     if ((this.leftOverflow() || this.rightOverflow())) {
-        if(!this.bottomOverflow()){
+        if (!this.bottomOverflow()) {
             for (var i = 0; i < this.aliens.length; i++) {
                 this.aliens[i].move(bottom);
             }
@@ -48,8 +45,6 @@ Battalion.prototype.move = function () {
         this.direction[1] = -this.direction[1];
         this.direction[2] = -this.direction[2];
     }
-   
-
 };
 
 
@@ -73,48 +68,47 @@ Battalion.prototype.leftOverflow = function () {
 
 Battalion.prototype.bottomOverflow = function () {
     var my_index = this.army.battalions.indexOf(this);
-    if((my_index >= 0) && (my_index < this.army.battalions.length -1)){
-        console.log(this.aliens[0].position.y -this.army.battalions[my_index+1].aliens[0].position.y);
-        console.log("Height : " +this.aliens[0].height);
-        if(this.army.battalions[my_index+1] && (this.aliens[0].position.y -this.army.battalions[my_index+1].aliens[0].position.y <=3*this.aliens[0].height)){
+    if ((my_index >= 0) && (my_index < this.army.battalions.length - 1)) {
+        if (this.army.battalions[my_index + 1] && (this.aliens[0].position.y - this.army.battalions[my_index + 1].aliens[0].position.y <= 3 * this.aliens[0].height)) {
             return true;
         }
     }
     return false;
 }
 
-Battalion.prototype.printPosition = function() {
-    for(var i = 0 ; i < this.aliens.length; i++){
-        console.log("   Alien["+i+"]");
+Battalion.prototype.printPosition = function () {
+    for (var i = 0; i < this.aliens.length; i++) {
+        console.log("   Alien[" + i + "]");
         this.aliens[i].printPosition();
-    } 
+    }
 }
 
-Battalion.prototype.destroyAlien = function(alien){
+Battalion.prototype.destroyAlien = function (alien) {
     var i = this.aliens.indexOf(alien);
-    if(i>-1){
+    if (i > -1) {
+        console.log("->destroyAlien()");
         // Removing bullets of alien, not realist but funny
-        for (var j =0; j<this.aliens[i].bullets.length; j++){
+        for (var j = 0; j < this.aliens[i].bullets.length; j++) {
             this.aliens[i].destroyBullet(this.aliens[i].bullets[j]);
         }
         scene.remove(this.aliens[i]);
         this.remove(this.aliens[i]);
         this.aliens.splice(i, 1);
+        console.log("<-destroyAlien()");
     }
-    if(this.aliens.length === 0){
+    if (this.aliens.length === 0) {
         this.army.destroyBatallion(this);
     }
 };
 
 Battalion.prototype.fire = function () {
-    for(var i = 0; i < this.aliens.length; i++){
-        if(i > Math.floor((Math.random() * this.aliens.length)))
+    for (var i = 0; i < this.aliens.length; i++) {
         this.aliens[i].fire();
     }
 };
 
-Battalion.prototype.moveBullets = function (){
-    for (var i = 0; i < this.aliens.length; i++){
+Battalion.prototype.moveBullets = function () {
+    for (var i = 0; i < this.aliens.length; i++) {
         this.aliens[i].moveBullets();
     }
 };
