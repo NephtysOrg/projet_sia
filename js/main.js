@@ -34,13 +34,7 @@ function init() {
     player.position.y = min_height + player.height;
     scene.add(player);
 
-    //we add four bunkers
-    bunker = new Bunker(bunker_data, 4);
-    bunker.position.y = min_height + 100;
-    bunker.rotation.z = -90 * Math.PI / 180;
-    //bunker.rotation.y = 90 * Math.PI/180;
-
-    level = new Level(difficulty);
+    level = new Level(difficulty,player);
     level.init();
     scene.add(level);
 
@@ -77,11 +71,13 @@ function animate() {
     }
     player.moveBullets();
     
-    if(level.army.operationnal)
+    if(level.army.operationnal){
         level.army.animate();
+    }
     else{
         difficulty++;
-        level = new Level(difficulty);
+        level.clear();
+        level = new Level(difficulty,player);
         level.init();
         scene.add(level);
     }

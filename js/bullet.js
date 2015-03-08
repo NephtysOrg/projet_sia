@@ -62,10 +62,10 @@ Bullet.prototype.collide = function () {
             this.owner.destroyBullet(this);
         }
         
-        if (intersect instanceof Bunker && intersects[0].distance <= 5 ){
+        if (intersect instanceof Bunker && intersects[0].distance <= 10 ){
             console.log('Bunker touched by a bullet');
-            console.log(intersect[0].object);
-            intersect.autoDestruction(); 
+            console.log();
+            intersect.autoDestruction(intersects[0].object); 
             //intersect.autoDestruction();
             this.owner.destroyBullet(this);
         }

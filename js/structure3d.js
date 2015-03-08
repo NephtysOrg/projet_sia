@@ -3,7 +3,7 @@
  * @param {type} mesh_data
  * @returns {Structure3d}
  */
-function Structure3d(mesh_data){
+function Structure3d(mesh_data,hitboxed){
     
     THREE.Group.call(this); // Inheritance of Group
     this.hitbox;
@@ -22,11 +22,12 @@ function Structure3d(mesh_data){
             }
         }
     }
-   // adding hitbox for collision detection
-   hitbox = new THREE.Mesh(new THREE.BoxGeometry(unit_size*this.width,unit_size*this.height,unit_size*this.depth),new THREE.MeshBasicMaterial({wireframe : true}));
-   hitbox.translateX((this.width/2) - (unit_size/2));
-   hitbox.translateY((this.height/2)- (unit_size/2));
-   this.add(hitbox);
+   if(typeof hitboxed === "undefined"){
+    hitbox = new THREE.Mesh(new THREE.BoxGeometry(unit_size*this.width,unit_size*this.height,unit_size*this.depth),new THREE.MeshBasicMaterial({wireframe : true}));
+    hitbox.translateX((this.width/2) - (unit_size/2));
+    hitbox.translateY((this.height/2)- (unit_size/2));
+    this.add(hitbox);
+   }
 };
 
 // Create a Structure3d.prototype object that inherits from Group.prototype
