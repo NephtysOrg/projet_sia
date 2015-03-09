@@ -37,7 +37,8 @@ Bullet.prototype.move = function (direction) {
 Bullet.prototype.collide = function () {
     // Just for the f*** raycaster who only accpet vectors
     var vector_direction = new THREE.Vector3(this.direction[0], this.direction[1], this.direction[2]);
-    this.raycaster.set(this.position, vector_direction);
+    var ray_pos = new THREE.Vector3(this.position.x+(this.width/2),this.position.y,this.position.z);
+    this.raycaster.set(ray_pos, vector_direction);
     // calculate objects intersecting the picking ray
     var intersects = this.raycaster.intersectObjects(scene.children, true);
     

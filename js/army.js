@@ -7,14 +7,15 @@
  * @param {type} scores
  * @returns {Army}
  */
-function Army(batallion_number, alien_numbers, speeds, datas, scores) {
+function Army(batallion_number, alien_numbers, speeds, datas, scores,strength) {
     THREE.Group.call(this);
     this.battalions = new Array();
     this.operationnal = true;
+    this.strength = strength
 
     var step = (map_height / (batallion_number)) / 2;
     for (var i = 0; i < batallion_number; i++) {
-        var tmp = new Battalion(datas[i], speeds[i], scores[i], alien_numbers[i], max_height - (i * step), this);
+        var tmp = new Battalion(datas[i], speeds[i], scores[i], alien_numbers[i], max_height - (i * step),this.strength, this);
         this.battalions.push(tmp);
         this.add(tmp);
     }

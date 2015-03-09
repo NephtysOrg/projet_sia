@@ -13,7 +13,7 @@ function init() {
     scene = new THREE.Scene();
     // put a camera in the scene
     camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.set(0, 0, 800);
+    camera.position.set(0, 0, 1500);
     scene.add(camera);
     // create a camera contol
     cameraControls = new THREE.OrbitControls(camera);
@@ -54,12 +54,12 @@ function animate() {
 
     if (keyboard.pressed("left")) {
         var dir = [-1, 0, 0];
-        if (player.position.x > min_width)
+        if (player.position.x + player.height*2  > min_width)
             player.move(dir);
     }
     if (keyboard.pressed("right")) {
         var dir = [1, 0, 0];
-        if (player.position.x < max_width)
+        if (player.position.x + (player.height)*2 < max_width)
             player.move(dir);
     }
     if (keyboard.pressed("space")) {
@@ -73,6 +73,7 @@ function animate() {
     
     if(level.army.operationnal){
         level.army.animate();
+        level.defense.move();
     }
     else{
         difficulty++;

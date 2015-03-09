@@ -4,8 +4,9 @@
  * @param {type} strenght
  * @returns {Bunker}
  */
-function Bunker(bunker_data, strenght) {
+function Bunker(bunker_data, strenght,speed) {
     this.strenght = strenght;
+    this.speed = speed;
     Structure3d.call(this, bunker_data, false);
     this.scale.set(4, 4, 4);
 }
@@ -43,4 +44,12 @@ Bunker.prototype.autoDestruction = function () {
     console.log("<- Bunker.autoDestruction()");
 };
 
+Bunker.prototype.move = function(direction) {
+        //console.log("-> Alien.move()");
+        this.position.x += (direction[0]*this.speed);
+        this.position.y += (direction[1]*this.speed);
+        this.position.z += (direction[2]*this.speed);
+        //console.log("<- Alien.move()");
+
+};
 
