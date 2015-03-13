@@ -17,20 +17,20 @@ function Player(player_data,lives,speed,game){
     Structure3d.call(this,player_data);
     this.rotation.z += -90* Math.PI / 180;
     this.scale.set(4,4,4);
-      
-    // Keyboard :  change state of player. 
+    
+         // Keyboard :  change state of player. 
     var wasPressed = {};
     var that = this;
-    this.game.keyboard.domElement.addEventListener('keydown', function (event) {
+    that.game.keyboard.domElement.addEventListener('keydown', function (event) {
         if (that.game.keyboard.eventMatches(event, 'i') && !wasPressed['i']) {
             wasPressed['i'] = true;
-            this.killable = !this.killable;
-            document.getElementById("killable").innerHTML = this.killable;
+            that.killable = !that.killable;
+            document.getElementById("killable").innerHTML = that.killable;
 
         }
     });
     // listen on keyup to maintain ```wasPressed``` array
-    this.game.keyboard.domElement.addEventListener('keyup', function (event) {
+    that.game.keyboard.domElement.addEventListener('keyup', function (event) {
         if (that.game.keyboard.eventMatches(event, 'i')) {
             wasPressed['i'] = false;
         }
@@ -87,6 +87,10 @@ Player.prototype.moveBullets = function() {
             this.destroyBullet(this.bullets[i]);
         }
     }
+};
+
+Player.prototype.explode = function (){
+    
 };
 
 

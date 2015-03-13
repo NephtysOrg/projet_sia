@@ -40,6 +40,11 @@ Game.prototype._init_cameras = function(){
     camera.position.set(0, 0, 1500);
     this.add(camera);
     this.cameras.push(camera);
+    
+    camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000);
+    camera.position.set(0, 0, 1500);
+    this.add(camera);
+    this.cameras.push(camera);
     this.current_camera = this.cameras[0];
 };
 
@@ -54,6 +59,7 @@ Game.prototype.animate = function(){
         this.current_difficulty++;
         document.getElementById("level").innerHTML = game.current_difficulty;
         this.current_level.clear();
+        this._computeTransition("level");
         this.current_level = new Level(game.current_difficulty, this.player);
         this.current_level.init();
         this.add(this.current_level);
@@ -80,5 +86,16 @@ Game.prototype._handleKeyEvents = function () {
 
     if (this.keyboard.pressed("k")) {
         this.current_level.army.killAll();
+    }
+};
+
+Game.prototype._computeTransition = function(type){
+    switch (type){
+        case "level" : 
+            console.log("changing level");
+            break;
+        case "end" :
+            this.player.explode();
+            break;
     }
 };
