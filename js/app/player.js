@@ -89,8 +89,10 @@ Player.prototype.moveBullets = function() {
     }
 };
 
-Player.prototype.explode = function (){
-    
+Player.prototype.clearBullets = function (){
+    while(this.bullets.length > 0){
+                this.destroyBullet(this.bullets[this.bullets.length-1]);
+        }
 };
 
 

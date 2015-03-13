@@ -60,7 +60,6 @@ Bullet.prototype.collide = function () {
         
         if (intersect instanceof Player && intersects[0].distance <= 5 && this.owner instanceof Alien) 	{
             console.log('Alien killed player');
-            console.log(intersect);
             if(intersect.killable){
                 intersect.lives--;
                 document.getElementById("life").innerHTML = game.player.lives;

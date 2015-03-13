@@ -12,10 +12,11 @@ document.body.appendChild(renderer.domElement);
 
 
 var game = new Game();
+
 console.log(game);
 if (!game.init())
     loop();
-
+//game.debug();
 function loop() {
     requestId = window.requestAnimationFrame(loop);
     render();
