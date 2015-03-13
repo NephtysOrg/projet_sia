@@ -2,15 +2,8 @@
  * In this file, we declare all shared variables
  */
 
-var scene, renderer;
-var camera, cameraControl;
-var mesh;
-var player;
-var level;
-var difficulty = 1;
+
 var unit_size = 1 ;
-var player_speed = 5;
-var keyboard = new THREEx.KeyboardState();;
 var map_width = 500;
 var map_height = 800;
 var max_height = map_height/2;

@@ -41,7 +41,7 @@ Army.prototype.destroyBatallion = function (batallion) {
     var i = this.battalions.indexOf(batallion);
     if (i > -1) {
         this.remove(this.battalions[i]);
-        scene.remove(this.battalions[i]);
+        game.remove(this.battalions[i]);
         this.battalions.splice(i, 1);
     }
 

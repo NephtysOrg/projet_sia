@@ -4,30 +4,34 @@
  * @param {type} lives
  * @returns {Player}
  */
-function Player(player_data,lives){
+function Player(player_data,lives,speed,game){
     this.lives=lives;
+    this.speed = speed;
+    this.game = game;
     this.bullets = new Array();
     this.direction = [0,1,0]; //pointing to y (Player direction)
     this.score = 0;
     this.can_fire = true;
     this.killable = true;
+
     Structure3d.call(this,player_data);
     this.rotation.z += -90* Math.PI / 180;
     this.scale.set(4,4,4);
       
     // Keyboard :  change state of player. 
     var wasPressed = {};
-    keyboard.domElement.addEventListener('keydown', function (event) {
-        if (keyboard.eventMatches(event, 'i') && !wasPressed['i']) {
+    var that = this;
+    this.game.keyboard.domElement.addEventListener('keydown', function (event) {
+        if (that.game.keyboard.eventMatches(event, 'i') && !wasPressed['i']) {
             wasPressed['i'] = true;
-            player.killable = !player.killable;
-            document.getElementById("killable").innerHTML = player.killable;
+            this.killable = !this.killable;
+            document.getElementById("killable").innerHTML = this.killable;
 
         }
     });
     // listen on keyup to maintain ```wasPressed``` array
-    keyboard.domElement.addEventListener('keyup', function (event) {
-        if (keyboard.eventMatches(event, 'i')) {
+    this.game.keyboard.domElement.addEventListener('keyup', function (event) {
+        if (that.game.keyboard.eventMatches(event, 'i')) {
             wasPressed['i'] = false;
         }
     });
@@ -45,7 +49,7 @@ Player.prototype.fire = function() {
         this.can_fire=false;
         var tmp_bullet = new Bullet(bullet_data,15,this);
         tmp_bullet.position.set(this.position.x+(this.height*2),this.position.y,this.position.z);
-        scene.add(tmp_bullet);
+        this.game.add(tmp_bullet);
         this.bullets.push(tmp_bullet);
         
         var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
@@ -60,16 +64,16 @@ Player.prototype.fire = function() {
 
 Player.prototype.move = function(direction) {
   console.log("-> player.move()");
-        this.position.x +=(direction[0]*player_speed);
-        this.position.y +=(direction[1]*player_speed);
-        this.position.z +=(direction[2]*player_speed);
+        this.position.x +=(direction[0]*this.speed);
+        this.position.y +=(direction[1]*this.speed);
+        this.position.z +=(direction[2]*this.speed);
   console.log("-> player.move()");
 
 };
 
 Player.prototype.destroyBullet = function(bullet){
     var i = this.bullets.indexOf(bullet);
-    scene.remove(this.bullets[i]);
+    this.game.remove(this.bullets[i]);
     console.log(this.bullets);
     this.bullets.splice(i, 1);
     console.log(this.bullets);

@@ -40,7 +40,7 @@ Alien.prototype.fire = function () {
         this.can_fire = false;
         var tmp_bullet = new Bullet(bullet_data, this.strength * 8 / 2, this);
         tmp_bullet.position.set(this.position.x + (this.height), this.position.y - this.width, this.position.z);
-        scene.add(tmp_bullet);
+        game.add(tmp_bullet);
         this.bullets.push(tmp_bullet);
         var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
         setTimeout(function () {
@@ -53,7 +53,7 @@ Alien.prototype.fire = function () {
 
 Alien.prototype.destroyBullet = function (bullet) {
     var i = this.bullets.indexOf(bullet);
-    scene.remove(this.bullets[i]);
+    game.remove(this.bullets[i]);
     this.bullets.splice(i, 1);
 };
 

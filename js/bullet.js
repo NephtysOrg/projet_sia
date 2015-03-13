@@ -40,16 +40,16 @@ Bullet.prototype.collide = function () {
     var ray_pos = new THREE.Vector3(this.position.x+(this.width/2),this.position.y,this.position.z);
     this.raycaster.set(ray_pos, vector_direction);
     // calculate objects intersecting the picking ray
-    var intersects = this.raycaster.intersectObjects(scene.children, true);
+    var intersects = this.raycaster.intersectObjects(game.children, true);
     
     if (intersects.length > 0) {
         var intersect = intersects[0].object.parent;
         
         if (intersect instanceof Alien && intersects[0].distance <= 5 && this.owner instanceof Player) {
             console.log('Player killed alien');
-            level.army.destroyAlien(intersect);
+            game.current_level.army.destroyAlien(intersect);
             this.owner.score += intersect.score_value;
-            document.getElementById("score").innerHTML = player.score;
+            document.getElementById("score").innerHTML = game.player.score;
             this.owner.destroyBullet(this);
         }
         if (intersect instanceof Bullet && intersects[0].distance <= 5) {
@@ -62,7 +62,7 @@ Bullet.prototype.collide = function () {
             console.log('Alien killed player');
             if(intersect.killable){
                 intersect.lives--;
-                document.getElementById("life").innerHTML = player.lives;
+                document.getElementById("life").innerHTML = game.player.lives;
             }
             this.owner.destroyBullet(this);
         }
@@ -71,7 +71,6 @@ Bullet.prototype.collide = function () {
             console.log('Bunker touched by a bullet');
             console.log();
             intersect.autoDestruction(intersects[0].object); 
-            //intersect.autoDestruction();
             this.owner.destroyBullet(this);
         }
                  
