@@ -8,14 +8,20 @@ body {
 	font-family	: arial;
 	font-size	: 100%;
 }
-#info .top {
+#info .top_right {
 	position	: absolute;
 	top		: 0px;
-	width		: 100%;
+        right           : 5%;
 	padding		: 5px;
-	text-align	: center;
 }
-#info a {
+
+#info .top_left {
+	position	: absolute;
+	top		: 0px;
+        left            : 5%;
+	padding		: 5px;
+}
+#info {
 	color		: #66F;
 	text-decoration	: none;
 }

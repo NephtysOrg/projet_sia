@@ -49,6 +49,7 @@ Bullet.prototype.collide = function () {
             console.log('Player killed alien');
             level.army.destroyAlien(intersect);
             this.owner.score += intersect.score_value;
+            document.getElementById("score").innerHTML = player.score;
             this.owner.destroyBullet(this);
         }
         if (intersect instanceof Bullet && intersects[0].distance <= 5) {
@@ -59,7 +60,8 @@ Bullet.prototype.collide = function () {
         
         if (intersect instanceof Player && intersects[0].distance <= 5 && this.owner instanceof Alien) 	{
             console.log('Alien killed player');
-            this.owner.lives--;
+            intersect.lives--;
+            document.getElementById("life").innerHTML = player.lives;
             this.owner.destroyBullet(this);
         }
         

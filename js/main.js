@@ -24,7 +24,6 @@ function init() {
     light.position.set(0, 0, 100);
     light.castShadow = true;
     scene.add(light);
-
     // Game goes here
     var axis = buildAxes(1000);
     scene.add(axis);
@@ -33,7 +32,8 @@ function init() {
     player = new Player(player_data, 3);
     player.position.y = min_height + player.height;
     scene.add(player);
-
+    document.getElementById("score").innerHTML = player.score;
+    document.getElementById("life").innerHTML = player.lives;
     level = new Level(difficulty,player);
     level.init();
     scene.add(level);

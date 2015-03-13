@@ -38,7 +38,7 @@ Alien.prototype.fire = function () {
     if (this.can_fire) {
         console.log("-> alien.fire()");
         this.can_fire = false;
-        var tmp_bullet = new Bullet(bullet_data, this.strength * 10 / 2, this);
+        var tmp_bullet = new Bullet(bullet_data, this.strength * 8 / 2, this);
         tmp_bullet.position.set(this.position.x + (this.height), this.position.y - this.width, this.position.z);
         scene.add(tmp_bullet);
         this.bullets.push(tmp_bullet);
