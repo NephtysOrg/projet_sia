@@ -12,14 +12,12 @@ body {
 	position	: absolute;
 	top		: 0px;
         right           : 5%;
-	padding		: 5px;
 }
 
 #info .top_left {
 	position	: absolute;
 	top		: 0px;
         left            : 5%;
-	padding		: 5px;
 }
 #info {
 	color		: #66F;

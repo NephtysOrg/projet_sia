@@ -105,7 +105,7 @@ Battalion.prototype.destroyAlien = function (alien) {
 
 Battalion.prototype.fire = function () {
     for (var i = 0; i < this.aliens.length; i++) {
-            this.aliens[i].fire();
+                this.aliens[i].fire();
     }
 };
 

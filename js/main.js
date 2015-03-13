@@ -34,6 +34,7 @@ function init() {
     player.position.y = min_height + player.height;
     scene.add(player);
     document.getElementById("score").innerHTML = player.score;
+    document.getElementById("level").innerHTML = difficulty;
     document.getElementById("life").innerHTML = player.lives;
     document.getElementById("killable").innerHTML = player.killable;
     level = new Level(difficulty, player);
@@ -43,13 +44,14 @@ function init() {
     var g = new THREE.PlaneGeometry(map_width + margin, map_height + margin, 10);
     var m = new THREE.MeshBasicMaterial({color: 0xe576523});
     var plane = new THREE.Mesh(g, m);
+    plane.position.z = -10;
     scene.add(plane);
   
 }
 
 function loop() {
     requestId = window.requestAnimationFrame(loop);
-    render();
+
     cameraControls.update();
     if (player.lives === 0) {
         stop();
@@ -78,11 +80,13 @@ function loop() {
     player.moveBullets();
 
     if (level.army.operationnal) {
+        render();
         level.army.animate();
         level.defense.move();
     }
     else {
         difficulty++;
+        document.getElementById("level").innerHTML = difficulty;
         level.clear();
         level = new Level(difficulty, player);
         level.init();

@@ -50,8 +50,3 @@ var bullet_data = [     [0,0,0,1,1,1,1,1,0,0,0],
                         [0,0,0,0,1,1,1,0,0,0,0],
                         [0,0,0,0,1,1,1,0,0,0,0] ];
                     
-                    
-var map;
-var army;
-var player;
-var bunker;

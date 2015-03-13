@@ -11,7 +11,7 @@ function Army(batallion_number, alien_numbers, speeds, datas, scores,strength) {
     THREE.Group.call(this);
     this.battalions = new Array();
     this.operationnal = true;
-    this.strength = strength
+    this.strength = strength;
 
     var step = (map_height / (batallion_number)) / 2;
     for (var i = 0; i < batallion_number; i++) {
