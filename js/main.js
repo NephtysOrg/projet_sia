@@ -1,5 +1,7 @@
+var requestId;
+
 if (!init())
-    animate();
+    loop();
 
 function init() {
     if (Detector.webgl) {
@@ -19,7 +21,6 @@ function init() {
     cameraControls = new THREE.OrbitControls(camera);
     // transparently support window resize
     THREEx.WindowResize.bind(renderer, camera);
-
     var light = new THREE.PointLight(0xffffff, 2);
     light.position.set(0, 0, 100);
     light.castShadow = true;
@@ -34,7 +35,8 @@ function init() {
     scene.add(player);
     document.getElementById("score").innerHTML = player.score;
     document.getElementById("life").innerHTML = player.lives;
-    level = new Level(difficulty,player);
+    document.getElementById("killable").innerHTML = player.killable;
+    level = new Level(difficulty, player);
     level.init();
     scene.add(level);
 
@@ -42,72 +44,64 @@ function init() {
     var m = new THREE.MeshBasicMaterial({color: 0xe576523});
     var plane = new THREE.Mesh(g, m);
     scene.add(plane);
-
+  
 }
 
-
-function animate() {
-    requestAnimationFrame(animate);
+function loop() {
+    requestId = window.requestAnimationFrame(loop);
     render();
-
     cameraControls.update();
-
+    if (player.lives === 0) {
+        stop();
+    }
     if (keyboard.pressed("left")) {
         var dir = [-1, 0, 0];
-        if (player.position.x + player.height*2  > min_width)
+        if (player.position.x + player.height * 2 > min_width)
             player.move(dir);
     }
     if (keyboard.pressed("right")) {
         var dir = [1, 0, 0];
-        if (player.position.x + (player.height)*2 < max_width)
+        if (player.position.x + (player.height) * 2 < max_width)
             player.move(dir);
     }
     if (keyboard.pressed("space")) {
         player.fire();
     }
-    
+
     if (keyboard.pressed("k")) {
-        level.army.killAll();                 
+        level.army.killAll();
     }
+
+
+   
+
     player.moveBullets();
-    
-    if(level.army.operationnal){
+
+    if (level.army.operationnal) {
         level.army.animate();
         level.defense.move();
     }
-    else{
+    else {
         difficulty++;
         level.clear();
-        level = new Level(difficulty,player);
+        level = new Level(difficulty, player);
         level.init();
         scene.add(level);
     }
-
 }
 
+function start() {
+    if (!requestId) {
+        loop();
+    }
+}
+
+function stop() {
+    if (requestId) {
+        window.cancelAnimationFrame(requestId);
+        requestId = undefined;
+    }
+}
 function render() {
     renderer.render(scene, camera);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*if (keyboard.pressed("left") && this.position.x > min_width)
- this.translateX(-player_speed);
- 
- if (keyboard.pressed("right") && this.position.x < max_width)
- this.translateX(player_speed);
- if (keyboard.pressed("space") && !player.bullet)
- this.shoot();*/

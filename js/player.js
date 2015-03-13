@@ -10,9 +10,27 @@ function Player(player_data,lives){
     this.direction = [0,1,0]; //pointing to y (Player direction)
     this.score = 0;
     this.can_fire = true;
+    this.killable = true;
     Structure3d.call(this,player_data);
     this.rotation.z += -90* Math.PI / 180;
     this.scale.set(4,4,4);
+      
+    // Keyboard :  change state of player. 
+    var wasPressed = {};
+    keyboard.domElement.addEventListener('keydown', function (event) {
+        if (keyboard.eventMatches(event, 'i') && !wasPressed['i']) {
+            wasPressed['i'] = true;
+            player.killable = !player.killable;
+            document.getElementById("killable").innerHTML = player.killable;
+
+        }
+    });
+    // listen on keyup to maintain ```wasPressed``` array
+    keyboard.domElement.addEventListener('keyup', function (event) {
+        if (keyboard.eventMatches(event, 'i')) {
+            wasPressed['i'] = false;
+        }
+    });
 };
 
 // Create a Player.prototype object that inherits from Structure3d.prototype
@@ -66,6 +84,5 @@ Player.prototype.moveBullets = function() {
         }
     }
 };
-
 
 
