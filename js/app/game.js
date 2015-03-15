@@ -8,8 +8,38 @@ function Game() {
     this.current_environment;
     this.keyboard = new THREEx.KeyboardState();
     this.camera_control;
-    this.paused = true;
-};
+    this.states = {
+        STARTING : "starting",
+        PAUSED: "paused",
+        PLAYING: "playing",
+        INITIALIZING: "initializing"
+    };
+    this.current_state = this.states.STARTING;
+    
+    
+    var wasPressed = {};
+    var _this = this;
+    _this.keyboard.domElement.addEventListener('keydown', function (event) {
+        if (_this.keyboard.eventMatches(event, 'p')) {
+            wasPressed['p'] = true;
+            console.log("P key event");
+            if (_this.current_state === _this.states.PAUSED){
+                console.log("Changing Paused to Playing");
+                _this.current_state = _this.states.PLAYING;
+            }else if (_this.current_state === _this.states.PLAYING){
+                 console.log("Changing Playing to Paused");
+                _this.current_state = _this.states.PAUSED;
+            };
+        }
+    });
+    // listen on keyup to maintain ```wasPressed``` array
+    _this.keyboard.domElement.addEventListener('keyup', function (event) {
+        if (_this.keyboard.eventMatches(event, 'p')) {
+            wasPressed['p'] = false;
+        }
+    });
+}
+;
 
 // Create a Army.prototype object that inherits from Group.prototype
 Game.prototype = Object.create(THREE.Scene.prototype);
@@ -24,11 +54,10 @@ Game.prototype.init = function () {
     this.current_level = new Level(this.current_difficulty, this.player, this);
     this.current_level.init();
     this.add(this.current_level);
-
     this._init_cameras();
     this._init_HTML();
     THREEx.WindowResize.bind(renderer, this.current_camera);
-    this._create_dialog("Level "+this.current_difficulty,"#0f0",5000);
+    this._computeTransition("level");
 };
 
 Game.prototype._init_HTML = function () {
@@ -52,35 +81,32 @@ Game.prototype._init_cameras = function () {
 };
 
 Game.prototype.animate = function () {
-    console.log(this.paused);
-    this._handleKeyEvents();
-    this.player.moveBullets();
-    if(!this.paused){
-        if (this.current_level.army.operationnal) {
-            this.current_level.army.animate();
-            this.current_level.defense.move();
-        }
-        else {
-            this.paused = true;
-            this.current_difficulty++;
-            document.getElementById("level").innerHTML = game.current_difficulty;
-            this.current_level.clear();
-            this._computeTransition("level");
-            this.current_level = new Level(game.current_difficulty, this.player);
-            this.current_level.init();
-            this.add(this.current_level);
-        }
-    }
 
+    if (this.current_state === this.states.PLAYING) {
+        this.player.moveBullets();
+        this._handleKeyEvents();
+        this.current_level.army.animate();
+        this.current_level.defense.move();
+        if (this.player.lives === 0)
+            stop();
+    }
+    if (this.current_state === this.states.INITIALIZING) {
+        this.current_difficulty++;
+        document.getElementById("level").innerHTML = game.current_difficulty;
+        this.current_level.clear();
+        this._computeTransition("level");
+        this.current_level = new Level(game.current_difficulty, this.player,this);
+        this.current_level.init();
+        this.add(this.current_level);
+        this.current_state = this.states.PAUSED;
+    }
+    
     if (this.camera_control) {
         this.camera_control.update();
     }
 };
 
 Game.prototype._handleKeyEvents = function () {
-    if (this.player.lives === 0) {
-        stop();
-    }
     if (this.keyboard.pressed("left")) {
         var dir = [-1, 0, 0];
         if (this.player.position.x + this.player.height * 2 > min_width)
@@ -91,20 +117,20 @@ Game.prototype._handleKeyEvents = function () {
         if (this.player.position.x + (this.player.height) * 2 < max_width)
             this.player.move(dir);
     }
-    if (this.keyboard.pressed("space")&& !this.paused) {
+    if (this.keyboard.pressed("space")) {
         this.player.fire();
     }
 
     if (this.keyboard.pressed("k")) {
-        this.current_level.army.killAll();
-        this.player.clearBullets();
+        this.current_level.clear();
     }
 };
 
 Game.prototype._computeTransition = function (type) {
     switch (type) {
         case "level" :
-            this._create_dialog("Level clear","#0f0",5000);
+            var level = "Level "+this.current_difficulty;
+            (this.current_difficulty === 1 )?this._create_dialog(level, "#0f0", 5000):this._create_dialog("Stage Clear <br>" + level, "#0f0", 5000);
             break;
         case "end" :
             this.player.explode();
@@ -119,11 +145,11 @@ Game.prototype._create_dialog = function (text, color, duration) {
     document.getElementById("vertical-center").innerHTML = text;
     var that = this;
     setTimeout(function () {
-                document.getElementById("dialog").style.visibility = "hidden";
-                document.getElementById("vertical-center").style.visibility = "hidden";
-                that.paused = false;
-        }, duration);
-    
+        document.getElementById("dialog").style.visibility = "hidden";
+        document.getElementById("vertical-center").style.visibility = "hidden";
+        that.current_state = that.states.PLAYING;
+    }, duration);
+
 };
 
 Game.prototype.debug = function () {

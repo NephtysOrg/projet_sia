@@ -35,7 +35,7 @@ Level.prototype.init=function(){
         bunker_strengths.push(Math.floor((Math.random() * this.difficulty) + 1));
     }
     
-    this.army = new Army(battalion_number,alien_numbers,speeds,alien_datas,scores,army_strength);
+    this.army = new Army(battalion_number,alien_numbers,speeds,alien_datas,scores,army_strength,this);
     this.add(this.army);
     this.defense = new Defense(bunker_number,bunker_datas,bunker_strengths,movable,this.difficulty/10,this);
     this.add(this.defense);
@@ -46,5 +46,7 @@ Level.prototype.clear = function (){
         this.defense.killAll();
     if(this.army)
         this.army.killAll();
+    if(this.player)
+        this.player.clearBullets();
     
 };

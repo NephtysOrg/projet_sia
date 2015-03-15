@@ -16,13 +16,17 @@ var game = new Game();
 console.log(game);
 if (!game.init())
     loop();
+
 //game.debug();
 function loop() {
     requestId = window.requestAnimationFrame(loop);
     render();
-    game.animate();
+    
 
+console.log(game.current_state);
+    game.animate();
 }
+
 
 function start() {
     if (!requestId) {

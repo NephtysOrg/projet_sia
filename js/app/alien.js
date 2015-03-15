@@ -13,10 +13,11 @@ function Alien(alien_data, speed, score_value, strength, batallion) {
     this.batallion = batallion;
     this.direction = [0, -1, 0]; //pointing to -y (Alien direction)
     this.can_fire = true;
-
+    this.engage = false;
+    
     Structure3d.call(this, alien_data);
     this.rotation.z += -90 * Math.PI / 180;
-    this.scale.set(2, 2, 2);
+    this.scale.set(4, 4, 4);
 }
 ;
 
@@ -35,19 +36,26 @@ Alien.prototype.move = function (direction) {
 };
 
 Alien.prototype.fire = function () {
-    if (this.can_fire) {
-        console.log("-> alien.fire()");
-        this.can_fire = false;
-        var tmp_bullet = new Bullet(bullet_data, this.strength * 8 / 2, this);
-        tmp_bullet.position.set(this.position.x + (this.height), this.position.y - this.width, this.position.z);
-        game.add(tmp_bullet);
-        this.bullets.push(tmp_bullet);
-        var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
-        setTimeout(function () {
-            that.can_fire = true;
-        }, 300 / this.strength * (Math.floor((Math.random() * 100) + 1)));
+    if(this.engage){
+        if (this.can_fire) {
+            console.log("-> alien.fire()");
+            this.can_fire = false;
+            var tmp_bullet = new Bullet(bullet_data, this.strength * 8 / 2, this);
+            tmp_bullet.position.set(this.position.x + (this.height), this.position.y - this.width, this.position.z);
+            game.add(tmp_bullet);
+            this.bullets.push(tmp_bullet);
+            var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
+            setTimeout(function () {
+                that.can_fire = true;
+            }, 300 / that.strength * (Math.floor((Math.random() * 100) + 1)));
 
-        console.log("<- alien.fire()");
+            console.log("<- alien.fire()");
+        }
+    }else{
+        var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
+            setTimeout(function () {
+               that.engage = true;
+            }, 1000 / that.strength * (Math.floor((Math.random() * 100) + 1)));
     }
 };
 

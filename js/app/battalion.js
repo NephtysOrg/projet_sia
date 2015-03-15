@@ -71,7 +71,7 @@ Battalion.prototype.leftOverflow = function () {
 Battalion.prototype.bottomOverflow = function () {
     var my_index = this.army.battalions.indexOf(this);
     if ((my_index >= 0) && (my_index < this.army.battalions.length - 1)) {
-        if (this.army.battalions[my_index + 1] && (this.aliens[0].position.y - this.army.battalions[my_index + 1].aliens[0].position.y <= 3 * this.aliens[0].height)) {
+        if (this.army.battalions[my_index + 1] && (this.aliens[0].position.y - this.army.battalions[my_index + 1].aliens[0].position.y <= 5 * this.aliens[0].height)) {
             return true;
         }
     }

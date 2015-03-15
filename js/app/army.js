@@ -7,11 +7,11 @@
  * @param {type} scores
  * @returns {Army}
  */
-function Army(batallion_number, alien_numbers, speeds, datas, scores,strength) {
+function Army(batallion_number, alien_numbers, speeds, datas, scores,strength,level) {
     THREE.Group.call(this);
     this.battalions = new Array();
-    this.operationnal = true;
     this.strength = strength;
+    this.level = level;
 
     var step = (map_height / (batallion_number)) / 2;
     for (var i = 0; i < batallion_number; i++) {
@@ -46,7 +46,7 @@ Army.prototype.destroyBatallion = function (batallion) {
     }
 
     if (this.battalions.length === 0) {
-        this.operationnal = false;
+       this.level.game.current_state = this.level.game.states.INITIALIZING;
     }
 };
 
