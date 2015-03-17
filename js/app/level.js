@@ -1,3 +1,4 @@
+define(['app/army','app/defense','three'],function(Army,Defense,THREE){
 function Level (dificulty,player,game){
     THREE.Group.call(this);
     this.difficulty = dificulty;
@@ -50,3 +51,5 @@ Level.prototype.clear = function (){
         this.player.clearBullets();
     
 };
+    return Level;
+});

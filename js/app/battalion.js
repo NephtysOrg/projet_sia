@@ -6,6 +6,7 @@
  * @param {type} alien_number
  * @returns {Battalion}
  */
+define(['app/alien','three'],function(Alien,THREE){
 function Battalion(batalion_data, battalion_speed, alien_point, alien_number, position_y,strength, army) {
     THREE.Group.call(this);
     this.aliens = new Array();
@@ -114,3 +115,6 @@ Battalion.prototype.moveBullets = function () {
         this.aliens[i].moveBullets();
     }
 };
+
+return Battalion;
+});

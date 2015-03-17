@@ -1,3 +1,10 @@
+define(['app/level',
+        'app/player',
+        'three',
+        'threexKeybordState',
+        'threexWindowResize',
+        'app/context'
+    ],function(Level,Player,THREE){
 function Game() {
     THREE.Scene.call(this);
     this.player;
@@ -41,9 +48,9 @@ function Game() {
 }
 ;
 
-// Create a Army.prototype object that inherits from Group.prototype
+// Create a Game.prototype object that inherits from Scene.prototype
 Game.prototype = Object.create(THREE.Scene.prototype);
-// Set the "constructor" property to refer to Army
+// Set the "constructor" property to refer to Game
 Game.prototype.constructor = Game;
 
 Game.prototype.init = function () {
@@ -156,3 +163,6 @@ Game.prototype.debug = function () {
     this.camera_control = new THREE.OrbitControls(this.current_camera);
     this.add(buildAxes(1000));
 };
+return Game;
+
+});

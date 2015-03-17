@@ -1,18 +1,17 @@
 /**
- * 
  * @param {type} bullet_data
  * @param {type} speed
  * @param {type} owner
  * @returns {Bullet}
  */
+define(['app/structure3d','app/alien','app/bullet','app/player','three'], function(Structure3d,Alien,Bullet,Player,THREE){
 function Bullet(bullet_data, speed, owner) {
     this.speed = speed;
     this.owner = owner;
     this.direction;
     this.raycaster = new THREE.Raycaster(); // Vertical
     Structure3d.call(this, bullet_data);
-}
-;
+};
 
 // Create a Bullet.prototype object that inherits from Group.prototype
 Bullet.prototype = Object.create(Structure3d.prototype);
@@ -31,7 +30,6 @@ Bullet.prototype.move = function (direction) {
     this.translateZ(direction[2] * this.speed);
     this.collide();
     //console.log("<- bullet.move()");
-
 };
 
 Bullet.prototype.collide = function () {
@@ -72,7 +70,9 @@ Bullet.prototype.collide = function () {
             console.log();
             intersect.autoDestruction(intersects[0].object); 
             this.owner.destroyBullet(this);
-        }
-                 
+        }            
     }
 };
+
+return Bullet;
+});

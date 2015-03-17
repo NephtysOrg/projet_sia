@@ -4,6 +4,7 @@
  * @param {type} strenght
  * @returns {Bunker}
  */
+define(['app/structure3d'],function(Structure3d){
 function Bunker(bunker_data, strenght,speed) {
     this.strenght = strenght;
     this.speed = speed;
@@ -52,4 +53,6 @@ Bunker.prototype.move = function(direction) {
         //console.log("<- Alien.move()");
 
 };
+    return Bunker;
+});
 

@@ -4,6 +4,7 @@
  * @param {type} lives
  * @returns {Player}
  */
+define(['app/structure3d','app/bullet'],function(Structure3d,Bullet){
 function Player(player_data,lives,speed,game){
     this.lives=lives;
     this.speed = speed;
@@ -94,5 +95,7 @@ Player.prototype.clearBullets = function (){
                 this.destroyBullet(this.bullets[this.bullets.length-1]);
         }
 };
+    return Player;
+});
 
 

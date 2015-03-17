@@ -7,6 +7,7 @@
  * @param {type} scores
  * @returns {Army}
  */
+define(['app/battalion','three'],function(Battalion,THREE){
 function Army(batallion_number, alien_numbers, speeds, datas, scores,strength,level) {
     THREE.Group.call(this);
     this.battalions = new Array();
@@ -81,3 +82,5 @@ Army.prototype.killAll = function () {
             this.battalions[this.battalions.length-1].destroyAlien(this.battalions[this.battalions.length-1].aliens[this.battalions[this.battalions.length-1].aliens.length-1]);
     }
 };
+return Army;
+});

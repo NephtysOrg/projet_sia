@@ -1,8 +1,9 @@
 /* 
  * In this file, we declare all shared variables
  */
-
-
+var game;
+var requestId;
+var renderer;
 var unit_size = 1 ;
 var map_width = 500;
 var map_height = 800;
@@ -11,6 +12,8 @@ var min_height = -map_height/2;
 var max_width = map_width/2;
 var min_width = -map_width/2;
 var margin = 50;
+
+
 
 var invader1_data = [   [0,0,2,0,0,0,0,0,2,0,0],
                         [0,0,0,3,0,0,0,3,0,0,0],

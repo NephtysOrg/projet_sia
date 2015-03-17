@@ -1,3 +1,4 @@
+define(['three'],function(THREE){
 function buildAxes(length) {
     var axes = new THREE.Object3D();
 
@@ -23,3 +24,6 @@ function buildAxis(src, dst, colorHex, dashed) {
     var axis = new THREE.Line(geom, mat, THREE.LinePieces);
     return axis;
 }
+
+return BuildAxes;
+});

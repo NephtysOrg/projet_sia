@@ -3,6 +3,7 @@
  * @param {type} mesh_data
  * @returns {Structure3d}
  */
+define(['three'],function(THREE){
 function Structure3d(mesh_data,hitboxed){
     
     THREE.Group.call(this); // Inheritance of Group
@@ -43,3 +44,6 @@ Structure3d.prototype.my_rotate = function (axis, radians){
     this.matrix = rotWorldMatrix;
    this.rotation.setFromRotationMatrix(this.matrix);
 };
+
+return Structure3d
+});

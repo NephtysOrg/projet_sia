@@ -1,3 +1,4 @@
+define(['app/bunker','three'],function(Bunker,THREE){
 function Defense(bunker_number, bunker_datas, bunker_strengths,movable,speed,level){
         THREE.Group.call(this);
         this.level = level;
@@ -10,7 +11,7 @@ function Defense(bunker_number, bunker_datas, bunker_strengths,movable,speed,lev
             var tmp = new Bunker(bunker_datas[i],bunker_strengths[i],speed);
             this.bunkers.push(tmp);
             tmp.position.x = min_width +(i * step);
-            tmp.position.y = this.level.player.position.y+margin*2;
+            tmp.position.y = this.level.player.position.y + margin*2;
             tmp.rotation.z = -90 * Math.PI / 180;
             this.add(tmp);
         }
@@ -60,3 +61,5 @@ Defense.prototype.move = function () {
         }
     }
 };
+return Defense;
+});

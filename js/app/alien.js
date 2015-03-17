@@ -5,6 +5,7 @@
  * @param {type} score_value
  * @returns {Alien}
  */
+define(['app/structure3d','app/bullet','app/context'],function(Structure3d,Bullet){
 function Alien(alien_data, speed, score_value, strength, batallion) {
     this.speed = speed;
     this.strength = strength;
@@ -74,7 +75,10 @@ Alien.prototype.moveBullets = function () {
     }
 };
 
-
 Alien.prototype.printPosition = function () {
     console.log(this.position);
 };
+
+return Alien;
+
+});
