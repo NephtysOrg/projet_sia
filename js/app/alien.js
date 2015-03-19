@@ -5,7 +5,10 @@
  * @param {type} score_value
  * @returns {Alien}
  */
-define(['app/structure3d','app/bullet','app/context'],function(Structure3d,Bullet){
+define(['app/structure3d',
+        'app/bullet',
+        'app/context'],function(Structure3d,Bullet){
+        console.log("scripts loaded for alien.js");
 function Alien(alien_data, speed, score_value, strength, batallion) {
     this.speed = speed;
     this.strength = strength;

@@ -1,4 +1,7 @@
-define(['app/army','app/defense','three'],function(Army,Defense,THREE){
+define(['app/army',
+        'app/defense',
+        'three'],function(Army,Defense,THREE){
+console.log("scripts loaded for level.js");
 function Level (dificulty,player,game){
     THREE.Group.call(this);
     this.difficulty = dificulty;

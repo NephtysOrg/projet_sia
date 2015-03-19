@@ -5,6 +5,7 @@ define(['app/level',
         'threexWindowResize',
         'app/context'
     ],function(Level,Player,THREE){
+console.log("scripts loaded for game.js");
 function Game() {
     THREE.Scene.call(this);
     this.player;

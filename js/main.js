@@ -19,6 +19,7 @@ requirejs.config({
 });
 
 require(['app/game','three','Detector','app/context'], function(Game,THREE,Detector){
+    console.log("script loaded for main.js");
     if (Detector.webgl) {
         renderer = new THREE.WebGLRenderer({antialias: true});
         console.log("WebGLRenderer created");

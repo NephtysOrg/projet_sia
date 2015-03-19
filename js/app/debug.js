@@ -1,7 +1,7 @@
 define(['three'],function(THREE){
+    console.log("scripts loaded for debug.js");
 function buildAxes(length) {
     var axes = new THREE.Object3D();
-
     axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(length, 0, 0), 0xFF0000, false)); // +X
     axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(-length, 0, 0), 0xFF0000, true)); // -X
     axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, length), 0x00FF00, false)); // +Y

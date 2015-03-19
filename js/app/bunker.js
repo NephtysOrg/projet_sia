@@ -5,6 +5,7 @@
  * @returns {Bunker}
  */
 define(['app/structure3d'],function(Structure3d){
+    console.log("scripts loaded for bunker.js");
 function Bunker(bunker_data, strenght,speed) {
     this.strenght = strenght;
     this.speed = speed;

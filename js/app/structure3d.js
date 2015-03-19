@@ -4,6 +4,7 @@
  * @returns {Structure3d}
  */
 define(['three'],function(THREE){
+    console.log("scripts loaded for structure3d");
 function Structure3d(mesh_data,hitboxed){
     
     THREE.Group.call(this); // Inheritance of Group

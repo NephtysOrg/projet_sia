@@ -4,7 +4,13 @@
  * @param {type} owner
  * @returns {Bullet}
  */
-define(['app/structure3d','app/alien','app/bullet','app/player','three'], function(Structure3d,Alien,Bullet,Player,THREE){
+define(['app/structure3d',
+        'app/alien',
+        'app/bullet',
+        'app/player',
+        'app/bunker',
+        'three'], function(Structure3d,Alien,Bullet,Player,Bunker,THREE){
+console.log("scripts loaded for structure3d.js");
 function Bullet(bullet_data, speed, owner) {
     this.speed = speed;
     this.owner = owner;
@@ -43,20 +49,20 @@ Bullet.prototype.collide = function () {
     if (intersects.length > 0) {
         var intersect = intersects[0].object.parent;
         
-        if (intersect instanceof Alien && intersects[0].distance <= 5 && this.owner instanceof Player) {
+        if (typeof Intersect === Alien && intersects[0].distance <= 5 && this.owner instanceof Player) {
             console.log('Player killed alien');
             game.current_level.army.destroyAlien(intersect);
             this.owner.score += intersect.score_value;
             document.getElementById("score").innerHTML = game.player.score;
             this.owner.destroyBullet(this);
         }
-        if (intersect instanceof Bullet && intersects[0].distance <= 5) {
+        if (typeof Intersect === Bullet && intersects[0].distance <= 5) {
             console.log('bullet killed bullet');
             intersect.owner.destroyBullet(intersect);
             this.owner.destroyBullet(this);
         }
         
-        if (intersect instanceof Player && intersects[0].distance <= 5 && this.owner instanceof Alien) 	{
+        if (typeof Intersect === Player && intersects[0].distance <= 5 && this.owner instanceof Alien) 	{
             console.log('Alien killed player');
             if(intersect.killable){
                 intersect.lives--;
@@ -65,7 +71,7 @@ Bullet.prototype.collide = function () {
             this.owner.destroyBullet(this);
         }
         
-        if (intersect instanceof Bunker && intersects[0].distance <= 10 ){
+        if (typeof Intersect === Bunker && intersects[0].distance <= 10 ){
             console.log('Bunker touched by a bullet');
             console.log();
             intersect.autoDestruction(intersects[0].object); 

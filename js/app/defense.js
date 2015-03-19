@@ -1,4 +1,6 @@
-define(['app/bunker','three'],function(Bunker,THREE){
+define(['app/bunker',
+        'three'],function(Bunker,THREE){
+        console.log("scripts loaded for defense.js");
 function Defense(bunker_number, bunker_datas, bunker_strengths,movable,speed,level){
         THREE.Group.call(this);
         this.level = level;

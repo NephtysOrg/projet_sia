@@ -7,7 +7,9 @@
  * @param {type} scores
  * @returns {Army}
  */
-define(['app/battalion','three'],function(Battalion,THREE){
+define(['app/battalion',
+        'three'],function(Battalion,THREE){
+        console.log("scripts loaded for army.js");
 function Army(batallion_number, alien_numbers, speeds, datas, scores,strength,level) {
     THREE.Group.call(this);
     this.battalions = new Array();
