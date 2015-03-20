@@ -17,13 +17,10 @@ console.log(game);
 if (!game.init())
     loop();
 
-//game.debug();
+game.debug();
 function loop() {
     requestId = window.requestAnimationFrame(loop);
     render();
-    
-
-console.log(game.current_state);
     game.animate();
 }
 

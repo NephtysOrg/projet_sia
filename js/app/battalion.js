@@ -76,7 +76,7 @@ Battalion.prototype.bottomOverflow = function () {
         }
     }
     return false;
-}
+};
 
 Battalion.prototype.printPosition = function () {
     for (var i = 0; i < this.aliens.length; i++) {
@@ -105,6 +105,7 @@ Battalion.prototype.destroyAlien = function (alien) {
 
 Battalion.prototype.fire = function () {
     for (var i = 0; i < this.aliens.length; i++) {
+        if(Math.random() < .3)
                 this.aliens[i].fire();
     }
 };

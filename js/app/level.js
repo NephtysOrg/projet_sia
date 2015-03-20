@@ -32,7 +32,7 @@ Level.prototype.init=function(){
     var movable = Math.random()<.8;
     for (var i = 0; i < bunker_number; i++){
         bunker_datas.push(bunker_data);
-        bunker_strengths.push(Math.floor((Math.random() * this.difficulty) + 1));
+        bunker_strengths.push(2*Math.floor((Math.random() * this.difficulty) + 1));
     }
     
     this.army = new Army(battalion_number,alien_numbers,speeds,alien_datas,scores,army_strength,this);
@@ -49,4 +49,12 @@ Level.prototype.clear = function (){
     if(this.player)
         this.player.clearBullets();
     
+};
+
+
+Level.prototype.isOver = function (){
+    var tmp = this.army.battalions[this.army.battalions.length - 1];
+//    if(){
+//        
+//    }
 };

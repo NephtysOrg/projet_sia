@@ -5,7 +5,7 @@ function Game() {
     this.current_camera;
     this.current_difficulty;
     this.current_level;
-    this.current_environment;
+    this.current_environment = new Environement();
     this.keyboard = new THREEx.KeyboardState();
     this.camera_control;
     this.states = {
@@ -22,12 +22,9 @@ function Game() {
     _this.keyboard.domElement.addEventListener('keydown', function (event) {
         if (_this.keyboard.eventMatches(event, 'p')) {
             wasPressed['p'] = true;
-            console.log("P key event");
             if (_this.current_state === _this.states.PAUSED){
-                console.log("Changing Paused to Playing");
                 _this.current_state = _this.states.PLAYING;
             }else if (_this.current_state === _this.states.PLAYING){
-                 console.log("Changing Playing to Paused");
                 _this.current_state = _this.states.PAUSED;
             };
         }
@@ -54,6 +51,8 @@ Game.prototype.init = function () {
     this.current_level = new Level(this.current_difficulty, this.player, this);
     this.current_level.init();
     this.add(this.current_level);
+    this.current_environment.init();
+    this.add(this.current_environment);
     this._init_cameras();
     this._init_HTML();
     THREEx.WindowResize.bind(renderer, this.current_camera);
@@ -81,8 +80,8 @@ Game.prototype._init_cameras = function () {
 };
 
 Game.prototype.animate = function () {
-
     if (this.current_state === this.states.PLAYING) {
+            this.current_environment.animate();
         this.player.moveBullets();
         this._handleKeyEvents();
         this.current_level.army.animate();
@@ -154,5 +153,6 @@ Game.prototype._create_dialog = function (text, color, duration) {
 
 Game.prototype.debug = function () {
     this.camera_control = new THREE.OrbitControls(this.current_camera);
+    
     this.add(buildAxes(1000));
 };

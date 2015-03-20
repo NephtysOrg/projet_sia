@@ -16,7 +16,9 @@ function Alien(alien_data, speed, score_value, strength, batallion) {
     this.engage = false;
     
     Structure3d.call(this, alien_data);
+    this.position.z += 15;
     this.rotation.z += -90 * Math.PI / 180;
+    this.rotation.x += 90 * Math.PI / 180;
     this.scale.set(4, 4, 4);
 }
 ;
@@ -31,6 +33,7 @@ Alien.prototype.move = function (direction) {
     this.position.x += (direction[0] * this.speed);
     this.position.y += (direction[1] * this.speed);
     this.position.z += (direction[2] * this.speed);
+    this.printPosition();
     //console.log("<- Alien.move()");
 
 };
@@ -40,22 +43,21 @@ Alien.prototype.fire = function () {
         if (this.can_fire) {
             console.log("-> alien.fire()");
             this.can_fire = false;
-            var tmp_bullet = new Bullet(bullet_data, this.strength * 8 / 2, this);
-            tmp_bullet.position.set(this.position.x + (this.height), this.position.y - this.width, this.position.z);
+            var tmp_bullet = new Bullet(bullet_data, 5+this.strength, this);
+            tmp_bullet.position.set(this.position.x + (this.height), this.position.y - this.width, 0);
             game.add(tmp_bullet);
             this.bullets.push(tmp_bullet);
             var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
             setTimeout(function () {
                 that.can_fire = true;
-            }, 300 / that.strength * (Math.floor((Math.random() * 100) + 1)));
-
+            }, (Math.floor((Math.random() * 10000) - this.strength*this.strength)));
             console.log("<- alien.fire()");
         }
     }else{
         var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
             setTimeout(function () {
                that.engage = true;
-            }, 1000 / that.strength * (Math.floor((Math.random() * 100) + 1)));
+            },  Math.sqrt(that.strength) * (Math.floor((Math.random() * 100000) + 1)));
     }
 };
 
