@@ -80,8 +80,9 @@ Game.prototype._init_cameras = function () {
 };
 
 Game.prototype.animate = function () {
-    if (this.current_state === this.states.PLAYING) {
             this.current_environment.animate();
+    if (this.current_state === this.states.PLAYING) {
+
         this.player.moveBullets();
         this._handleKeyEvents();
         this.current_level.army.animate();
@@ -93,6 +94,8 @@ Game.prototype.animate = function () {
         this.current_difficulty++;
         document.getElementById("level").innerHTML = game.current_difficulty;
         this.current_level.clear();
+        this.current_environment.clearGround();
+        this.current_environment.init();
         this._computeTransition("level");
         this.current_level = new Level(game.current_difficulty, this.player,this);
         this.current_level.init();
@@ -117,6 +120,7 @@ Game.prototype._handleKeyEvents = function () {
             this.player.move(dir);
     }
     if (this.keyboard.pressed("space")) {
+
         this.player.fire();
     }
 

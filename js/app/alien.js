@@ -33,7 +33,6 @@ Alien.prototype.move = function (direction) {
     this.position.x += (direction[0] * this.speed);
     this.position.y += (direction[1] * this.speed);
     this.position.z += (direction[2] * this.speed);
-    this.printPosition();
     //console.log("<- Alien.move()");
 
 };

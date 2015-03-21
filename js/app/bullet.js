@@ -23,7 +23,6 @@ Bullet.prototype.move = function (direction) {
     //console.log("-> bullet.move()");
     this.direction = direction;
     if (this.position.y >= max_height || this.position.y <= min_height) {
-        console.log("removing");
         this.owner.destroyBullet(this);
     }
     this.translateX(direction[0] * this.speed);

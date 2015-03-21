@@ -20,7 +20,6 @@ Bunker.prototype.constructor = Bunker;
 //A function that destroy a part of the current bunker
 Bunker.prototype.autoDestruction = function () {
     console.log("-> Bunker.autoDestruction()");
-    console.log(this.children);
     // We delete a random number of block, taking into account the bunker strength
     var deletion_number = Math.floor((Math.random() * (this.children.length / this.strenght)) + 1);
     // If the bunker is solid enough (length>5) we delete it block by block randomly. 

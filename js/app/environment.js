@@ -2,9 +2,10 @@ function Environement(game) {
     THREE.Group.call(this);
     this.particles;
     this.ground;
-    this.lights;
+    this.ground_lights = new Array();
 }
 ;
+var light1, light2, light3, light4, light5, light6;
 // Create a Army.prototype object that inherits from Group.prototype
 Environement.prototype = Object.create(THREE.Group.prototype);
 // Set the "constructor" property to refer to Army
@@ -12,61 +13,62 @@ Environement.prototype.constructor = Environement;
 
 Environement.prototype.animate = function () {
     // add some rotation to the system
-    this.particles.rotation.x += 0.001;
-    this.particles.rotation.y += 0.003;
-}
+    var time = Date.now() * 0.00025;
+    
+    var d1 = map_width/2;
+    var d2 = map_height/2;
+    this.particles.rotation.x +=  (Math.cos( time * 0.7 )+Math.sin( time * 0.7 ))/1000;
+    this.particles.rotation.y += (Math.cos( time * 0.3 )+Math.sin( time * 0.3 ))/1000;
+    for (var i = 0 ; i < this.ground_lights.length; i++){
+        this.ground_lights[i][0].position.x = Math.sin( time * this.ground_lights[i][1] ) * d1;
+	this.ground_lights[i][0].position.y = Math.cos( time * this.ground_lights[i][2] ) * d2;
+    }
+};
 
-Environement.prototype.init = function (){
+Environement.prototype.init = function () {
+    				
     this.initGround();
     this.initParticles();
     this.initLights();
-}
+    this.add(this.ground);
+    this.add(this.particles);
+};
 
 Environement.prototype.initGround = function () {
-        // create the ground plane
-        var planeGeometry = new THREE.PlaneGeometry(map_width, map_height);
-        var planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff,opacity : 0.1, transparent : true});
-        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        // rotate and position the plane
-        plane.rotation.x = 90 * Math.PI;
-        plane.position.x = 0;
-        plane.position.y = 0;
-        plane.position.z = -10;
-        // add the plane to the scene
-        this.add(plane);
-        
-        
+    this.ground = new THREE.Group();
+    
+    var groundColor = Please.make_color({hue: 120,saturation: .5});
     var totalGeom = new THREE.Geometry();
-    var materials  = new Array();
-    for (var j = 0; j < (planeGeometry.parameters.height /15); j++) {
-        for (var i = 0; i < planeGeometry.parameters.width / 15; i++) {
-            var height = Math.floor((Math.random() * 50) + 1);
-            var grayness = Math.random() * 0.5 + 0.25;
-            var material = new THREE.MeshLambertMaterial({color: grayness});
-            material.color.setRGB( grayness, grayness, grayness );
-            materials.push(material);
-            var cubeGeometry = new THREE.BoxGeometry(10, 10, height);
+    console.log(Math.floor(Math.random() * 16777215).toString(16));
+    var material = new THREE.MeshPhongMaterial( { 
+    color: groundColor, 
+    ambient: 0xffffff, // should generally match color
+    specular: 0x050505,
+    shininess: 100
+} );
+    for (var j = 0; j < map_height / 10; j++) {
+        for (var i = 0; i < map_width / 10; i++) {
+            var height = Math.floor((Math.random() * 50) + 0);
+            var cubeGeometry = new THREE.BoxGeometry(8, 8, height);
             var cube = new THREE.Mesh(cubeGeometry, material);
-             cube.grayness = grayness; // *** NOTE THIS
             cube.position.z = -50;
-            cube.position.x = -((planeGeometry.parameters.width) / 2) + 2 + (i * 15);
-            cube.position.y = -((planeGeometry.parameters.height) / 2) + 2 + (j * 15);
+            cube.position.x = -(map_width / 2) + 2 + (i * 10);
+            cube.position.y = -(map_height / 2) + 2 + (j * 10);
             cube.updateMatrix();
-            totalGeom.merge( cube.geometry, cube.matrix );
-            //this.add(cube);
+            cube.castShadow = true;
+            this.receiveShadow = true;
+            totalGeom.merge(cube.geometry, cube.matrix);
         }
     }
-    this.add(new THREE.Mesh(totalGeom,new THREE.MeshFaceMaterial(materials)));
+    this.ground.add(new THREE.Mesh(totalGeom, material));
 };
 
 Environement.prototype.initParticles = function () {
-    console.log("init env");
     // create the particle variables
     var particleCount = 1800,
             particles = new THREE.Geometry();
 
 
-// create the particle variables
     var pMaterial = new THREE.ParticleBasicMaterial({
         color: 0xFFFFFF,
         size: 10,
@@ -76,41 +78,60 @@ Environement.prototype.initParticles = function () {
         blending: THREE.AdditiveBlending,
         transparent: true
     });
-
-
-// now create the individual particles
     for (var p = 0; p < particleCount; p++) {
-
-        // create a particle with random
-        // position values, -250 -> 250
         var pX = Math.random() * 2 * map_height - map_height,
                 pY = Math.random() * 2 * map_height - map_height,
                 pZ = Math.random() * 2 * map_height - map_height,
                 particle = new THREE.Vector3(pX, pY, pZ);
-
-        // add it to the geometry
         particles.vertices.push(particle);
     }
 
-// create the particle system
     this.particles = new THREE.ParticleSystem(
             particles,
             pMaterial);
 
-    // also update the particle system to
-    // sort the particles which enables
-    // the behaviour we want
+
     this.particles.sortParticles = true;
-    // add it to the scene
-    this.add(this.particles);
 };
 
 
-Environement.prototype.initLights = function (){
-     var directionalLight = new THREE.DirectionalLight(0xffffff, 0.7);
-        directionalLight.position.set(-20, 40, 60);
-        this.add(directionalLight);
-        // add subtle ambient lighting
-        var ambientLight = new THREE.AmbientLight(0x292929);
-        this.add(ambientLight);
-}
+Environement.prototype.initLights = function () {
+
+    var light_numer = 6;
+    var colors = Please.make_scheme(
+{
+    h: 130,
+    s: .7,
+    v: .75
+},
+{
+    scheme_type: 'double',
+    format: 'hex'
+});
+       console.log(colors);
+    var intensity;
+    var distance;
+    var z;
+    var sphere = new THREE.SphereGeometry( 1, 16, 8 );
+    for (var i = 0 ; i < light_numer; i++){
+        intensity = Math.floor((Math.random()*2)+1);
+        distance = Math.floor((Math.random()*100)+50);
+        z = -Math.floor((Math.random()*25)-10);
+        
+        light = new THREE.PointLight( colors[i], intensity, distance );
+	light.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: colors[i] } ) ) );
+        this.ground_lights[i] = new Array();
+        this.ground_lights[i][0] = light;
+        this.ground_lights[i][1] = Math.random(); // The speed of the light
+        this.ground_lights[i][2] = Math.random(); // The speed of the light
+        light.position.set(Math.random()*map_width,Math.random()*map_height,z);
+	this.add( light );
+    }
+    console.log(this.ground_lights);
+
+};
+
+Environement.prototype.clearGround = function () {
+    this.remove(this.ground);
+};
+       
