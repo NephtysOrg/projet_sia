@@ -7,10 +7,10 @@ function Defense(bunker_number, bunker_datas, bunker_strengths,movable,speed,lev
         
         var step = map_width / bunker_number;
         for (var i = 0; i < bunker_number; i++) {
-            var tmp = new Bunker(bunker_datas[i],bunker_strengths[i],speed);
+            var tmp = new Bunker(bunker_datas[i],bunker_strengths[i],speed,this);
             this.bunkers.push(tmp);
             tmp.position.x = min_width +(i * step);
-            tmp.position.y = this.level.player.position.y+margin*2;
+            tmp.position.y = this.level.player.position.y+margin*4;
             tmp.rotation.z = -90 * Math.PI / 180;
             this.add(tmp);
         }
@@ -21,13 +21,17 @@ Defense.prototype = Object.create(THREE.Group.prototype);
 // Set the "constructor" property to refer to Army
 Defense.prototype.constructor = Defense;
 
+Defense.prototype.removeBunker = function (bunker){
+    var i = this.bunkers.indexOf(bunker);
+    if (i > -1) { 
+        this.remove(this.bunkers[i]);
+        this.bunkers.splice(i,1);
+    }
+}
+
 Defense.prototype.killAll = function(){
     while (this.bunkers.length > 0){
-        var i = this.bunkers.length-1;
-        if(i > -1){
-            this.remove(this.bunkers[i]);
-            this.bunkers.splice(i,1);
-        }
+        this.removeBunker(this.bunkers[this.bunkers.length-1]);
     }
 };
 

@@ -4,11 +4,12 @@
  * @param {type} strenght
  * @returns {Bunker}
  */
-function Bunker(bunker_data, strenght,speed) {
+function Bunker(bunker_data, strenght,speed, defense) {
     this.strenght = strenght;
     this.speed = speed;
+    this.defense = defense;
     Structure3d.call(this, bunker_data, false);
-    this.scale.set(4, 4, 4);
+    this.scale.set(6, 6, 6);
 }
 ;
 
@@ -38,6 +39,9 @@ Bunker.prototype.autoDestruction = function () {
         while (this.children.length > 0) {
             this.remove(this.children[this.children.length - 1]);
         }
+    }
+    if(this.children.length === 0 ){
+        this.defense.removeBunker(this);
     }
     //second step : destruct a part of the bunker
     console.log("<- Bunker.autoDestruction()");

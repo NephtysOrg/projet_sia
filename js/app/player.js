@@ -5,6 +5,8 @@
  * @returns {Player}
  */
 function Player(player_data, lives, speed, game) {
+
+    Structure3d.call(this, player_data);
     this.lives = lives;
     this.speed = speed;
     this.game = game;
@@ -14,22 +16,20 @@ function Player(player_data, lives, speed, game) {
     this.can_fire = true;
     this.killable = true;
 
-    Structure3d.call(this, player_data);
     this.scale.set(4, 4, 4);
     this.rotation.z = -180 * Math.PI / 180;
-    var spotlight = new THREE.SpotLight(0xffffff);
-    spotlight.angle = Math.PI / 6;
-    spotlight.position.set(this.position.x, this.position.y + this.width, this.position.z);
-    //spotlight.shadowCameraVisible = true;
-    spotlight.shadowDarkness = 0.95;
-    spotlight.intensity = .5;
-    spotlight.target = this;
+    this.spotlight = new THREE.SpotLight(0xffffff);
+    this.spotlight.angle = Math.PI / 6;
+    this.spotlight.position.set(this.position.x, this.position.y + this.width, this.position.z);
+    this.spotlight.shadowCameraVisible = true;
+    this.spotlight.shadowDarkness = 0.95;
+    this.spotlight.intensity = .5;
+    this.spotlight.target = this;
     // must enable shadow casting ability for the light
-    spotlight.castShadow = true;
-    spotlight.rotation.z = -90 * Math.PI / 180;
-    
-    this.add(spotlight);
-    
+    this.spotlight.castShadow = true;
+
+    this.add(this.spotlight);
+
     // Keyboard :  change state of player. 
     var wasPressed = {};
     var that = this;
@@ -59,14 +59,19 @@ Player.prototype.constructor = Player;
 Player.prototype.fire = function () {
     if (this.can_fire) {
         console.log("-> player.fire()");
+        this.spotlight.intensity = .7;
         this.can_fire = false;
-        var tmp_bullet = new Bullet(bullet_data, 15, this);
-        tmp_bullet.position.set(this.position.x + (this.height * 2), this.position.y, this.position.z);
+        var tmp_bullet = new Bullet(bullet_data, 15, 0x00ffff, this);
+        tmp_bullet.position.set(this.position.x - this.height, this.position.y, this.position.z);
         this.game.add(tmp_bullet);
         this.bullets.push(tmp_bullet);
 
         var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
         setTimeout(function () {
+            that.spotlight.intensity = .5;
+        }, 100);
+        setTimeout(function () {
+
             that.can_fire = true;
         }, 500);
 

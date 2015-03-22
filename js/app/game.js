@@ -91,12 +91,13 @@ Game.prototype.animate = function () {
             stop();
     }
     if (this.current_state === this.states.INITIALIZING) {
+        
+        this._computeTransition("level");
         this.current_difficulty++;
         document.getElementById("level").innerHTML = game.current_difficulty;
         this.current_level.clear();
         this.current_environment.clearGround();
         this.current_environment.init();
-        this._computeTransition("level");
         this.current_level = new Level(game.current_difficulty, this.player,this);
         this.current_level.init();
         this.add(this.current_level);
@@ -120,7 +121,6 @@ Game.prototype._handleKeyEvents = function () {
             this.player.move(dir);
     }
     if (this.keyboard.pressed("space")) {
-
         this.player.fire();
     }
 
@@ -153,6 +153,11 @@ Game.prototype._create_dialog = function (text, color, duration) {
         that.current_state = that.states.PLAYING;
     }, duration);
 
+};
+
+Game.prototype.update = function (){
+        this.current_environment.ground.children[0].material.needsUpdate = true;
+    console.log(this.current_environment.ground.children[0].material);
 };
 
 Game.prototype.debug = function () {

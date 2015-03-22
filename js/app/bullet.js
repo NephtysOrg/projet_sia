@@ -5,12 +5,17 @@
  * @param {type} owner
  * @returns {Bullet}
  */
-function Bullet(bullet_data, speed, owner) {
+function Bullet(bullet_data, speed,color, owner) {
+
+    Structure3d.call(this, bullet_data);
     this.speed = speed;
     this.owner = owner;
     this.direction;
     this.raycaster;
-    Structure3d.call(this, bullet_data);
+    this.color = color;
+    this.add(new THREE.PointLight("0x0000ff",10,200));
+    // To fix , need update the materials manually
+    game.update();
 }
 ;
 
@@ -66,7 +71,7 @@ Bullet.prototype.collide = function () {
             this.owner.destroyBullet(this);
         }
         
-        if (intersect instanceof Bunker && intersects[0].distance <= 10 ){
+        if (intersect instanceof Bunker && intersects[0].distance <= 20 ){
             console.log('Bunker touched by a bullet');
             console.log();
             intersect.autoDestruction(intersects[0].object); 

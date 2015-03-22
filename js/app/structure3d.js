@@ -10,21 +10,6 @@ function Structure3d(mesh_data,hitboxed){
     this.width = mesh_data.length;
     this.height = mesh_data[0].length;
     this.depth = 0;
-
-    var totalGeom = new THREE.Geometry();
-    for (var i = 0; i < mesh_data.length; i++) {
-        for (var j = 0; j < mesh_data[i].length; j++) {
-            if (mesh_data[i][j] !== 0) {
-                if (mesh_data[i][j] > this.depth)
-                    this.depth = mesh_data[i][j] ;
-                var unitary_mesh = new THREE.Mesh(new THREE.BoxGeometry(unit_size, unit_size, mesh_data[i][j]), new THREE.MeshPhongMaterial());
-                unitary_mesh.position.set(i,j,0);
-                unitary_mesh.updateMatrix();
-                totalGeom.merge( unitary_mesh.geometry, unitary_mesh.matrix );
-                //this.add(unitary_mesh);
-            }
-        }
-    }
     
    if(typeof hitboxed !== "undefined"){
         for (var i = 0; i < mesh_data.length; i++) {
@@ -32,7 +17,7 @@ function Structure3d(mesh_data,hitboxed){
                 if (mesh_data[i][j] !== 0) {
                     if (mesh_data[i][j] > this.depth)
                         this.depth = mesh_data[i][j] ;
-                    var unitary_mesh = new THREE.Mesh(new THREE.BoxGeometry(unit_size, unit_size, mesh_data[i][j]), new THREE.MeshNormalMaterial());
+                    var unitary_mesh = new THREE.Mesh(new THREE.BoxGeometry(unit_size, unit_size, mesh_data[i][j]), new THREE.MeshPhongMaterial());
                     unitary_mesh.position.set(i,j,0);
                     this.add(unitary_mesh);
                 }
@@ -67,12 +52,3 @@ this.receiveShadow = true;
 Structure3d.prototype = Object.create(THREE.Group.prototype);
 // Set the "constructor" property to refer to Structure3d
 Structure3d.prototype.constructor = Structure3d;
-
-Structure3d.prototype.my_rotate = function (axis, radians){
-    rotWorldMatrix = new THREE.Matrix4();
-    rotWorldMatrix.makeRotationAxis(axis.normalize(), radians);
-        rotWorldMatrix.multiply(this.matrix);                // pre-multiply
-
-    this.matrix = rotWorldMatrix;
-   this.rotation.setFromRotationMatrix(this.matrix);
-};
