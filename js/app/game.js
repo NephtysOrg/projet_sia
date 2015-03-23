@@ -2,6 +2,7 @@ function Game() {
     THREE.Scene.call(this);
     this.player;
     this.cameras = Array();
+    this.cameras_views = Array();
     this.current_camera;
     this.current_difficulty;
     this.current_level;
@@ -66,19 +67,114 @@ Game.prototype._init_HTML = function () {
     document.getElementById("killable").innerHTML = this.player.killable;
 };
 
+Game.prototype._init_cameras_views = function (){
+   var cam_pos;
+   var cam_look;
+   var one_view;
+   
+   //// Default view ///////////////
+   cam_pos = new THREE.Vector3(0, min_height*2,100);
+   cam_look = new THREE.Vector3(0,1,0);
+   one_view = new Array();
+   one_view.push(cam_pos);
+   one_view.push(cam_look);
+   this.cameras_views.push(one_view);
+   
+   /// old view //////////////
+   cam_pos = new THREE.Vector3(0,0,1500);
+   cam_look = new THREE.Vector3(0,0,-1);
+   one_view = new Array();
+   one_view.push(cam_pos);
+   one_view.push(cam_look);
+   this.cameras_views.push(one_view);
+   
+   //// player view ///////////////
+   cam_pos = new THREE.Vector3(200,0,100);
+   cam_look = new THREE.Vector3(-1,1,0);
+   one_view = new Array();
+   one_view.push(cam_pos);
+   one_view.push(cam_look);
+   this.cameras_views.push(one_view);
+};
+
 Game.prototype._init_cameras = function () {
+    //Init cameras views
+    this._init_cameras_views();
+    
+    //don't touch this
     var camera = new THREE.PerspectiveCamera(35,
     window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.set(0, min_height*2, 100);
     camera.lookAt(new THREE.Vector3(0,max_height,0));
     this.add(camera);
     this.cameras.push(camera);
-
-    camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.set(0, 0, 1500);
-    this.add(camera);
-    this.cameras.push(camera);
+    
+    //handle this
+    //let put the old camera
+    var oldview = this.cameras_views[1];
+    var test_camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000);
+    console.log(oldview[0].x,oldview[0].y,oldview[0].z);
+    test_camera.position.set(oldview[0].x,oldview[0].y,oldview[0].z);
+    test_camera.lookAt(oldview[1]);
+    this.add(test_camera);
+    this.cameras.push(test_camera);
+    
+    //Set the current camera
     this.current_camera = this.cameras[0];
+};
+
+Game.prototype.cameraManagement = function(){
+    //the camera's transition loop
+    var ccam_pos = this.current_camera.position;
+    //console.log(ccam_pos);
+    //console.log(this.cameras_views[0][0]);
+    
+    /*if(ccam_pos === this.cameras_views[0][0] ){
+       console.log("greeting position -> default position"); 
+    }*/
+    var pos0 = this.cameras_views[0][0];
+    var pos1 = this.cameras_views[1][0];
+    var pos2 = this.cameras_views[2][0];
+   
+    if(ccam_pos.x === pos0.x && ccam_pos.y === pos0.y && ccam_pos.z === pos0.z ){
+        console.log("default position -> old position");
+        this.cameraTransition(this.cameras_views[1][0],this.cameras_views[1][1]);
+    }
+    if(ccam_pos === this.cameras_views[1][0] ){
+        console.log("old position -> player position"); 
+    }
+    
+    if(ccam_pos === this.cameras_views[2][0]){
+        console.log("player position -> funny position"); 
+    }
+};
+
+Game.prototype.cameraTransition = function (position,look) {
+    console.log("camera transition function using tweenjs");
+    
+    var actualXpos =this.current_camera.position.x;
+    var actualYpos =this.current_camera.position.y;
+    var actualZpos =this.current_camera.position.z;
+    
+    tweenCam = new TWEEN.Tween(this.current_camera.position).to({
+        x:position.x,
+        y:position.y,
+        z:position.z}, 600)
+    .easing(TWEEN.Easing.Sinusoidal.InOut())
+    .onUpdate(function(){
+            // Calculate the difference between current frame number and where we want to be:
+            var differenceX = Math.abs(this.current_camera.position.x - actualXpos);
+            actualXpos = this.current_camera.position.x ;
+            var differenceY = Math.abs(this.current_camera.position.y - actualYpos);
+            actualYpos = cthis.current_camera.position.y;
+            var differenceZ = Math.abs(this.current_camera.position.z - actualZpos);
+            actualZpos = this.current_camera.position.z;
+            // Moving in -Z direction:
+            camera.translateX( +differenceX);
+            camera.translateY( +differenceY);
+            camera.translateZ( +differenceZ);
+        })
+    .start();
 };
 
 Game.prototype.animate = function () {
@@ -108,6 +204,8 @@ Game.prototype.animate = function () {
     if (this.camera_control) {
         this.camera_control.update();
     }
+    
+    TWEEN.update();
 };
 
 Game.prototype._handleKeyEvents = function () {
@@ -127,6 +225,12 @@ Game.prototype._handleKeyEvents = function () {
 
     if (this.keyboard.pressed("k")) {
         this.current_level.clear();
+    }
+    
+    //cameras transition
+    if (this.keyboard.pressed("c")) {
+        console.log("camera transitions...");
+        this.cameraManagement();
     }
 };
 

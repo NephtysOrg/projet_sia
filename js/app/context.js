@@ -12,6 +12,7 @@ var max_width = map_width/2;
 var min_width = -map_width/2;
 var margin = 50;
 
+
 var invader1_data = [   [0,0,2,0,0,0,0,0,2,0,0],
                         [0,0,0,3,0,0,0,3,0,0,0],
                         [0,0,3,3,4,4,4,3,3,0,0],
