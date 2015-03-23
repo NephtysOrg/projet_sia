@@ -113,7 +113,7 @@ Game.prototype._init_cameras = function () {
     //let put the old camera
     var oldview = this.cameras_views[1];
     var test_camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000);
-    console.log(oldview[0].x,oldview[0].y,oldview[0].z);
+    //console.log(oldview[0].x,oldview[0].y,oldview[0].z);
     test_camera.position.set(oldview[0].x,oldview[0].y,oldview[0].z);
     test_camera.lookAt(oldview[1]);
     this.add(test_camera);
@@ -149,44 +149,52 @@ Game.prototype.cameraManagement = function(){
     }
 };
 
-Game.prototype.cameraTransition = function (position,look) {
-    console.log("camera transition function using tweenjs");
-    
+Game.prototype.cameraTranslate = function(){
     var actualXpos =this.current_camera.position.x;
     var actualYpos =this.current_camera.position.y;
     var actualZpos =this.current_camera.position.z;
     
-    tweenCam = new TWEEN.Tween(this.current_camera.position).to({
+    console.log(this.current_camera.position);
+    // Calculate the difference between current frame number and where we want to be:
+    var differenceX = Math.abs(this.current_camera.position.x - actualXpos);
+    actualXpos = this.current_camera.position.x ;
+    var differenceY = Math.abs(this.current_camera.position.y - actualYpos);
+    actualYpos = this.current_camera.position.y;
+    var differenceZ = Math.abs(this.current_camera.position.z - actualZpos);
+    actualZpos = this.current_camera.position.z;
+
+    this.current_camera.position.x += differenceX;
+    this.current_camera.position.y += differenceY;
+    this.current_camera.position.z += differenceZ;
+    /*this.current_camera.translateX( +differenceX);
+    this.current_camera.translateY( +differenceY);
+    this.current_camera.translateZ( +differenceZ);*/
+    
+    
+};
+
+Game.prototype.cameraTransition = function (position,look) {
+    console.log("camera transition function using tweenjs");
+    var tweenCam = new TWEEN.Tween(this.current_camera.position).to({
         x:position.x,
         y:position.y,
         z:position.z}, 600)
-    .easing(TWEEN.Easing.Sinusoidal.InOut())
-    .onUpdate(function(){
-            // Calculate the difference between current frame number and where we want to be:
-            var differenceX = Math.abs(this.current_camera.position.x - actualXpos);
-            actualXpos = this.current_camera.position.x ;
-            var differenceY = Math.abs(this.current_camera.position.y - actualYpos);
-            actualYpos = cthis.current_camera.position.y;
-            var differenceZ = Math.abs(this.current_camera.position.z - actualZpos);
-            actualZpos = this.current_camera.position.z;
-            // Moving in -Z direction:
-            camera.translateX( +differenceX);
-            camera.translateY( +differenceY);
-            camera.translateZ( +differenceZ);
-        })
+    .easing(TWEEN.Easing.Sinusoidal.InOut)
+    .onUpdate(this.cameraTranslate())
     .start();
 };
 
 Game.prototype.animate = function () {
-            this.current_environment.animate();
+    TWEEN.update();
+    this.current_environment.animate();
     if (this.current_state === this.states.PLAYING) {
-
         this.player.moveBullets();
         this._handleKeyEvents();
         this.current_level.army.animate();
         this.current_level.defense.move();
         if (this.player.lives === 0)
             stop();
+          
     }
     if (this.current_state === this.states.INITIALIZING) {
         this.current_difficulty++;
@@ -204,8 +212,6 @@ Game.prototype.animate = function () {
     if (this.camera_control) {
         this.camera_control.update();
     }
-    
-    TWEEN.update();
 };
 
 Game.prototype._handleKeyEvents = function () {
@@ -261,7 +267,7 @@ Game.prototype._create_dialog = function (text, color, duration) {
 };
 
 Game.prototype.update = function (){
-        this.current_environment.ground.children[0].material.needsUpdate = true;
+    this.current_environment.ground.children[0].material.needsUpdate = true;
     console.log(this.current_environment.ground.children[0].material);
 };
 
