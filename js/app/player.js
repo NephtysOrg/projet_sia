@@ -19,9 +19,9 @@ function Player(player_data, lives, speed, game) {
     this.scale.set(4, 4, 4);
     this.rotation.z = -180 * Math.PI / 180;
     this.spotlight = new THREE.SpotLight(0xffffff);
-    this.spotlight.angle = Math.PI / 6;
+    this.spotlight.angle = Math.PI / 10;
     this.spotlight.position.set(this.position.x, this.position.y + this.width, this.position.z);
-    this.spotlight.shadowCameraVisible = true;
+    //this.spotlight.shadowCameraVisible = true;
     this.spotlight.shadowDarkness = 0.95;
     this.spotlight.intensity = .5;
     this.spotlight.target = this;

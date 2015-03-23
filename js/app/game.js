@@ -67,8 +67,10 @@ Game.prototype._init_HTML = function () {
 };
 
 Game.prototype._init_cameras = function () {
-    var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.set(0, 0, 1500);
+    var camera = new THREE.PerspectiveCamera(35,
+    window.innerWidth / window.innerHeight, 1, 10000);
+    camera.position.set(0, min_height*2, 100);
+    camera.lookAt(new THREE.Vector3(0,max_height,0));
     this.add(camera);
     this.cameras.push(camera);
 
@@ -91,13 +93,12 @@ Game.prototype.animate = function () {
             stop();
     }
     if (this.current_state === this.states.INITIALIZING) {
-        
-        this._computeTransition("level");
         this.current_difficulty++;
+        this._computeTransition("level");
         document.getElementById("level").innerHTML = game.current_difficulty;
         this.current_level.clear();
-        this.current_environment.clearGround();
-        this.current_environment.init();
+        //this.current_environment.clearGround();
+       // this.current_environment.init();
         this.current_level = new Level(game.current_difficulty, this.player,this);
         this.current_level.init();
         this.add(this.current_level);

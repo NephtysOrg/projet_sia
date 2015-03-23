@@ -50,8 +50,10 @@ Environement.prototype.initGround = function () {
             var cubeGeometry = new THREE.BoxGeometry(8, 8, height);
             var cube = new THREE.Mesh(cubeGeometry, material);
             cube.position.z = -50;
-            cube.position.x = -(map_width / 2) + 2 + (i * 10);
-            cube.position.y = -(map_height / 2) + 2 + (j * 10);
+            cube.position.x = -(map_width*Math.random()) + (i * 10);
+            cube.position.y = -(map_height*Math.random()) + (j * 10);
+            cube.rotation.x = Math.random()*100 * Math.PI/180;
+            cube.rotation.y = Math.random()*100 * Math.PI/180;
             cube.updateMatrix();
             cube.castShadow = true;
             this.receiveShadow = true;
@@ -111,8 +113,8 @@ Environement.prototype.initLights = function () {
     var z;
     var sphere = new THREE.SphereGeometry(1, 16, 8);
     for (var i = 0; i < light_numer; i++) {
-        intensity = Math.floor((Math.random() * 2) + 1);
-        distance = Math.floor((Math.random() * 100) + 50);
+        intensity = Math.floor((Math.random() * 3) + 1);
+        distance = Math.floor((Math.random() * 200) + 50);
         z = -Math.floor((Math.random() * 25) - 10);
 
         var light = new THREE.PointLight(colors[i], intensity, distance);
@@ -125,6 +127,9 @@ Environement.prototype.initLights = function () {
         light.castShaddow = true;
         this.add(light);
     }
+//    hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.05 );
+//				hemiLight.position.set( 0, 0, 1000 );
+//				this.add( hemiLight );
 };
 
 Environement.prototype.clearGround = function () {

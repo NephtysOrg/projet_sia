@@ -21,7 +21,7 @@ var game = new Game();
 if (!game.init())
     loop();
 
-game.debug();
+//game.debug();
 function loop() {
     requestId = window.requestAnimationFrame(loop);
     render();
