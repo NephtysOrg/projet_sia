@@ -28,7 +28,10 @@ Environement.prototype.init = function () {
 
     this.initGround();
     this.initParticles();
-    this.initLights();
+    //this.initLights();
+        hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
+				hemiLight.position.set( 0, 0, 1000 );
+				this.add( hemiLight );
     this.add(this.ground);
     this.add(this.particles);
 };
@@ -127,9 +130,9 @@ Environement.prototype.initLights = function () {
         light.castShaddow = true;
         this.add(light);
     }
-//    hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.05 );
-//				hemiLight.position.set( 0, 0, 1000 );
-//				this.add( hemiLight );
+    hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.05 );
+				hemiLight.position.set( 0, 0, 1000 );
+				this.add( hemiLight );
 };
 
 Environement.prototype.clearGround = function () {
