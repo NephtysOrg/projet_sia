@@ -354,6 +354,5 @@ Game.prototype.update = function() {
 
 Game.prototype.debug = function() {
     this.camera_control = new THREE.OrbitControls(this.current_camera);
-
     this.add(buildAxes(1000));
 };

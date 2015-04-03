@@ -1,3 +1,20 @@
+@font-face {
+    font-family: 'atarifull'; /*a name to be used later*/
+    src: url('fonts/atarifull.ttf'); /*URL to font*/
+ 
+}
+
+@font-face {
+    font-family: 'invaders'; /*a name to be used later*/
+    src: url('fonts/invaders.ttf'); /*URL to font*/
+    
+}
+
+@font-face {
+    font-family: 'ca'; /*a name to be used later*/
+    src: url('fonts/ca.ttf'); /*URL to font*/
+}
+
 body {
     overflow	: hidden;
     padding		: 0;
@@ -11,7 +28,7 @@ body {
 #info .top_right {
     position	: absolute;
     top		: 0px;
-    right           : 5%;
+    right       : 5%;
 }
 
 #info .top_left {
@@ -49,7 +66,7 @@ body {
 }
 
 #vertical-center{
-        z-index: 5;
+    z-index: 5;
     background-color: #fff;
     visibility: hidden;
     position: absolute;
