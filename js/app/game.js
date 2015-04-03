@@ -9,13 +9,28 @@ function Game() {
     this.current_environment = new Environement();
     this.keyboard = new THREEx.KeyboardState();
     this.camera_control;
+    this.tweenDone = Boolean(true);
+
     this.states = {
         STARTING: "starting",
         PAUSED: "paused",
         PLAYING: "playing",
         INITIALIZING: "initializing"
     };
+    
     this.current_state = this.states.STARTING;
+    
+    this.cameraStates = {
+        GREETING: "greeting",
+        DEFAULT: "default",
+        OLD: "old",
+        FUNNY: "funny",
+        PLAYER: "player"
+    };
+    
+    this.current_camera_state;
+    
+    
 
 
     var wasPressed = {};
@@ -153,6 +168,7 @@ Game.prototype._init_cameras = function() {
 
     //Set the current camera
     this.current_camera = this.cameras[0];
+    this.current_camera_state = this.cameraStates.DEFAULT;
     
     var wasPressed = {};
     var that = this;
@@ -172,54 +188,65 @@ Game.prototype._init_cameras = function() {
 };
 
 Game.prototype.cameraManagement = function() {
-    var ccam_pos = this.current_camera.position;
+    /*var ccam_pos = this.current_camera.position;
 
     var pos1 = this.cameras_views[1][0];        //default position
     var pos2 = this.cameras_views[2][0];        //player position
     var pos3 = this.cameras_views[3][0];        //old position
-    var pos4 = this.cameras_views[4][0];        //player position
+    var pos4 = this.cameras_views[4][0];        //player position*/
     
     
 
-    if (ccam_pos.x === pos1.x && ccam_pos.y === pos1.y && ccam_pos.z === pos1.z) {
+    if (this.current_camera_state === this.cameraStates.DEFAULT) {
         console.log("default position -> player position");
         this.cameraTransition(this.cameras_views[2][0], this.cameras_views[2][1]);
-    }
+        this.current_camera_state = this.cameraStates.PLAYER;
+    }else
     
-    if(ccam_pos.x === pos2.x && ccam_pos.y === pos2.y && ccam_pos.z === pos2.z){
+    if(this.current_camera_state === this.cameraStates.PLAYER){
         console.log("player position -> old position");
         this.cameraTransition(this.cameras_views[3][0],this.cameras_views[3][1]);
-    }
+        this.current_camera_state = this.cameraStates.OLD;
+    }else
 
-    if (ccam_pos.x === pos3.x && ccam_pos.y === pos3.y && ccam_pos.z === pos3.z) {
+    if (this.current_camera_state === this.cameraStates.OLD) {
         console.log("old position -> funny position");
         this.cameraTransition(this.cameras_views[4][0], this.cameras_views[4][1]);
-    }
+        this.current_camera_state = this.cameraStates.FUNNY;
+    }else
     
-    if(ccam_pos.x === pos4.x && ccam_pos.y === pos4.y && ccam_pos.z === pos4.z){
+    if(this.current_camera_state === this.cameraStates.FUNNY){
         console.log("funny position -> default position");
         this.cameraTransition(this.cameras_views[1][0],this.cameras_views[2][1]);
+        this.current_camera_state = this.cameraStates.DEFAULT;
     } 
 };
 
+Game.prototype.cameraMove = function(direction){
+    console.log("-> game.cameraMove()");
+    this.current_camera.position.x += (direction[0] * this.player.speed);
+    this.current_camera.position.y += (direction[1] * this.player.speed);
+    this.current_camera.position.z += (direction[2] * this.player.speed);
+    console.log("<- game.cameraMove()");
+}
+
 Game.prototype.cameraTransition = function(position, look) {
-    console.log("camera transition function using tweenjs");
-    console.log(look);
     var player_pos = this.player.position;
     var that = this;
-   
-    if(position.x === player_pos.x-this.player.height && position.y === player_pos.y-this.player.height && position.z === player_pos.z+this.player.height ){
+    if(position.x === player_pos.x-that.player.height && position.y === player_pos.y-that.player.height && position.z === player_pos.z+that.player.height ){
         var tweenCam = new TWEEN.Tween(that.current_camera.position).to({
             x: position.x,
             y: position.y,
-            z: position.z}, 3000)
+            z: position.z}, 2000)
             .easing(TWEEN.Easing.Linear.None)
             .onUpdate(function() {
-                //that.current_camera.lookAt(look);
             })
-            .start();     
+            .onComplete(function(){
+                that.current_camera.position.x = that.player.position.x;
+            })
+            .start();
     }else{
-        var tweenCam = new TWEEN.Tween(that.current_camera.position).to({
+        var tweenCamOther = new TWEEN.Tween(that.current_camera.position).to({
             x: position.x,
             y: position.y,
             z: position.z}, 3000)
@@ -229,6 +256,7 @@ Game.prototype.cameraTransition = function(position, look) {
             })
             .start();
     }
+
 };
 
 Game.prototype.animate = function() {
@@ -264,16 +292,26 @@ Game.prototype.animate = function() {
 Game.prototype._handleKeyEvents = function() {
     if (this.keyboard.pressed("left")) {
         var dir = [-1, 0, 0];
-        if (this.player.position.x + this.player.height * 2 > min_width)
+        if (this.player.position.x + this.player.height * 2 > min_width){
             this.player.move(dir);
-            this.update_player_view();
+            if(this.current_camera_state === this.cameraStates.PLAYER){
+                    this.cameraMove(dir);          
+            }
+        }
+        this.update_player_view();
     }
+    
     if (this.keyboard.pressed("right")) {
         var dir = [1, 0, 0];
-        if (this.player.position.x + (this.player.height) * 2 < max_width)
+        if (this.player.position.x + (this.player.height) * 2 < max_width){
             this.player.move(dir);
-            this.update_player_view();
+            if(this.current_camera_state === this.cameraStates.PLAYER){
+                    this.cameraMove(dir);
+            }      
+        }
+        this.update_player_view();
     }
+    
     if (this.keyboard.pressed("space")) {
         this.player.fire();
     }
