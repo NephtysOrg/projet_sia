@@ -68,6 +68,25 @@ Game.prototype._init_HTML = function() {
     document.getElementById("killable").innerHTML = this.player.killable;
 };
 
+Game.prototype.update_player_view = function(){
+    /* This function update the player view */
+    //// player view ///////////////
+    var aux_pos = new THREE.Vector3(this.player.position.x,this.player.position.y,this.player.position.z);
+    //handling aux position
+    aux_pos.x -= this.player.height;
+    aux_pos.y -= this.player.height;
+    aux_pos.z += this.player.height;
+    ////////////////////////
+    cam_pos = new THREE.Vector3(aux_pos.x,aux_pos.y,aux_pos.z);  
+    cam_look = new THREE.Vector3(0, 1, 0);
+    one_view = new Array();
+    one_view.push(cam_pos);
+    one_view.push(cam_look);
+    
+    //this.cameras_views.push(one_view);
+    this.cameras_views[2]=one_view;
+};
+
 Game.prototype._init_cameras_views = function() {
     var cam_pos;
     var cam_look;
@@ -88,34 +107,36 @@ Game.prototype._init_cameras_views = function() {
     one_view.push(cam_pos);
     one_view.push(cam_look);
     this.cameras_views.push(one_view);
-
-    /// old view //////////////
-    cam_pos = new THREE.Vector3(0,0, 1000);
-    cam_look = new THREE.Vector3(0, 0, -1);
-    one_view = new Array();
-    one_view.push(cam_pos);
-    one_view.push(cam_look);
-    this.cameras_views.push(one_view);
-
-    /// funny view ////////////////
-    cam_pos = new THREE.Vector3(max_width * 2,700, 500);
-    cam_look = new THREE.Vector3(-1, 0, 0);
-    one_view = new Array();
-    one_view.push(cam_pos);
-    one_view.push(cam_look);
-    this.cameras_views.push(one_view);
-
+    
     //// player view ///////////////
-    console.log("player view check");
-    console.log(this.player.position);
-    cam_pos = this.player.position;
+    var aux_pos = new THREE.Vector3(this.player.position.x,this.player.position.y,this.player.position.z);
+    //handling aux position
+    aux_pos.x -= this.player.height;
+    aux_pos.y -= this.player.height;
+    aux_pos.z += this.player.height;
+    ////////////////////////
+    cam_pos = new THREE.Vector3(aux_pos.x,aux_pos.y,aux_pos.z);  
     cam_look = new THREE.Vector3(0, 1, 0);
     one_view = new Array();
     one_view.push(cam_pos);
     one_view.push(cam_look);
     this.cameras_views.push(one_view);
 
+    /// old view //////////////
+    cam_pos = new THREE.Vector3(0,min_height * 2 - 200, 1000);
+    cam_look = new THREE.Vector3(0, -1, -1);
+    one_view = new Array();
+    one_view.push(cam_pos);
+    one_view.push(cam_look);
+    this.cameras_views.push(one_view);
 
+    /// funny view ////////////////
+    cam_pos = new THREE.Vector3(max_width * 2,700 , 500);
+    cam_look = new THREE.Vector3(-1, 0, 0);
+    one_view = new Array();
+    one_view.push(cam_pos);
+    one_view.push(cam_look);
+    this.cameras_views.push(one_view);
 };
 
 Game.prototype._init_cameras = function() {
@@ -153,34 +174,32 @@ Game.prototype._init_cameras = function() {
 Game.prototype.cameraManagement = function() {
     var ccam_pos = this.current_camera.position;
 
-    var pos1 = this.cameras_views[1][0];        //default pos
-    var pos2 = this.cameras_views[2][0];        //old pos
-    var pos3 = this.cameras_views[3][0];        //funny pos
-    var pos4 = this.cameras_views[4][0];        //player pos
+    var pos1 = this.cameras_views[1][0];        //default position
+    var pos2 = this.cameras_views[2][0];        //player position
+    var pos3 = this.cameras_views[3][0];        //old position
+    var pos4 = this.cameras_views[4][0];        //player position
+    
     
 
     if (ccam_pos.x === pos1.x && ccam_pos.y === pos1.y && ccam_pos.z === pos1.z) {
-        console.log("default position -> old position");
+        console.log("default position -> player position");
         this.cameraTransition(this.cameras_views[2][0], this.cameras_views[2][1]);
     }
-
-    if (ccam_pos.x === pos2.x && ccam_pos.y === pos2.y && ccam_pos.z === pos2.z) {
-        console.log("old position -> funny position");
-        this.cameraTransition(this.cameras_views[3][0], this.cameras_views[3][1]);
+    
+    if(ccam_pos.x === pos2.x && ccam_pos.y === pos2.y && ccam_pos.z === pos2.z){
+        console.log("player position -> old position");
+        this.cameraTransition(this.cameras_views[3][0],this.cameras_views[3][1]);
     }
 
-    if(ccam_pos.x === pos3.x && ccam_pos.y === pos3.y && ccam_pos.z === pos3.z){
-        console.log("funny position -> player position");
-        //this.current_camera.rotation.y -= 123 * Math.PI / 180;
-        this.cameraTransition(this.cameras_views[4][0],this.cameras_views[4][1]);
-   
+    if (ccam_pos.x === pos3.x && ccam_pos.y === pos3.y && ccam_pos.z === pos3.z) {
+        console.log("old position -> funny position");
+        this.cameraTransition(this.cameras_views[4][0], this.cameras_views[4][1]);
     }
     
     if(ccam_pos.x === pos4.x && ccam_pos.y === pos4.y && ccam_pos.z === pos4.z){
-     console.log("player position -> default position");
-     console.log(pos1);
-     this.cameraTransition(this.cameras_views[1][0],this.cameras_views[1][1]);
-    }
+        console.log("funny position -> default position");
+        this.cameraTransition(this.cameras_views[1][0],this.cameras_views[2][1]);
+    } 
 };
 
 Game.prototype.cameraTransition = function(position, look) {
@@ -188,24 +207,17 @@ Game.prototype.cameraTransition = function(position, look) {
     console.log(look);
     var player_pos = this.player.position;
     var that = this;
-    
-    if(position.x === player_pos.x && position.y === player_pos.y && position.z === player_pos.z ){
+   
+    if(position.x === player_pos.x-this.player.height && position.y === player_pos.y-this.player.height && position.z === player_pos.z+this.player.height ){
         var tweenCam = new TWEEN.Tween(that.current_camera.position).to({
             x: position.x,
             y: position.y,
             z: position.z}, 3000)
             .easing(TWEEN.Easing.Linear.None)
             .onUpdate(function() {
-                that.current_camera.lookAt(look);
+                //that.current_camera.lookAt(look);
             })
-            .onComplete(function() {
-                //that.current_camera.rotation.y = 180 * Math.PI / 180;
-                //that.current_camera.rotation.z = -45 * Math.PI /180;
-            })
-            .start();
-    
-            console.log("tween to player pos");
-        
+            .start();     
     }else{
         var tweenCam = new TWEEN.Tween(that.current_camera.position).to({
             x: position.x,
@@ -216,9 +228,7 @@ Game.prototype.cameraTransition = function(position, look) {
                 that.current_camera.lookAt(look);
             })
             .start();
-     console.log("tween to other pos");
     }
-        console.log("end of camera transition");
 };
 
 Game.prototype.animate = function() {
@@ -256,11 +266,13 @@ Game.prototype._handleKeyEvents = function() {
         var dir = [-1, 0, 0];
         if (this.player.position.x + this.player.height * 2 > min_width)
             this.player.move(dir);
+            this.update_player_view();
     }
     if (this.keyboard.pressed("right")) {
         var dir = [1, 0, 0];
         if (this.player.position.x + (this.player.height) * 2 < max_width)
             this.player.move(dir);
+            this.update_player_view();
     }
     if (this.keyboard.pressed("space")) {
         this.player.fire();
