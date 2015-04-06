@@ -1,8 +1,10 @@
-function Environement(game) {
+function Environement() {
     THREE.Group.call(this);
     this.particles;
     this.ground;
     this.ground_lights = new Array();
+    this.text;
+
 }
 ;
 // Create a Army.prototype object that inherits from Group.prototype
@@ -29,8 +31,13 @@ Environement.prototype.init = function () {
     this.initGround();
     this.initParticles();
     this.initLights();
+
     this.add(this.ground);
     this.add(this.particles);
+};
+
+Environement.prototype.initText = function (text) {
+
 };
 
 Environement.prototype.initGround = function () {
@@ -40,8 +47,8 @@ Environement.prototype.initGround = function () {
     var totalGeom = new THREE.Geometry();
     var material = new THREE.MeshPhongMaterial({
         color: groundColor,
-        ambient: 0xffffff, // should generally match color
-        specular: 0x050505,
+        ambient: 0x000000, // should generally match color
+        specular: 0x000000,
         shininess: 100
     });
     for (var j = 0; j < map_height / 10; j++) {
@@ -50,13 +57,13 @@ Environement.prototype.initGround = function () {
             var cubeGeometry = new THREE.BoxGeometry(8, 8, height);
             var cube = new THREE.Mesh(cubeGeometry, material);
             cube.position.z = -50;
-            cube.position.x = -(map_width*Math.random()) + (i * 10);
-            cube.position.y = -(map_height*Math.random()) + (j * 10);
-            cube.rotation.x = Math.random()*100 * Math.PI/180;
-            cube.rotation.y = Math.random()*100 * Math.PI/180;
+            cube.position.x = -(map_width * Math.random()) + (i * 10);
+            cube.position.y = -(map_height * Math.random()) + (j * 10);
+            cube.rotation.x = Math.random() * 100 * Math.PI / 180;
+            cube.rotation.y = Math.random() * 100 * Math.PI / 180;
             cube.updateMatrix();
-            cube.castShadow = true;
-            this.receiveShadow = true;
+//            cube.castShadow = true;
+//            cube.receiveShadow = true;
             totalGeom.merge(cube.geometry, cube.matrix);
         }
     }
@@ -65,7 +72,7 @@ Environement.prototype.initGround = function () {
 
 Environement.prototype.initParticles = function () {
     // create the particle variables
-    var particleCount = 1800,
+    var particleCount = 1000,
             particles = new THREE.Geometry();
 
 
@@ -90,14 +97,12 @@ Environement.prototype.initParticles = function () {
             particles,
             pMaterial);
 
-
-    this.particles.sortParticles = true;
 };
 
 
 Environement.prototype.initLights = function () {
 
-    var light_numer = 6;
+    var light_numer = 3;
     var colors = Please.make_scheme(
             {
                 h: 130,
@@ -124,13 +129,12 @@ Environement.prototype.initLights = function () {
         this.ground_lights[i][1] = Math.random(); // The speed of the light
         this.ground_lights[i][2] = Math.random(); // The speed of the light
         light.position.set(Math.random() * map_width, Math.random() * map_height, z);
-        light.castShaddow = true;
+        //light.castShaddow = true;
         this.add(light);
     }
-//    hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.05 );
-//				hemiLight.position.set( 0, 0, 1000 );
-//				this.add( hemiLight );
 };
+
+
 
 Environement.prototype.clearGround = function () {
     this.remove(this.ground);

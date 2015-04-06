@@ -11,7 +11,7 @@ function Player(player_data, lives, speed, game) {
     this.speed = speed;
     this.game = game;
     this.bullets = new Array();
-    this.direction = [0, 1, 0]; //pointing to y (Player direction)
+    this.direction = new THREE.Vector3(0,1,0);
     this.score = 0;
     this.can_fire = true;
     this.killable = true;

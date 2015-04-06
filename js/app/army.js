@@ -59,7 +59,7 @@ Army.prototype.printPosition = function () {
 
 Army.prototype.fire = function () {
     for (var i = 0; i < this.battalions.length; i++) {
-        this.battalions[i].fire();
+        this.battalions[this.battalions.length-1].fire();
     }
 };
 

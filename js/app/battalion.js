@@ -30,7 +30,6 @@ Battalion.prototype = Object.create(THREE.Group.prototype);
 // Set the "constructor" property to refer to Battalion
 Battalion.prototype.constructor = Battalion;
 
-
 Battalion.prototype.move = function () {
     var bottom = [0, -this.aliens[0].height / this.speed, 0];
     for (var i = 0; i < this.aliens.length; i++) {

@@ -11,7 +11,7 @@ function Alien(alien_data, speed, score_value, strength, batallion) {
     this.score_value = score_value;
     this.bullets = new Array();
     this.batallion = batallion;
-    this.direction = [0, -1, 0]; //pointing to -y (Alien direction)
+    this.direction = new THREE.Vector3(0, -1, 0); //pointing to -y (Alien direction)
     this.can_fire = true;
     this.engage = false;
     

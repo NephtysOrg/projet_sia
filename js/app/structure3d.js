@@ -44,8 +44,8 @@ function Structure3d(mesh_data,hitboxed){
     this.add(hitbox);
    }
    
-this.castShadow = true;
-this.receiveShadow = true;
+//this.castShadow = true;
+//this.receiveShadow = true;
 };
 
 // Create a Structure3d.prototype object that inherits from Group.prototype
