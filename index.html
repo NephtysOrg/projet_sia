@@ -1,48 +1,51 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Space Invaders 3D : Projet de Synthèse d&#39;Image Avancée">
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Space Invaders 3D by NephtysOrg</title>
+    <title>Space Invaders 3D</title>
   </head>
 
   <body>
 
-    <header>
-      <div class="container">
-        <h1>Space Invaders 3D</h1>
-        <h2>Projet de Synthèse d&#39;Image Avancée</h2>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/NephtysOrg/projet_sia">View on GitHub</a>
 
-        <section id="downloads">
-          <a href="https://github.com/NephtysOrg/projet_sia/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/NephtysOrg/projet_sia/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/NephtysOrg/projet_sia" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+          <h1 id="project_title">Space Invaders 3D</h1>
+          <h2 id="project_tagline">Projet de Synthèse d&#39;Image Avancée</h2>
 
-    <div class="container">
-      <section id="main_content">
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/NephtysOrg/projet_sia/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/NephtysOrg/projet_sia/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h3>
 <a id="table-des-matières" class="anchor" href="#table-des-mati%C3%A8res" aria-hidden="true"><span class="octicon octicon-link"></span></a>Table des matières</h3>
 
 <ul>
-<li><a href="#tech">Choix techniques</a></li>
+<li><a href="#classes">Les classes</a></li>
+<li><a href="#details">Les details</a></li>
+<li><a href="#lib">Les librairies</a></li>
 </ul>
 
 <h3>
-<a id="choix-techniques-" class="anchor" href="#choix-techniques-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Choix techniques <a name="tech"></a>
+<a id="les-classes-" class="anchor" href="#les-classes-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Les classes <a name="classes"></a>
 </h3>
 
-<h4>
-<a id="les-classes" class="anchor" href="#les-classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Les classes</h4>
-
-<p>Etant familiers avec la technologie orientée objet, nous avons décidé d'implémenter des classes en Javascript. Cette technologie est adaptée à ce style d'application, elle permet d'améliorer la lisibilité du code et sa modularité. Nous nous sommes aidé du site de <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Introduction_%C3%A0_JavaScript_orient%C3%A9_objet">mozilla</a>.</p>
+<p>Etant familiers avec la technologie orientée objet, nous avons décidé d'implémenter des classes en Javascript. Cette technologie est adaptée à ce style d'application, elle permet d'améliorer la lisibilité du code et sa modularité. Nous nous sommes aidé du site de <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Introduction_%C3%A0_JavaScript_orient%C3%A9_objet">mozilla</a>.<br>
+Nous avons quand même, pendant deux semaines, recommencé tout notre porjet encore et encore jusqu'à ce que l'organisation du code nous convienne, c'est un des aspects les plus important que nous avons voulu mener à bien pour que le jeu soit adaptatif et évolutif.</p>
 
 <ul>
 <li><p>La classe <em>Game</em> contient l'ensemble du jeu, c'est à dire un <em>Environment</em>, le <em>Level</em> courant et le <em>Player</em>.</p></li>
@@ -50,21 +53,51 @@
 <li><p>La classe <em>Level</em> contient : l'armée ennemie et les défenses.</p></li>
 </ul>
 
-<h5>
-<a id="particularités" class="anchor" href="#particularit%C3%A9s" aria-hidden="true"><span class="octicon octicon-link"></span></a>Particularités</h5>
+<p>Pour ce qui est des classes décrivant les "objets" de notre jeu, à savoir : les invaders, le joueur, les défenses, les balles... Elles héritent de THREE.Group. Nous construisons chaque "objet" à l'aide d'une matrice produisant un ensemble de cubes de taille unitaire que nous ajoutons au groupe.<br>
+Nous avons préféré cette approche au chargement de modèle pour des soucis de performance et un aspect rétro du jeu.</p>
+
+<h3>
+<a id="les-details-" class="anchor" href="#les-details-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Les details <a name="details"></a>
+</h3>
+
+<h4>
+<a id="les-tirs" class="anchor" href="#les-tirs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Les tirs</h4>
+
+<p>Un tir est un action effectuée par un invader ou le joueur. Les particularités et le défis techniques des tirs sont :  </p>
 
 <ol>
-<li>L'armée d'invaders à un mouvement original dans le sens ou elle est composée de bataillons (ligne d'invaders) et que chaque bataillon à sa vitesse propre.</li>
-<li>Gestion automatique et aléatoire :
+<li>Le tireur peut <strong>tirer plusieurs balles</strong>. Il suffit de créer un tableau de balle dans la classe du tireur, ensuite c'est au tireur de les détruire quand il le faut et de faire avancer ses balles.</li>
+<li>Les <strong>balles sont éclairantes</strong>. Ce défis nous à pas mal tracassé car Three.js ne permet pas de créer de façon élégante des lumières pendant l’exécution du renderer (cf <a href="https://github.com/mrdoob/three.js/issues/598">issue</a>). Alors il a fallut créer une poignée de lumière sous chaque tireur.<br>
+Ces lumières, initialement éteintes, s'allume lorsqu'une balle part d'un tireur et suit celle-ci puis s’éteint lorsque la balle et détruite. L’effet est au rendez-vous, même si le WebGLRenderer classique ne supporte que 8 lumières à la fois (La solution du WebGLDeferredRenderer à été exploré sans succès).</li>
+<li>La <strong>vitesse des tirs</strong> est gérée aléatoirement de même que la cadence des tirs ennemis.</li>
+</ol>
+
+<h3>
+<a id="les-librairies-" class="anchor" href="#les-librairies-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Les librairies <a name="lib"></a>
+</h3>
 
 <ul>
-<li>?</li>
+<li>
+<a href="http://www.checkman.io/please/">Please.js</a> : Pour la gestion de couleur automatique et aléatoire.</li>
+<li>
+<a href="https://github.com/tweenjs/tween.js">Tween.js</a> : Pour des animations fluides et naturelles</li>
+<li>
+<a href="http://www.threejsgames.com/extensions/">Threex.js</a> : Parce que c'est la librairie dédiée jeu de Three.js</li>
+<li>
+<a href="http://squarefeet.github.io/ShaderParticleEngine/">ParticleEngine.js</a> : Parce que nous sommes dans l'espace, il nous fallait des  étoiles</li>
 </ul>
-</li>
-</ol>
       </section>
     </div>
 
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Space Invaders 3D maintained by <a href="https://github.com/NephtysOrg">NephtysOrg</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
     
+
   </body>
 </html>
