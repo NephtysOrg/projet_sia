@@ -1,12 +1,15 @@
 /**
- * 
+ * A bullet shotted
  * @param {type} bullet_data
  * @param {type} speed
+ * @param {type} color
+ * @param {type} light_param
  * @param {type} owner
  * @returns {Bullet}
  */
 function Bullet(bullet_data, speed,color,light_param, owner) {
     Structure3d.call(this, bullet_data);
+    
     this.speed = speed;
     this.owner = owner;
     this.direction = new THREE.Vector3();
