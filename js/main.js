@@ -28,7 +28,7 @@ document.body.appendChild( stats.domElement );
 
 var game = new Game();
 if (!game.init())
-    //loop();
+    loop();
 
 //game.debug();
 function loop() {

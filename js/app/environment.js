@@ -4,12 +4,11 @@ function Environement() {
     this.ground;
     this.ground_lights = new Array();
     this.text;
+};
 
-}
-;
-// Create a Army.prototype object that inherits from Group.prototype
+// Create a Environement.prototype object that inherits from Group.prototype
 Environement.prototype = Object.create(THREE.Group.prototype);
-// Set the "constructor" property to refer to Army
+// Set the "constructor" property to refer to Environnement
 Environement.prototype.constructor = Environement;
 
 Environement.prototype.animate = function () {
@@ -99,7 +98,6 @@ Environement.prototype.initParticles = function () {
 
 };
 
-
 Environement.prototype.initLights = function () {
 
     var light_numer = 3;
@@ -133,8 +131,6 @@ Environement.prototype.initLights = function () {
         this.add(light);
     }
 };
-
-
 
 Environement.prototype.clearGround = function () {
     this.remove(this.ground);

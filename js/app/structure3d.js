@@ -4,7 +4,6 @@
  * @returns {Structure3d}
  */
 function Structure3d(mesh_data,hitboxed){
-    
     THREE.Group.call(this); // Inheritance of Group
     this.hitbox;
     this.width = mesh_data.length;

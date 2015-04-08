@@ -23,15 +23,30 @@
         font-size:100%;
     }
 
-    #info_top {
+    #info_top_left {
         text-decoration:none;
         position:absolute;
         font-family:arcade_game;
         color:#00BFFF;
         background-color: rgba(0,191,255,0.3);
-        width: 100%;
-        top:20px;
-        height:200px;
+        min-width:21%;
+        top:1%;
+        left:5%;
+        height:5%;
+        margin:0;
+        padding:0;
+    }
+    
+    #info_top_right {
+        text-decoration:none;
+        position:absolute;
+        font-family:arcade_game;
+        color:#00BFFF;
+        background-color: rgba(0,191,255,0.3);
+        width: 18%;
+        right:5%;
+        top:1%;
+        height:10%;
         margin:0;
         padding:0;
     }
@@ -42,20 +57,20 @@
         font-family:arcade_game;
         color:#00BFFF;
         background-color: rgba(0,191,255,0.3);
-        width:40%;
-        height:5%;
-        right:10%;
-        bottom:5%;
+        width:35%;
+        height:3%;
+        right:0.5%;
+        bottom:1%;
     }
 
-    #info_top .top_right {
+    #info_top_right .top_right {
         position:absolute;
         top:20px;
         right:10%;
         font-size: x-large;
     }
 
-    #info_top .top_left {
+    #info_top_left .top_left {
         position:absolute;
         top:20px;
         left:10%;

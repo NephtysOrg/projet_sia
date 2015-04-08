@@ -77,7 +77,10 @@ Bullet.prototype.collide = function () {
             console.log('Alien killed player');
             if(intersect.killable){
                 intersect.lives--;
-                document.getElementById("life").innerHTML = game.player.lives;
+                document.getElementById("life").innerHTML ="";
+                for(var i=0;i< intersect.lives ;i++){
+                   document.getElementById("life").innerHTML += "<i class=\"fa fa-rocket\"></i>";
+                }
             }
             this.owner.destroyBullet(this);
         }

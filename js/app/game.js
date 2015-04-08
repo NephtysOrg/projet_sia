@@ -123,9 +123,12 @@ Game.prototype._initInformation = function () {
 };
 
 Game.prototype._init_HTML = function () {
+    
     document.getElementById("score").innerHTML = this.player.score;
     document.getElementById("level").innerHTML = this.current_difficulty;
-    document.getElementById("life").innerHTML = this.player.lives;
+    for(var i=0;i< this.player.lives;i++){
+        document.getElementById("life").innerHTML += "<i class=\"fa fa-rocket\"></i>";
+    }
     document.getElementById("killable").innerHTML = this.player.killable;
 };
 
