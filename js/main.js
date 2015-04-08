@@ -28,19 +28,16 @@ document.body.appendChild( stats.domElement );
 
 var game = new Game();
 if (!game.init())
-    loop();
+    //loop();
 
 //game.debug();
 function loop() {
-       requestId = window.requestAnimationFrame(loop);
-    
+    requestId = window.requestAnimationFrame(loop);
     render();
     stats.begin();
     game.animate();
-    stats.end();
-    
+    stats.end(); 
 }
-
 
 function start() {
     if (!requestId) {
