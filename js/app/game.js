@@ -12,10 +12,9 @@ function Game() {
     this.current_level;
     this.current_environment = new Environement();
     this.keyboard = new THREEx.KeyboardState();
+    this.pp_manager;
 
     this.states = {STARTING: "starting", PAUSED: "paused", PLAYING: "playing", INITIALIZING: "initializing"};
-    this.information_group = new THREE.Group();
-    this.information = new Array();
     this.current_state = this.states.STARTING;
     
     // debug 
@@ -68,58 +67,9 @@ Game.prototype.init = function () {
     this.add(this.current_environment);
     this._init_camera();
     this._init_HTML();
-    this._initInformation();
+        this.pp_manager = new PostProcessingManager(renderer,this);
     THREEx.WindowResize.bind(renderer, this.current_camera);
     this._computeTransition("level");
-};
-
-Game.prototype._initInformation = function () {
-    var material;
-    var text3d;
-    var mesh;
-    var size = 30;
-    var font_param = {size: size, height: 15, curveSegments: 1, font: "helvetiker", weight: "bold"};
-    // SCORE String
-    text3d = new THREE.TextGeometry("SCORE ", font_param);
-    text3d.computeBoundingBox();
-    material = new THREE.MeshPhongMaterial({color: 0xffffff});
-    mesh = new THREE.Mesh(text3d, material);
-    mesh.position.set(min_height, max_height + margin, margin);
-    mesh.rotation.x += 90 * Math.PI / 180;
-    this.information_group.add(mesh);
-
-
-    // SCORE Value
-    text3d = new THREE.TextGeometry(this.player.score, font_param);
-    text3d.computeBoundingBox();
-    material = new THREE.MeshPhongMaterial({color: 0x5555ff});
-    mesh = new THREE.Mesh(text3d, material);
-    mesh.position.set(min_height + 150, max_height + margin, margin);
-    mesh.rotation.x += 90 * Math.PI / 180;
-    this.information_group.add(mesh);
-    this.information["score"] = mesh;
-
-    // LEVEL String
-    text3d = new THREE.TextGeometry("LEVEL ", font_param);
-    text3d.computeBoundingBox();
-    material = new THREE.MeshPhongMaterial({color: 0xffffff});
-    mesh = new THREE.Mesh(text3d, material);
-    mesh.position.set(max_width, max_height + margin, margin);
-    mesh.rotation.x += 90 * Math.PI / 180;
-    this.information_group.add(mesh);
-
-
-    // LEVEL Value
-    text3d = new THREE.TextGeometry(this.current_difficulty, font_param);
-    text3d.computeBoundingBox();
-    material = new THREE.MeshPhongMaterial({color: 0xff5555});
-    mesh = new THREE.Mesh(text3d, material);
-    mesh.position.set(max_width + 125, max_height + margin, margin);
-    mesh.rotation.x += 90 * Math.PI / 180;
-    this.information_group.add(mesh);
-    this.information["level"] = mesh;
-
-    this.add(this.information_group);
 };
 
 Game.prototype._init_HTML = function () {
@@ -165,7 +115,7 @@ Game.prototype._init_cameras_views = function() {
     this.cameras_views["player"] = one_view;
 
     /// old view //////////////
-    cam_pos = new THREE.Vector3(0,min_height * 2 - 200, 1000);
+    cam_pos = new THREE.Vector3(0,min_height * 2 - 200, 800);
     cam_look = new THREE.Vector3(0, -1, -1);
     one_view = new Array();
     one_view.push(cam_pos);
@@ -195,8 +145,6 @@ Game.prototype._init_camera = function() {
     
     // Light the cam 
     this.camera_light =  new THREE.SpotLight( 0xffffff, 0.1 );
-    this.camera_light.castShadow = true;
-    this.camera_light.shadowCameraVisible = true;
     this.camera_light.angle = Math.PI/8;
     this.current_camera.add( this.camera_light );
 };
@@ -282,6 +230,7 @@ Game.prototype.cameraTransition = function(position, look) {
 
 Game.prototype.animate = function () {
     TWEEN.update();
+    this.pp_manager.render();
     this.camera_light.position.copy(this.current_camera.position);
     this.current_environment.animate();
     if (this.current_state === this.states.PLAYING) {
@@ -294,16 +243,8 @@ Game.prototype.animate = function () {
     }
     if (this.current_state === this.states.INITIALIZING) {
         this.current_difficulty++;
+        document.getElementById("level").innerHTML = this.current_difficulty;
         this._computeTransition("level");
-        this.information_group.remove(this.information["level"]);
-        var text3d = new THREE.TextGeometry(this.current_difficulty, {size: 30, height: 15, curveSegments: 1, font: "helvetiker", weight: "bold"});
-        text3d.computeBoundingBox();
-        var material = new THREE.MeshPhongMaterial({color: 0xff5555});
-        var mesh = new THREE.Mesh(text3d, material);
-        mesh.position.set(max_width + 125, max_height + margin, margin);
-        mesh.rotation.x += 90 * Math.PI / 180;
-        this.information_group.add(mesh);
-        this.information["level"] = mesh;
         this.current_level.clear();
         this.current_environment.clearGround();
         this.current_environment.init();

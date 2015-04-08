@@ -5,14 +5,23 @@
  * @param {type} owner
  * @returns {Bullet}
  */
-function Bullet(bullet_data, speed,color, owner) {
-
+function Bullet(bullet_data, speed,color,light_param, owner) {
     Structure3d.call(this, bullet_data);
     this.speed = speed;
     this.owner = owner;
     this.direction = new THREE.Vector3();
+    this.light = light_param;
+    if(this.light !== undefined){
+        this.light.visible = true;
+        this.light.intensity = 3;
+        this.light.position.copy(this.position);
+    }
+        
+    
     this.raycaster;
-    this.color = color;
+    for(var i = 0 ; i < this.children.length; i++){
+        this.children[i].material.color.setHex(color);
+    }
 }
 ;
 
@@ -27,9 +36,14 @@ Bullet.prototype.move = function (direction) {
     if (this.position.y >= max_height || this.position.y <= min_height) {
         this.owner.destroyBullet(this);
     }
-    this.translateX(direction.x * this.speed);
-    this.translateY(direction.y * this.speed);
-    this.translateZ(direction.z * this.speed);
+
+    this.position.x += direction.x * this.speed;
+    this.position.y += direction.y * this.speed;
+    this.position.z += direction.z * this.speed;
+     if(this.light !== undefined){
+         console.log(this.light);
+        this.light.position.copy(this.position);
+     }
     this.collide();
     //console.log("<- bullet.move()");
 
@@ -54,17 +68,6 @@ Bullet.prototype.collide = function () {
             game.current_level.army.destroyAlien(intersect);
             this.owner.score += intersect.score_value;
             document.getElementById("score").innerHTML = game.player.score;
-            
-            game.information_group.remove(game.information["score"]);
-            var text3d = new THREE.TextGeometry(this.owner.score, {size: 30,height: 15,curveSegments: 1,font: "helvetiker",weight : "bold"});
-            text3d.computeBoundingBox();
-            var material = new THREE.MeshPhongMaterial( { color: 0x5555ff } );
-            var mesh = new THREE.Mesh(text3d,material);
-            mesh.position.set(min_height+180,max_height+margin,margin);
-            mesh.rotation.x += 90 * Math.PI/180;
-            game.information_group.add(mesh);
-            game.information["score"] = mesh;
-            
             this.owner.destroyBullet(this);
         }
         if (intersect instanceof Bullet && intersects[0].distance <= 10) {
@@ -76,6 +79,7 @@ Bullet.prototype.collide = function () {
         if (intersect instanceof Player && intersects[0].distance <= 10 && this.owner instanceof Alien) 	{
             console.log('Alien killed player');
             if(intersect.killable){
+                game.pp_manager.startEffect("glitch", 0.2);
                 intersect.lives--;
                 document.getElementById("life").innerHTML = game.player.lives;
             }

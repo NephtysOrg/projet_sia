@@ -10,15 +10,11 @@ if (Detector.webgl) {
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMapType = THREE.PCFSoftShadowMap;
-//renderer.shadowMapEnabled = true;
-//renderer.gammaInput = true;
-//renderer.gammaOutput = true;
 
 document.body.appendChild(renderer.domElement);
 
 
 var stats = new Stats();
-stats.setMode(1); // 0: fps, 1: ms
 
 // align top-left
 stats.domElement.style.position = 'absolute';
@@ -30,7 +26,7 @@ var game = new Game();
 if (!game.init())
     loop();
 
-game.debug();
+//game.debug();
 function loop() {
        requestId = window.requestAnimationFrame(loop);
     

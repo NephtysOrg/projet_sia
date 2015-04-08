@@ -51,19 +51,18 @@ Environement.prototype.initGround = function () {
         specular: 0x000000,
         shininess: 100
     });
-    for (var j = 0; j < map_height / 10; j++) {
-        for (var i = 0; i < map_width / 10; i++) {
-            var height = Math.floor((Math.random() * 50) + 0);
-            var cubeGeometry = new THREE.BoxGeometry(8, 8, height);
+    for (var j = 0; j < map_height / 40; j++) {
+        for (var i = 0; i < map_width / 40; i++) {
+            var height = Math.floor((Math.random() * 40) + 0);
+            var cubeGeometry = new THREE.BoxGeometry(15, 15, height);
             var cube = new THREE.Mesh(cubeGeometry, material);
             cube.position.z = -50;
-            cube.position.x = -(map_width * Math.random()) + (i * 10);
-            cube.position.y = -(map_height * Math.random()) + (j * 10);
+            cube.position.x = -(map_width * Math.random()) + (i * 40);
+            cube.position.y = -(map_height * Math.random()) + (j * 40);
             cube.rotation.x = Math.random() * 100 * Math.PI / 180;
             cube.rotation.y = Math.random() * 100 * Math.PI / 180;
             cube.updateMatrix();
-//            cube.castShadow = true;
-//            cube.receiveShadow = true;
+
             totalGeom.merge(cube.geometry, cube.matrix);
         }
     }
@@ -102,11 +101,11 @@ Environement.prototype.initParticles = function () {
 
 Environement.prototype.initLights = function () {
 
-    var light_numer = 3;
+    var light_numer = 6;
     var colors = Please.make_scheme(
             {
                 h: 130,
-                s: .7,
+                s:.7,
                 v: .75
             },
     {
@@ -118,19 +117,18 @@ Environement.prototype.initLights = function () {
     var z;
     var sphere = new THREE.SphereGeometry(1, 16, 8);
     for (var i = 0; i < light_numer; i++) {
-        intensity = Math.floor((Math.random() * 3) + 1);
+        intensity = Math.floor((Math.random() * 5) + 2);
         distance = Math.floor((Math.random() * 200) + 50);
         z = -Math.floor((Math.random() * 25) - 10);
 
-        var light = new THREE.PointLight(colors[i], intensity, distance);
-        light.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({color: colors[i]})));
+        var sphereLight = new THREE.PointLight(colors[i], intensity, distance);
+        sphereLight.add(new THREE.Mesh(sphere, new THREE.MeshPhongMaterial({color: colors[i]})));
         this.ground_lights[i] = new Array();
-        this.ground_lights[i][0] = light;
+        this.ground_lights[i][0] = sphereLight;
         this.ground_lights[i][1] = Math.random(); // The speed of the light
         this.ground_lights[i][2] = Math.random(); // The speed of the light
-        light.position.set(Math.random() * map_width, Math.random() * map_height, z);
-        //light.castShaddow = true;
-        this.add(light);
+        sphereLight.position.set(Math.random() * map_width, Math.random() * map_height, z);
+        this.add(sphereLight);
     }
 };
 

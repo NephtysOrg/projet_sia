@@ -58,9 +58,8 @@ Army.prototype.printPosition = function () {
 };
 
 Army.prototype.fire = function () {
-    for (var i = 0; i < this.battalions.length; i++) {
-        this.battalions[this.battalions.length-1].fire();
-    }
+        if(this.battalions.length>0)
+            this.battalions[this.battalions.length-1].fire();
 };
 
 Army.prototype.moveBullets = function () {

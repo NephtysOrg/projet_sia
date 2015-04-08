@@ -10,16 +10,30 @@ function Alien(alien_data, speed, score_value, strength, batallion) {
     this.strength = strength;
     this.score_value = score_value;
     this.bullets = new Array();
+    this.bullets_light = new Array();
     this.batallion = batallion;
     this.direction = new THREE.Vector3(0, -1, 0); //pointing to -y (Alien direction)
     this.can_fire = true;
     this.engage = false;
     
     Structure3d.call(this, alien_data);
+            for(var i = 0 ; i < this.children.length; i++){
+        this.children[i].material.color.setHex(0xFF0000);
+    }
     this.position.z += 15;
     this.rotation.z += -90 * Math.PI / 180;
     this.rotation.x += 90 * Math.PI / 180;
     this.scale.set(4, 4, 4);
+    
+     // Light 
+    for(var i = 0; i < 3 ; i++){
+        var tmp_bullet = new THREE.PointLight(0xff2222);
+        tmp_bullet.intensity = 0;
+        tmp_bullet.visible = false;
+        tmp_bullet.distance = 60;
+        this.bullets_light.push(tmp_bullet);
+        game.add(tmp_bullet);
+    }
 }
 ;
 
@@ -37,14 +51,22 @@ Alien.prototype.move = function (direction) {
 
 };
 
+Alien.prototype.getLightAvaliable = function (){
+    for(var i = 0; i < this.bullets_light.length; i++){
+        if (this.bullets_light[i].intensity === 0){
+            return this.bullets_light[i];
+        }
+    }
+};
+
 Alien.prototype.fire = function () {
     if(this.engage){
         if (this.can_fire) {
             console.log("-> alien.fire()");
             this.can_fire = false;
-            var tmp_bullet = new Bullet(bullet_data, 5+this.strength,0xff0000, this);
+            var tmp_bullet = new Bullet(bullet_data, 5+this.strength,0xff0000,this.getLightAvaliable(), this);
             tmp_bullet.position.set(this.position.x + (this.height), this.position.y - this.width, 0);
-//            tmp_bullet.init();
+
             game.add(tmp_bullet);
             this.bullets.push(tmp_bullet);
             var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
@@ -63,8 +85,16 @@ Alien.prototype.fire = function () {
 
 Alien.prototype.destroyBullet = function (bullet) {
     var i = this.bullets.indexOf(bullet);
-    game.remove(this.bullets[i]);
-    this.bullets.splice(i, 1);
+    console.log(this.bullets_lights);
+    if (i > -1) {
+        if(this.bullets[i].light !== undefined){
+            this.bullets[i].light.visible = false;
+            this.bullets[i].light.intensity = 0;
+        }
+        game.remove(this.bullets[i]);
+        this.bullets.splice(i, 1);
+        
+    }
 };
 
 Alien.prototype.moveBullets = function () {
