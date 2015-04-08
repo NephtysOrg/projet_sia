@@ -53,7 +53,7 @@ Defense.prototype.leftOverflow = function () {
 };
 
 Defense.prototype.move = function () {
-    if(this.movable === true){
+    if(this.movable === true && this.bunkers.length > 0){
         for (var i = 0; i < this.bunkers.length; i++) {
             this.bunkers[i].move(this.direction);
         }

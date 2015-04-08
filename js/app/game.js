@@ -14,7 +14,7 @@ function Game() {
     this.keyboard = new THREEx.KeyboardState();
     this.pp_manager;
 
-    this.states = {STARTING: "starting", PAUSED: "paused", PLAYING: "playing", INITIALIZING: "initializing"};
+    this.states = {STARTING: "starting", PAUSED: "paused", PLAYING: "playing", INITIALIZING: "initializing", OVER : "over"};
     this.current_state = this.states.STARTING;
     
     // debug 
@@ -34,7 +34,6 @@ function Game() {
         }
         if (_this.keyboard.eventMatches(event, 'c') && !wasPressed['c']) {
             wasPressed['c'] = true;
-            console.log("camera transitions...");
             _this.cameraManagement();
         }
     });
@@ -67,7 +66,7 @@ Game.prototype.init = function () {
     this.add(this.current_environment);
     this._init_camera();
     this._init_HTML();
-        this.pp_manager = new PostProcessingManager(renderer,this);
+    this.pp_manager = new PostProcessingManager(renderer,this);
     THREEx.WindowResize.bind(renderer, this.current_camera);
     this._computeTransition("level");
 };
@@ -233,14 +232,22 @@ Game.prototype.animate = function () {
     this.pp_manager.render();
     this.camera_light.position.copy(this.current_camera.position);
     this.current_environment.animate();
+            this._handleKeyEvents();
+
     if (this.current_state === this.states.PLAYING) {
         this.player.moveBullets();
-        this._handleKeyEvents();
         this.current_level.army.animate();
         this.current_level.defense.move();
-        if (this.player.lives === 0)
-            stop();
+        if (this.player.lives === 0){
+            this.current_state = this.states.OVER;
+        }
+           
     }
+    
+    if (this.current_state === this.states.OVER) {
+        this._computeTransition("over");
+    }
+    
     if (this.current_state === this.states.INITIALIZING) {
         this.current_difficulty++;
         document.getElementById("level").innerHTML = this.current_difficulty;
@@ -261,7 +268,16 @@ Game.prototype.animate = function () {
 };
 
 Game.prototype._handleKeyEvents = function () {
- if (this.keyboard.pressed("left")) {
+    console.log(this.keyboard.pressed("enter"));
+    if (this.keyboard.pressed("enter") && this.current_state === this.states.OVER) {
+        console.log("restart needed");
+        
+        this.current_difficulty = -1;
+        this._init_HTML();
+        this.current_state = this.states.INITIALIZING;
+    }
+    
+ if (this.keyboard.pressed("left") && this.current_state===this.states.PLAYING) {
         var dir = [-1, 0, 0];
         if (this.player.position.x + this.player.height * 2 > min_width){
             this.player.move(dir);
@@ -272,7 +288,7 @@ Game.prototype._handleKeyEvents = function () {
          this.update_player_view();
     }
     
-    if (this.keyboard.pressed("right")) {
+    if (this.keyboard.pressed("right")  && this.current_state===this.states.PLAYING) {
         var dir = [1, 0, 0];
         if (this.player.position.x + (this.player.height) * 2 < max_width){
             this.player.move(dir);
@@ -283,11 +299,11 @@ Game.prototype._handleKeyEvents = function () {
          this.update_player_view();
     }
     
-    if (this.keyboard.pressed("space")) {
+    if (this.keyboard.pressed("space")  && this.current_state===this.states.PLAYING) {
         this.player.fire();
     }
 
-    if (this.keyboard.pressed("k")) {
+    if (this.keyboard.pressed("k")  && this.current_state===this.states.PLAYING) {
         this.current_level.clear();
     }
 };
@@ -298,8 +314,8 @@ Game.prototype._computeTransition = function (type) {
             var level = "Level " + this.current_difficulty;
             (this.current_difficulty === 1) ? this._create_dialog(level, "#0f0", 5000) : this._create_dialog("Stage Clear <br>" + level, "#0f0", 5000);
             break;
-        case "end" :
-            this.player.explode();
+        case "over" :
+            this._create_dialog("Game Over <br>Press Enter to try Again", "#0f0", 0);
             break;
     }
 };
@@ -310,12 +326,13 @@ Game.prototype._create_dialog = function (text, color, duration) {
     document.getElementById("vertical-center").style.visibility = "visible";
     document.getElementById("vertical-center").innerHTML = text;
     var that = this;
-    setTimeout(function () {
-        document.getElementById("dialog").style.visibility = "hidden";
-        document.getElementById("vertical-center").style.visibility = "hidden";
-        that.current_state = that.states.PLAYING;
-    }, duration);
-
+    if(duration > 0){
+        setTimeout(function () {
+            document.getElementById("dialog").style.visibility = "hidden";
+            document.getElementById("vertical-center").style.visibility = "hidden";
+            that.current_state = that.states.PLAYING;
+        }, duration);
+    }
 };
 
 Game.prototype.debug = function () {

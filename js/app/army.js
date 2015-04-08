@@ -31,6 +31,9 @@ Army.prototype.move = function () {
     for (var i = 0; i < this.battalions.length; i++) {
         this.battalions[i].move();
     }
+    if(this.battalions[this.battalions.length-1].bunkerOverflow()){
+        game.current_state = game.states.OVER;
+    }
 };
 
 Army.prototype.destroyAlien = function (alien) {

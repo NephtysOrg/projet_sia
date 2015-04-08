@@ -16,7 +16,7 @@ function Battalion(batalion_data, battalion_speed, alien_point, alien_number, po
 
     var step = map_width / alien_number;
     for (var i = -alien_number / 2; i < alien_number / 2; i++) {
-        var tmp_alien = new Alien(batalion_data, battalion_speed, alien_point,this.strength, this);
+        var tmp_alien = new Alien(batalion_data, battalion_speed , alien_point,this.strength, this);
         tmp_alien.position.x = i * step;
         tmp_alien.position.y = position_y;
         this.aliens.push(tmp_alien);
@@ -36,7 +36,7 @@ Battalion.prototype.move = function () {
         this.aliens[i].move(this.direction);
     }
     if ((this.leftOverflow() || this.rightOverflow())) {
-        if (!this.bottomOverflow()) {
+        if (!this.bottomOverflow() && game.player.killable === true) {
             for (var i = 0; i < this.aliens.length; i++) {
                 this.aliens[i].move(bottom);
             }
@@ -73,6 +73,17 @@ Battalion.prototype.bottomOverflow = function () {
         if (this.army.battalions[my_index + 1] && (this.aliens[0].position.y - this.army.battalions[my_index + 1].aliens[0].position.y <= 5 * this.aliens[0].height)) {
             return true;
         }
+    }
+    return false;
+};
+
+Battalion.prototype.bunkerOverflow = function () {
+    var y_limit = game.player.position.y;
+    if(game.current_level.defense.bunkers.length > 0){
+        y_limit =  game.current_level.defense.bunkers[0].position.y;
+    }
+    if(this.aliens[0].position.y <= y_limit){
+        return true;
     }
     return false;
 };

@@ -17,7 +17,7 @@ function Player(player_data, lives, speed, game) {
     this.can_fire = true;
     this.killable = true;
     
-        for(var i = 0 ; i < this.children.length; i++){
+    for(var i = 0 ; i < this.children.length; i++){
         this.children[i].material.color.setHex(0x00BFFF);
     }
 
