@@ -72,7 +72,6 @@ Alien.prototype.getLightAvaliable = function () {
 
 /**
  *  Fire a bullet
- * @returns {undefined}
  */
 Alien.prototype.fire = function () {
     if (this.engage) {
@@ -114,13 +113,10 @@ Alien.prototype.destroyBullet = function (bullet) {
 };
 
 /**
- * Move a bullet while is not out ouf map, collision ar handled in the Bullet class
+ * Move a bullet, collision are handled in the Bullet class
  */
 Alien.prototype.moveBullets = function () {
     for (var i = 0; i < this.bullets.length; i++) {
         this.bullets[i].move(this.direction);
-        if (this.bullets[i] && this.bullets[i].position.y <= min_height - margin) {
-            this.destroyBullet(this.bullets[i]);
-        }
     }
 };

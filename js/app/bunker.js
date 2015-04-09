@@ -2,25 +2,28 @@
  * 
  * @param {type} bunker_data
  * @param {type} strenght
+ * @param {type} speed
+ * @param {type} defense
  * @returns {Bunker}
  */
-function Bunker(bunker_data, strenght,speed, defense) {
-    this.strenght = strenght;
-    this.speed = speed;
-    this.defense = defense;
+function Bunker(bunker_data, strenght, speed, defense) {
     Structure3d.call(this, bunker_data, false);
+
+    this.strenght = strenght;       // Bunker resitance
+    this.speed = speed;             // speed if movable
+    this.defense = defense;         // attached group of bunker
+
     this.scale.set(6, 6, 6);
 }
 ;
 
-//Create a Bunker.prototype object that inherits from Group.prototype
 Bunker.prototype = Object.create(Structure3d.prototype);
-//Set the "constructor" property to refer to Bunker
 Bunker.prototype.constructor = Bunker;
 
-//A function that destroy a part of the current bunker
+/**
+ *  destroy a part of the current bunker
+ */
 Bunker.prototype.autoDestruction = function () {
-    console.log("-> Bunker.autoDestruction()");
     // We delete a random number of block, taking into account the bunker strength
     var deletion_number = Math.floor((Math.random() * (this.children.length / this.strenght)) + 1);
     // If the bunker is solid enough (length>5) we delete it block by block randomly. 
@@ -40,19 +43,18 @@ Bunker.prototype.autoDestruction = function () {
             this.remove(this.children[this.children.length - 1]);
         }
     }
-    if(this.children.length === 0 ){
+    if (this.children.length === 0) {
         this.defense.removeBunker(this);
     }
-    //second step : destruct a part of the bunker
-    console.log("<- Bunker.autoDestruction()");
 };
 
-Bunker.prototype.move = function(direction) {
-        //console.log("-> Alien.move()");
-        this.position.x += (direction[0]*this.speed);
-        this.position.y += (direction[1]*this.speed);
-        this.position.z += (direction[2]*this.speed);
-        //console.log("<- Alien.move()");
-
+/**
+ * Move the bunker
+ * @param {type} direction
+ */
+Bunker.prototype.move = function (direction) {
+    this.position.x += (direction[0] * this.speed);
+    this.position.y += (direction[1] * this.speed);
+    this.position.z += (direction[2] * this.speed);
 };
 

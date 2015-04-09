@@ -1,19 +1,22 @@
+/**
+ * Game env
+ * @returns {Environement}
+ */
 function Environement() {
     THREE.Group.call(this);
-    this.particles;
-    this.ground;
-    this.ground_lights = new Array();
-    this.text;
 
+    this.particles;                     // ztars
+    this.ground;                        // ruins
+    this.ground_lights = new Array();   // lights    
 }
 ;
-// Create a Army.prototype object that inherits from Group.prototype
 Environement.prototype = Object.create(THREE.Group.prototype);
-// Set the "constructor" property to refer to Army
 Environement.prototype.constructor = Environement;
 
+/**
+ * Move the stars and lights randomly
+ */
 Environement.prototype.animate = function () {
-    // add some rotation to the system
     var time = Date.now() * 0.00025;
 
     var d1 = map_width / 2;
@@ -26,6 +29,9 @@ Environement.prototype.animate = function () {
     }
 };
 
+/**
+ * Initialize everything
+ */
 Environement.prototype.init = function () {
 
     this.initGround();
@@ -36,10 +42,9 @@ Environement.prototype.init = function () {
     this.add(this.particles);
 };
 
-Environement.prototype.initText = function (text) {
-
-};
-
+/**
+ * Create random ground
+ */
 Environement.prototype.initGround = function () {
     this.ground = new THREE.Group();
 
@@ -69,8 +74,10 @@ Environement.prototype.initGround = function () {
     this.ground.add(new THREE.Mesh(totalGeom, material));
 };
 
+/**
+ * Create random stars
+ */
 Environement.prototype.initParticles = function () {
-    // create the particle variables
     var particleCount = 1000,
             particles = new THREE.Geometry();
 
@@ -98,14 +105,16 @@ Environement.prototype.initParticles = function () {
 
 };
 
-
+/**
+ * Moving lights that inspect the ground randomly
+ */
 Environement.prototype.initLights = function () {
 
     var light_numer = 6;
     var colors = Please.make_scheme(
             {
                 h: 130,
-                s:.7,
+                s: .7,
                 v: .75
             },
     {
@@ -133,7 +142,9 @@ Environement.prototype.initLights = function () {
 };
 
 
-
+/**
+ * Remove the ground if we need to generate an other one
+ */
 Environement.prototype.clearGround = function () {
     this.remove(this.ground);
 };

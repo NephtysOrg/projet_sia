@@ -1,17 +1,26 @@
+/**
+ * A level in a game
+ * @param {type} dificulty
+ * @param {type} player
+ * @param {type} game
+ * @returns {Level}
+ */
 function Level (dificulty,player,game){
     THREE.Group.call(this);
-    this.difficulty = dificulty;
-    this.army;
-    this.player = player;
-    this.defense;
-    this.game = game;
+    
+    this.difficulty = dificulty;    //Level difficulty
+    this.army;                      //Army of alien
+    this.player = player;           //Player against aliens
+    this.defense;                   // Player defenses
+    this.game = game;               // Game
 };
 
-// Create a Army.prototype object that inherits from Group.prototype
 Level.prototype = Object.create(THREE.Group.prototype);
-// Set the "constructor" property to refer to Army
 Level.prototype.constructor = Level;
 
+/**
+ * Create a new fresh level
+ */
 Level.prototype.init=function(){
     var battalion_number = this.difficulty*2;
     var alien_datas = new Array();
@@ -41,6 +50,9 @@ Level.prototype.init=function(){
     this.add(this.defense);
 };
 
+/**
+ * reset the level
+ */
 Level.prototype.clear = function (){
     if(this.defense)
         this.defense.killAll();
@@ -49,12 +61,4 @@ Level.prototype.clear = function (){
     if(this.player)
         this.player.clearBullets();
     
-};
-
-
-Level.prototype.isOver = function (){
-    var tmp = this.army.battalions[this.army.battalions.length - 1];
-//    if(){
-//        
-//    }
 };
