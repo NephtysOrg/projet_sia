@@ -83,7 +83,10 @@ Bullet.prototype.collide = function () {
             if(intersect.killable){
                 game.pp_manager.startEffect("glitch", 0.2);
                 intersect.lives--;
-                document.getElementById("life").innerHTML = game.player.lives;
+                document.getElementById("life").innerHTML ="";
+                for(var i=0;i< intersect.lives ;i++){
+                   document.getElementById("life").innerHTML += "<i class=\"fa fa-rocket\"></i>";
+                }
             }
             this.owner.destroyBullet(this);
         }

@@ -89,14 +89,16 @@ Game.prototype.init = function () {
     this._computeTransition("level");
 };
 
-
 /**
  * Init the screen info display in HTML
  */
 Game.prototype._init_HTML = function () {
+    
     document.getElementById("score").innerHTML = this.player.score;
     document.getElementById("level").innerHTML = this.current_difficulty;
-    document.getElementById("life").innerHTML = this.player.lives;
+    for(var i=0;i< this.player.lives;i++){
+        document.getElementById("life").innerHTML += "<i class=\"fa fa-rocket\"></i>";
+    }
     document.getElementById("killable").innerHTML = this.player.killable;
 };
 
@@ -372,7 +374,7 @@ Game.prototype._computeTransition = function (type) {
 };
 
 /**
-* DIsplay a dialong in HTML
+* Display a dialog in HTML
  * @param {type} text
  * @param {type} color
  * @param {type} duration

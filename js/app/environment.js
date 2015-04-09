@@ -8,8 +8,7 @@ function Environement() {
     this.particles;                     // ztars
     this.ground;                        // ruins
     this.ground_lights = new Array();   // lights    
-}
-;
+};
 Environement.prototype = Object.create(THREE.Group.prototype);
 Environement.prototype.constructor = Environement;
 
@@ -21,8 +20,8 @@ Environement.prototype.animate = function () {
 
     var d1 = map_width / 2;
     var d2 = map_height / 2;
-    this.particles.rotation.x += (Math.cos(time * 0.7) + Math.sin(time * 0.7)) / 1000;
-    this.particles.rotation.y += (Math.cos(time * 0.3) + Math.sin(time * 0.3)) / 1000;
+    //this.particles.rotation.x += (Math.cos(time * 0.7) + Math.sin(time * 0.7)) / 1000;
+    //this.particles.rotation.y += (Math.cos(time * 0.3) + Math.sin(time * 0.3)) / 1000;
     for (var i = 0; i < this.ground_lights.length; i++) {
         this.ground_lights[i][0].position.x = Math.sin(time * this.ground_lights[i][1]) * d1;
         this.ground_lights[i][0].position.y = Math.cos(time * this.ground_lights[i][2]) * d2;
@@ -35,7 +34,7 @@ Environement.prototype.animate = function () {
 Environement.prototype.init = function () {
 
     this.initGround();
-    this.initParticles();
+    //this.initParticles();
     this.initLights();
 
     this.add(this.ground);
@@ -140,7 +139,6 @@ Environement.prototype.initLights = function () {
         this.add(sphereLight);
     }
 };
-
 
 /**
  * Remove the ground if we need to generate an other one

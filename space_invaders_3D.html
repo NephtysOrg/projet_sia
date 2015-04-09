@@ -1,11 +1,9 @@
 <!doctype html>
 <html>
-    <head>
-        <title>learningthree.js boiler plate for three.js</title>
+	<head>
+        <title>Space Invaders 3D</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-
-        <!--		<script src="lib/three.js/Three.js"></script>-->
         <script src="lib/three.min.js"></script>
         <script src="lib/Please.js" type="text/javascript"></script>
         <script src="lib/three.js/Detector.js"></script>
@@ -17,50 +15,41 @@
         <script src="lib/threex/THREEx.KeyboardState.js" type="text/javascript"></script>
         <script src="lib/threex/threex.rendererstats.js" type="text/javascript"></script>
         <script src="lib/three.js/Stats.js" type="text/javascript"></script>
-        <script src="lib/postprocessing/Glitch.js" type="text/javascript"></script>
-        <script src="lib/postprocessing/EffectComposer.js" type="text/javascript"></script>
-        <script src="lib/fonts/helvetiker_bold.typeface.js" type="text/javascript"></script>
-        <script src="lib/shaders/ShaderPass.js" type="text/javascript"></script>
-        <script src="lib/shaders/MaskPass.js" type="text/javascript"></script>
-        <script src="lib/shaders/RenderPass.js" type="text/javascript"></script>
-        <script src="lib/shaders/CopyShader.js" type="text/javascript"></script>
-        <script src="lib/shaders/DigitalGlitch.js" type="text/javascript"></script>
         <link  href="css/main.css" rel="stylesheet"/>
-
-    </head>
+        <link  href="css/font-awesome.min.css" rel="stylesheet"/>
+        <link  href="css/font-awesome.css" rel="stylesheet" />
+	</head>
     <body>
-        <!-- three.js container -->
-        <div id="container"></div>
+    	<!-- three.js container -->
+    	<div id="container"></div>
+
         <div id="dialog">
             <div id="vertical-center"></div>
             <div id="count_num"></div>
         </div>
-        <!-- info on screen display -->
-        <div id="info_top">
-            <div class="top_left">
-                <span class="score">SCORE &lt<span id="score"></span>&gt</span>
-                <span class="level">LEVEL &lt<span id="level"></span>&gt</span>
-            </div>
+    	<!-- info on screen display -->
+    	<div id="info_top_left">
 
+                <div class="top_left">
+                    <span class="score">SCORE &lt<span id="score"></span>&gt</span>
+                    <span class="level">LEVEL &lt<span id="level"></span>&gt</span>
+                </div>
+        </div>
+        <div id="info_top_right">
             <div class="top_right">
-                <div class="life">LIFE &lt<span id="life"></span>&gt</div>
-                <div class="killable">Killable &lt<span id="killable"></span>&gt</div>
+                    <div class="life">LIFE &lt<span id="life"></span>&gt</div>
+                    <div class="killable">Killable &lt<span id="killable"></span>&gt</div>
+                </div>
             </div>
         </div>
-        <script src="js/app/context.js" type="text/javascript"></script>
-        <script src="js/app/post_processing_manager.js" type="text/javascript"></script>
-        <script src="js/app/structure3d.js" type="text/javascript"></script>
-        <script src="js/app/bunker.js" type="text/javascript"></script>
-        <script src="js/app/bullet.js" type="text/javascript"></script>
-        <script src="js/app/player.js" type="text/javascript"></script>
-        <script src="js/app/alien.js" type="text/javascript"></script>
-        <script src="js/app/battalion.js" type="text/javascript"></script>
-        <script src="js/app/army.js" type="text/javascript"></script>
-        <script src="js/app/environment.js" type="text/javascript"></script>
-        <script src="js/app/defense.js" type="text/javascript"></script>
-        <script src="js/app/level.js" type="text/javascript"></script>
-        <script src="js/app/debug.js" type="text/javascript"></script>
-        <script src="js/app/game.js" type="text/javascript"></script>
-        <script src="js/main.js" type="text/javascript"></script>
+
+        <div id="info_bottom">
+            <div class="bottom" id="inlineDoc" >
+                - <i>s</i> Screenshot
+                - <i>F11</i> Fullscreen
+                - <i>c</i> Camera transition
+                - <i>p</i> Pause
+            </div>
+        </div>
     </body>
 </html>

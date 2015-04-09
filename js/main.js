@@ -18,8 +18,8 @@ var stats = new Stats();
 
 // align top-left
 stats.domElement.style.position = 'absolute';
-stats.domElement.style.right = '0px';
-stats.domElement.style.bottom = '0px';
+stats.domElement.style.left = '10px';
+stats.domElement.style.bottom = '5px';
 document.body.appendChild( stats.domElement );
 
 var game = new Game();
@@ -28,15 +28,12 @@ if (!game.init())
 
 //game.debug();
 function loop() {
-       requestId = window.requestAnimationFrame(loop);
-    
+    requestId = window.requestAnimationFrame(loop);
     render();
     stats.begin();
     game.animate();
-    stats.end();
-    
+    stats.end(); 
 }
-
 
 function start() {
     if (!requestId) {
