@@ -23,7 +23,7 @@ function Alien(alien_data, speed, score_value, strength, batallion) {
     
     // Set Alien's Color
     for (var i = 0; i < this.children.length; i++) {
-        this.children[i].material.color.setHex(0xFF0000);
+        this.children[i].material.color.setHex(0xff2222);
     }
     // Positioning alien
     this.position.z += 15;
@@ -79,6 +79,7 @@ Alien.prototype.fire = function () {
             this.can_fire = false;
             var tmp_bullet = new Bullet(bullet_data, 5 + this.strength, 0xff0000, this.getLightAvaliable(), this);
             tmp_bullet.position.set(this.position.x + (this.height), this.position.y - this.width, 0);
+                    tmp_bullet.rotation.z += -90 * Math.PI / 180;
             game.add(tmp_bullet);
             this.bullets.push(tmp_bullet);
             var that = this;

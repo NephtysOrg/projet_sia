@@ -97,7 +97,7 @@ Battalion.prototype.bottomOverflow = function () {
  * @returns {Boolean}
  */
 Battalion.prototype.bunkerOverflow = function () {
-    var y_limit = game.player.position.y;
+    var y_limit = game.player.position.y + margin;
     if(game.current_level.defense.bunkers.length > 0){
         y_limit =  game.current_level.defense.bunkers[0].position.y;
     }

@@ -277,7 +277,6 @@ Game.prototype.animate = function () {
     this.camera_light.position.copy(this.current_camera.position);
     this.current_environment.animate();
     this._handleKeyEvents();
-
     if (this.current_state === this.states.PLAYING) {
         this.player.moveBullets();
         this.current_level.army.animate();
@@ -318,10 +317,11 @@ Game.prototype._handleKeyEvents = function () {
     console.log(this.keyboard.pressed("enter"));
     if (this.keyboard.pressed("enter") && this.current_state === this.states.OVER) {
         console.log("restart needed");
-
+        this.current_state = this.states.INITIALIZING;
+        this.player.lives = 3;
+        this.player.score = 0;
         this.current_difficulty = -1;
         this._init_HTML();
-        this.current_state = this.states.INITIALIZING;
     }
 
     if (this.keyboard.pressed("left") && this.current_state === this.states.PLAYING) {

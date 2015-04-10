@@ -12,6 +12,11 @@ function Bunker(bunker_data, strenght, speed, defense) {
     this.strenght = strenght;       // Bunker resitance
     this.speed = speed;             // speed if movable
     this.defense = defense;         // attached group of bunker
+    
+        // Set Alien's Color
+    for (var i = 0; i < this.children.length; i++) {
+        this.children[i].material.color.setHex(0x2f2fff);
+    }
 
     this.scale.set(6, 6, 6);
 }

@@ -24,7 +24,7 @@ function Player(player_data, lives, speed, game) {
         this.children[i].material.color.setHex(0x00BFFF);
     }
 
-    this.scale.set(4, 4, 4);
+    this.scale.set(6, 6, 6);
     this.rotation.z = -180 * Math.PI / 180;
 
     this.spotlight.angle = Math.PI / 10;

@@ -2,7 +2,7 @@ var requestId;
 var renderer;
 
 if (Detector.webgl) {
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({ antialiasing: true });
 
 } else {
     renderer = new THREE.CanvasRenderer();

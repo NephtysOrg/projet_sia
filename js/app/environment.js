@@ -58,7 +58,7 @@ Environement.prototype.initGround = function () {
     });
     for (var j = 0; j < map_height / 40; j++) {
         for (var i = 0; i < map_width / 40; i++) {
-            var height = Math.floor((Math.random() * 40) + 0);
+            var height = Math.floor((Math.random() * 15) + 0);
             var cubeGeometry = new THREE.BoxGeometry(15, 15, height);
             var cube = new THREE.Mesh(cubeGeometry, material);
             cube.position.z = -50;
