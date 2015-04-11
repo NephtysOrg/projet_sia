@@ -58,7 +58,7 @@ Environement.prototype.initGround = function () {
     });
     for (var j = 0; j < map_height / 40; j++) {
         for (var i = 0; i < map_width / 40; i++) {
-            var height = Math.floor((Math.random() * 15) + 0);
+            var height = Math.floor((Math.random() * 40) + 0);
             var cubeGeometry = new THREE.BoxGeometry(15, 15, height);
             var cube = new THREE.Mesh(cubeGeometry, material);
             cube.position.z = -50;
@@ -71,20 +71,23 @@ Environement.prototype.initGround = function () {
             totalGeom.merge(cube.geometry, cube.matrix);
         }
     }
-    this.ground.add(new THREE.Mesh(totalGeom, material));
+    var object = new THREE.Mesh(totalGeom, material);
+            object.castShadow = true;
+        object.receiveShadow = true;
+    this.ground.add(object);
 };
 
 /**
  * Create random stars
  */
 Environement.prototype.initParticles = function () {
-    var particleCount = 1000,
+    var particleCount = 500,
             particles = new THREE.Geometry();
 
 
     var pMaterial = new THREE.ParticleBasicMaterial({
         color: 0xFFFFFF,
-        size: 10,
+        size: 20,
         map: THREE.ImageUtils.loadTexture(
                 "medias/images/spikey.png"
                 ),
@@ -93,8 +96,8 @@ Environement.prototype.initParticles = function () {
     });
     for (var p = 0; p < particleCount; p++) {
         var pX = Math.random() * 2 * map_height - map_height,
-                pY = Math.random() * 2 * map_height - map_height,
-                pZ = Math.random() * 2 * map_height - map_height,
+            pY = Math.random() * 2 * map_height - map_height,
+            pZ = Math.random() * 2 * map_height - map_height,
                 particle = new THREE.Vector3(pX, pY, pZ);
         particles.vertices.push(particle);
     }
@@ -109,8 +112,12 @@ Environement.prototype.initParticles = function () {
  * Moving lights that inspect the ground randomly
  */
 Environement.prototype.initLights = function () {
+    
+    // Ambient light 
+var hemLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, .1);
+this.add(hemLight);
 
-    var light_numer = 6;
+    var light_numer = 4;
     var colors = Please.make_scheme(
             {
                 h: 130,

@@ -2,7 +2,7 @@ var requestId;
 var renderer;
 
 if (Detector.webgl) {
-    renderer = new THREE.WebGLRenderer({ antialiasing: true });
+    renderer = new THREE.WebGLRenderer();
 
 } else {
     renderer = new THREE.CanvasRenderer();
@@ -10,7 +10,7 @@ if (Detector.webgl) {
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMapType = THREE.PCFSoftShadowMap;
-
+renderer.shadowMapEnabled = true;
 document.body.appendChild(renderer.domElement);
 
 

@@ -97,7 +97,8 @@ Army.prototype.animate = function () {
  */
 Army.prototype.killAll = function () {
     while (this.battalions.length > 0) {
-        while (this.battalions[this.battalions.length - 1].aliens.length > 0)
-            this.battalions[this.battalions.length - 1].destroyAlien(this.battalions[this.battalions.length - 1].aliens[this.battalions[this.battalions.length - 1].aliens.length - 1]);
+        if(this.battalions[this.battalions.length - 1] !== undefined)
+            while (this.battalions[this.battalions.length - 1].aliens.length > 0)
+                this.battalions[this.battalions.length - 1].destroyAlien(this.battalions[this.battalions.length - 1].aliens[this.battalions[this.battalions.length - 1].aliens.length - 1]);
     }
 };

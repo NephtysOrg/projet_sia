@@ -15,8 +15,6 @@ function Game() {
         FUNNY: "funny",
         PLAYER: "player"};
     this.current_camera_state;                      // the current camera state
-    this.camera_light;                              // the spotlight attached to the camera
-
     this.current_difficulty;                        // The level number -1
     this.current_level;                             // the current level (Its not a number but a class)
     this.current_environment = new Environement();  // The current environment
@@ -25,17 +23,19 @@ function Game() {
     this.pp_manager;                                // post processing class manager
 
     this.states = {// game possible state
-        STARTING: "starting",
+        GREETING: "greeting",
         PAUSED: "paused",
         PLAYING: "playing",
         INITIALIZING: "initializing",
         OVER: "over"};
-    this.current_state = this.states.STARTING;
+    this.current_state = this.states.GREETING;      // Current game state
 
+    this.logo;                                      // Game logo basically Space Invaders
+    
     // debug 
     this.camera_control;
     this.rendererStats;
-
+    
     // add non repeat on certain key press (not managed by default by threex)
     var wasPressed = {};
     var _this = this;
@@ -84,9 +84,11 @@ Game.prototype.init = function () {
     this.add(this.current_environment);
     this._init_camera();
     this._init_HTML();
+    this.hideInfos();
+    this.displayLogo("SPACE INVADERS");
     this.pp_manager = new PostProcessingManager(renderer, this);
     THREEx.WindowResize.bind(renderer, this.current_camera);
-    this._computeTransition("level");
+    	THREEx.FullScreen.bindKey({ charCode : 'F11'.charCodeAt(0) });
 };
 
 
@@ -94,10 +96,10 @@ Game.prototype.init = function () {
  * Init the screen info display in HTML
  */
 Game.prototype._init_HTML = function () {
-    document.getElementById("score").innerHTML = this.player.score;
-    document.getElementById("level").innerHTML = this.current_difficulty;
-    document.getElementById("life").innerHTML = this.player.lives;
-    document.getElementById("killable").innerHTML = this.player.killable;
+    this.displayScore();
+    this.displayLevel();
+    this.displayKillable();
+    this.displayLives();
 };
 
 /**
@@ -109,8 +111,8 @@ Game.prototype._init_cameras_views = function () {
     var one_view;
 
     //// greeting view ///////////////
-    cam_pos = new THREE.Vector3(0, min_height * 2, 100);
-    cam_look = new THREE.Vector3(0, -1, 0);
+    cam_pos = new THREE.Vector3(10000, -10000, 10000);
+    cam_look = new THREE.Vector3(0, 0, 0);
     one_view = new Array();
     one_view.push(cam_pos);
     one_view.push(cam_look);
@@ -164,17 +166,13 @@ Game.prototype._init_camera = function () {
     this._init_cameras_views();
 
     //set the camera to default view
-    var defview = this.cameras_views["default"];
+    var defview = this.cameras_views["greeting"];
     this.current_camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000);
     this.current_camera.position.set(defview[0].x, defview[0].y, defview[0].z);
     this.current_camera.lookAt(defview[1]);
     this.add(this.current_camera);
-    this.current_camera_state = this.camera_states.DEFAULT;
+    this.current_camera_state = this.camera_states.GREETING;
 
-    // Light the cam 
-    this.camera_light = new THREE.SpotLight(0xffffff, 0.1);
-    this.camera_light.angle = Math.PI / 8;
-    this.current_camera.add(this.camera_light);
 };
 
 
@@ -241,30 +239,49 @@ Game.prototype.update_player_view = function () {
  * @param {type} look
  */
 Game.prototype.cameraTransition = function (position, look) {
-    var that = this;
-    if (this.current_camera_state === this.camera_states.DEFAULT) {
-        new TWEEN.Tween(that.current_camera.position).to({
+
+    
+    switch (this.current_camera_state){
+        case this.camera_states.DEFAULT: 
+                var that = this;
+            new TWEEN.Tween(that.current_camera.position).to({
             x: position.x,
             y: position.y,
             z: position.z}, 2000)
-                .easing(TWEEN.Easing.Linear.None)
+                .easing(TWEEN.Easing.Quadratic.Out)
                 .onComplete(function () {
                     that.current_camera.position.x = that.player.position.x;
                 })
                 .start();
-    } else {
-        new TWEEN.Tween(that.current_camera.position).to({
+            break;
+        case this.camera_states.GREETING:
+                var that = this;
+             new TWEEN.Tween(that.current_camera.position).to({
+            x: position.x,
+            y: position.y,
+            z: position.z}, 5000)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .onUpdate(function () {
+                    that.current_camera.lookAt(look);
+                })
+                .onComplete(function () {
+                    that.current_camera_state = that.camera_states.DEFAULT;
+                })
+                .start();
+            break;
+        default :
+                var that = this;
+            new TWEEN.Tween(that.current_camera.position).to({
             x: position.x,
             y: position.y,
             z: position.z}, 3000)
-                .easing(TWEEN.Easing.Linear.None)
+                .easing(TWEEN.Easing.Quadratic.Out)
                 .onUpdate(function () {
                     that.current_camera.lookAt(look);
                 })
                 .start();
-
+            break;
     }
-
 };
 
 /**
@@ -274,9 +291,9 @@ Game.prototype.cameraTransition = function (position, look) {
 Game.prototype.animate = function () {
     TWEEN.update();
     this.pp_manager.render();
-    this.camera_light.position.copy(this.current_camera.position);
     this.current_environment.animate();
     this._handleKeyEvents();
+
     if (this.current_state === this.states.PLAYING) {
         this.player.moveBullets();
         this.current_level.army.animate();
@@ -296,8 +313,8 @@ Game.prototype.animate = function () {
         document.getElementById("level").innerHTML = this.current_difficulty;
         this._computeTransition("level");
         this.current_level.clear();
-        this.current_environment.clearGround();
-        this.current_environment.init();
+//        this.current_environment.clearGround();
+//        this.current_environment.init();
         this.current_level = new Level(game.current_difficulty, this.player, this);
         this.current_level.init();
         this.add(this.current_level);
@@ -314,14 +331,17 @@ Game.prototype.animate = function () {
  * Manage keyboard event
  */
 Game.prototype._handleKeyEvents = function () {
-    console.log(this.keyboard.pressed("enter"));
+    if (this.keyboard.pressed("enter") && this.current_state === this.states.GREETING) {
+        this.cameraTransition(this.cameras_views['default'][0], this.cameras_views['default'][1]);
+        this._computeTransition("level");
+        this.showInfos();
+    }
     if (this.keyboard.pressed("enter") && this.current_state === this.states.OVER) {
-        console.log("restart needed");
-        this.current_state = this.states.INITIALIZING;
-        this.player.lives = 3;
-        this.player.score = 0;
         this.current_difficulty = -1;
+        this.player.score = 0;
+        this.player.lives = 3;
         this._init_HTML();
+        this.current_state = this.states.INITIALIZING;
     }
 
     if (this.keyboard.pressed("left") && this.current_state === this.states.PLAYING) {
@@ -363,30 +383,36 @@ Game.prototype._computeTransition = function (type) {
     switch (type) {
         case "level" :
             var level = "Level " + this.current_difficulty;
-            (this.current_difficulty === 1) ? this._create_dialog(level, "#0f0", 5000) : this._create_dialog("Stage Clear <br>" + level, "#0f0", 5000);
+            (this.current_difficulty === 1) ? this._create_dialog(level,"", 5000) : this._create_dialog("Stage Clear <br>" + level,"", 5000);
             break;
         case "over" :
-            this._create_dialog("Game Over <br>Press Enter to try Again", "#0f0", 0);
+            this._create_dialog("Game Over","Press Enter to try Again", 0);
             break;
     }
 };
 
 /**
-* DIsplay a dialong in HTML
+ * DIsplay a dialong in HTML
  * @param {type} text
  * @param {type} color
  * @param {type} duration
  */
-Game.prototype._create_dialog = function (text, color, duration) {
+Game.prototype._create_dialog = function (text,description, duration) {
+    document.getElementById("vertical-center").style.background = 'rgba(0,191,255,0.3)';
+    document.getElementById("main-title").innerHTML = text;
+    document.getElementById("description").innerHTML = description;
+    
     document.getElementById("dialog").style.visibility = "visible";
-    document.getElementById("dialog").style.color = color;
     document.getElementById("vertical-center").style.visibility = "visible";
-    document.getElementById("vertical-center").innerHTML = text;
+    document.getElementById("main-title").style.visibility = "visible";
+    document.getElementById("description").style.visibility = "visible";
     var that = this;
     if (duration > 0) {
         setTimeout(function () {
-            document.getElementById("dialog").style.visibility = "hidden";
-            document.getElementById("vertical-center").style.visibility = "hidden";
+        document.getElementById("dialog").style.visibility = "hidden";
+        document.getElementById("vertical-center").style.visibility = "hidden";
+        document.getElementById("main-title").style.visibility = "hidden";
+        document.getElementById("description").style.visibility = "hidden";
             that.current_state = that.states.PLAYING;
         }, duration);
     }
@@ -404,3 +430,38 @@ Game.prototype.debug = function () {
     document.body.appendChild(this.rendererStats.domElement);
 
 };
+
+
+Game.prototype.displayLogo = function (text) {
+    document.getElementById("dialog").style.visibility = "visible";
+    document.getElementById("vertical-center").style.visibility = "visible";
+    document.getElementById("vertical-center").style.background = 'transparent';
+     document.getElementById("main-title").innerHTML = text;
+};
+
+Game.prototype.displayScore = function (){
+    document.getElementById("score").innerHTML = this.player.score;
+};
+
+Game.prototype.displayLevel = function (){
+    document.getElementById("level").innerHTML = this.current_difficulty;
+};
+
+Game.prototype.displayLives = function (){
+     document.getElementById("life").innerHTML = "";
+    for (var i = 0; i < this.player.lives; i++) {
+        document.getElementById("life").innerHTML += "<i class=\"fa fa-space-shuttle\"></i>";
+    }
+};
+
+Game.prototype.displayKillable = function (){
+    document.getElementById("killable").innerHTML = (this.player.killable)?"<i class=\"fa fa-times\"></i>":"<i class=\"fa fa-check\"></i>";
+};
+
+Game.prototype.hideInfos = function (){
+     document.getElementById("info").style.visibility = "hidden";
+};
+
+Game.prototype.showInfos = function (){
+     document.getElementById("info").style.visibility = "visible";
+}

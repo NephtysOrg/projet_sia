@@ -9,7 +9,7 @@
  */
 function Alien(alien_data, speed, score_value, strength, batallion) {
     Structure3d.call(this, alien_data);
-    
+
     this.speed = speed;                             // Speed Movement
     this.strength = strength;                       // Used to compute fire speed
     this.score_value = score_value;                 // Point to the player when killed
@@ -20,10 +20,10 @@ function Alien(alien_data, speed, score_value, strength, batallion) {
     this.can_fire = true;                           // Shot Cadence
     this.engage = false;                            // 1rst shot delay
 
-    
+
     // Set Alien's Color
     for (var i = 0; i < this.children.length; i++) {
-        this.children[i].material.color.setHex(0xff2222);
+        this.children[i].material.color.setHex(0xFF0000);
     }
     // Positioning alien
     this.position.z += 15;
@@ -79,7 +79,6 @@ Alien.prototype.fire = function () {
             this.can_fire = false;
             var tmp_bullet = new Bullet(bullet_data, 5 + this.strength, 0xff0000, this.getLightAvaliable(), this);
             tmp_bullet.position.set(this.position.x + (this.height), this.position.y - this.width, 0);
-                    tmp_bullet.rotation.z += -90 * Math.PI / 180;
             game.add(tmp_bullet);
             this.bullets.push(tmp_bullet);
             var that = this;
@@ -101,7 +100,6 @@ Alien.prototype.fire = function () {
  */
 Alien.prototype.destroyBullet = function (bullet) {
     var i = this.bullets.indexOf(bullet);
-    console.log(this.bullets_lights);
     if (i > -1) {
         if (this.bullets[i].light !== undefined) {
             this.bullets[i].light.visible = false;
@@ -121,3 +119,53 @@ Alien.prototype.moveBullets = function () {
         this.bullets[i].move(this.direction);
     }
 };
+
+Alien.prototype.getPointCanvas = function () {
+    var message = "+" + this.score_value;
+    var parameters = {fontsize: 46, fontface: "arcade_game"}
+    
+    if (parameters === undefined)
+        parameters = {};
+
+    var fontface = parameters.hasOwnProperty("fontface") ?
+            parameters["fontface"] : "Arial";
+
+    var fontsize = parameters.hasOwnProperty("fontsize") ?
+            parameters["fontsize"] : 18;
+
+    var borderThickness = parameters.hasOwnProperty("borderThickness") ?
+            parameters["borderThickness"] : 4;
+
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    context.font = "Bold " + fontsize + "px " + fontface;
+
+    // text color
+    context.fillStyle = "#ffffff";
+
+    context.fillText(message, borderThickness, fontsize + borderThickness);
+
+    // canvas contents will be used for a texture
+    var texture = new THREE.Texture(canvas)
+    texture.needsUpdate = true;
+
+    var spriteMaterial = new THREE.SpriteMaterial(
+            {map: texture, useScreenCoordinates: false});
+    var sprite = new THREE.Sprite(spriteMaterial);
+    sprite.scale.set(100, 50, 1.0);
+    sprite.position.copy(this.position);
+    
+    
+    var target_position = new THREE.Vector3(sprite.position.x, sprite.position.y, sprite.position.z+50);
+   game.add( sprite );
+            new TWEEN.Tween(sprite.position).to({
+            x: target_position.x,
+            y: target_position.y,
+            z: target_position.z}, 1000)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .onComplete(function () {
+                    game.remove(sprite);
+                })
+                .start();
+    return sprite;
+}

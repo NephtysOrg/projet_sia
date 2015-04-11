@@ -24,12 +24,12 @@ function Player(player_data, lives, speed, game) {
         this.children[i].material.color.setHex(0x00BFFF);
     }
 
-    this.scale.set(6, 6, 6);
+    this.scale.set(4, 4, 4);
     this.rotation.z = -180 * Math.PI / 180;
 
     this.spotlight.angle = Math.PI / 10;
     this.spotlight.position.set(this.position.x, this.position.y + this.width, this.position.z);
-    this.spotlight.shadowDarkness = 0.95;
+    this.spotlight.shadowDarkness = 0.5;
     this.spotlight.intensity = .5;
     this.spotlight.target = this;
     this.spotlight.castShadow = true;
@@ -54,7 +54,7 @@ function Player(player_data, lives, speed, game) {
         if (that.game.keyboard.eventMatches(event, 'i') && !wasPressed['i']) {
             wasPressed['i'] = true;
             that.killable = !that.killable;
-            document.getElementById("killable").innerHTML = that.killable;
+            game.displayKillable();
 
         }
     });

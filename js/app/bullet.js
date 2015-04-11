@@ -69,9 +69,10 @@ Bullet.prototype.collide = function () {
         var intersect = intersects[0].object.parent;
         
         if (intersect instanceof Alien && intersects[0].distance <= 10 && this.owner instanceof Player) {
+            intersect.getPointCanvas();
             game.current_level.army.destroyAlien(intersect);
             this.owner.score += intersect.score_value;
-            document.getElementById("score").innerHTML = game.player.score;
+            game.displayScore();
             this.owner.destroyBullet(this);
         }
         if (intersect instanceof Bullet && intersects[0].distance <= 10) {
@@ -83,7 +84,7 @@ Bullet.prototype.collide = function () {
             if(intersect.killable){
                 game.pp_manager.startEffect("glitch", 0.2);
                 intersect.lives--;
-                document.getElementById("life").innerHTML = game.player.lives;
+                game.displayLives();
             }
             this.owner.destroyBullet(this);
         }
