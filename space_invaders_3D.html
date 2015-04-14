@@ -1,11 +1,10 @@
 <!doctype html>
 <html>
     <head>
-        <title>learningthree.js boiler plate for three.js</title>
+        <title>Space Invaders 3D</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-        <!--		<script src="lib/three.js/Three.js"></script>-->
         <script src="lib/three.min.js"></script>
         <script src="lib/Please.js" type="text/javascript"></script>
         <script src="lib/three.js/Detector.js"></script>
@@ -28,7 +27,8 @@
         <link  href="css/main.css" rel="stylesheet"/>
         <link  href="css/font-awesome.min.css" rel="stylesheet"/>
         <link  href="css/font-awesome.css" rel="stylesheet" />
-
+	
+	<link href="img/favicon.ico" rel="icon" type="image/x-icon" />
     </head>
     <body>
         <!-- three.js container -->
@@ -36,6 +36,7 @@
         <div id="dialog">
             <div id="vertical-center">
                 <div id="main-title"></div>
+                <div id="howtoplay"></div>
                 <div id="description"></div>
             </div>
         </div>
@@ -55,6 +56,7 @@
                 - <i>F11</i> Fullscreen
                 - <i>c</i> Camera transition
                 - <i>p</i> Pause
+                - <i>i</i> God mode
             </div>
         </div>
         <script src="js/app/context.js" type="text/javascript"></script>

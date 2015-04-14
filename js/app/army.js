@@ -19,6 +19,7 @@ function Army(batallion_number, alien_numbers, speeds, datas, scores, strength, 
 
     var step = (map_height / (batallion_number)) / 2;
     for (var i = 0; i < batallion_number; i++) {
+        
         var tmp = new Battalion(datas[i], speeds[i], scores[i], alien_numbers[i], max_height - (i * step), this.strength, this);
         this.battalions.push(tmp);
         this.add(tmp);

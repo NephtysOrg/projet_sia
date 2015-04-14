@@ -28,17 +28,20 @@ Level.prototype.init=function(){
     var speeds = new Array();
     var alien_numbers = new Array();
     var army_strength = this.difficulty;
+    
     for (var i = 0; i < battalion_number; i++){
-        alien_datas.push(invader1_data);
+        alien_datas.push(invaders_data[Math.floor(Math.random() * 2) + 0]);
         scores.push(50*this.difficulty);
         speeds.push(Math.floor((Math.random() * 1*this.difficulty) + 1));
         alien_numbers.push(Math.floor((Math.random() * this.difficulty) + 2));
     }
+    
     this.difficulty ++;
-    var bunker_number = (this.difficulty<=6)?this.difficulty:6;
+    var bunker_number = (this.difficulty<=4)?this.difficulty:4;
     var bunker_datas = new Array();
     var bunker_strengths = new Array();
     var movable = Math.random()<.8;
+    
     for (var i = 0; i < bunker_number; i++){
         bunker_datas.push(bunker_data);
         bunker_strengths.push(2*Math.floor((Math.random() * this.difficulty) + 1));

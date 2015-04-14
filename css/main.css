@@ -78,6 +78,11 @@
     }
     
     #main-title{
-                font-size:500%;
+                font-size:700%;
                 text-transform:uppercase;
+    }
+    
+    #howtoplay{
+        font-size:100%;
+        color:#FF0000;
     }

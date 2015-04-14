@@ -85,10 +85,11 @@ Game.prototype.init = function () {
     this._init_camera();
     this._init_HTML();
     this.hideInfos();
-    this.displayLogo("SPACE INVADERS");
+    this.displayLogo("SPACE INVADERS 3D");
+    //this.displayHowToPlay();
     this.pp_manager = new PostProcessingManager(renderer, this);
     THREEx.WindowResize.bind(renderer, this.current_camera);
-    	THREEx.FullScreen.bindKey({ charCode : 'F11'.charCodeAt(0) });
+    THREEx.FullScreen.bindKey({ charCode : 'F11'.charCodeAt(0) });
 };
 
 
@@ -336,6 +337,7 @@ Game.prototype._handleKeyEvents = function () {
         this._computeTransition("level");
         this.showInfos();
     }
+    
     if (this.keyboard.pressed("enter") && this.current_state === this.states.OVER) {
         this.current_difficulty = -1;
         this.player.score = 0;
@@ -412,6 +414,7 @@ Game.prototype._create_dialog = function (text,description, duration) {
         document.getElementById("dialog").style.visibility = "hidden";
         document.getElementById("vertical-center").style.visibility = "hidden";
         document.getElementById("main-title").style.visibility = "hidden";
+        document.getElementById("howtoplay").style.visibility = "hidden";
         document.getElementById("description").style.visibility = "hidden";
             that.current_state = that.states.PLAYING;
         }, duration);
@@ -436,7 +439,11 @@ Game.prototype.displayLogo = function (text) {
     document.getElementById("dialog").style.visibility = "visible";
     document.getElementById("vertical-center").style.visibility = "visible";
     document.getElementById("vertical-center").style.background = 'transparent';
-     document.getElementById("main-title").innerHTML = text;
+    document.getElementById("main-title").innerHTML = text;
+};
+
+Game.prototype.displayHowToPlay = function (){
+    document.getElementById("howtoplay").innerHTML = "Press Enter to start";
 };
 
 Game.prototype.displayScore = function (){

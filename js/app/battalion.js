@@ -26,8 +26,9 @@ function Battalion(batalion_data, battalion_speed, alien_point, alien_number, po
         this.aliens.push(tmp_alien);
         this.add(tmp_alien);
     }
-}
-;
+    
+    this.setColor();
+};
 
 Battalion.prototype = Object.create(THREE.Group.prototype);
 Battalion.prototype.constructor = Battalion;
@@ -52,6 +53,17 @@ Battalion.prototype.move = function () {
         this.direction[2] = -this.direction[2];
     }
 };
+
+/**
+ * 
+ * @returns {undefined}
+ */
+Battalion.prototype.setColor = function(){
+   var color = toyColors[Math.floor(Math.random() * 4) + 0]
+   for(var i=0; i < this.aliens.length; i++){
+       this.aliens[i].setColor(color);
+   }
+}; 
 
 
 /**

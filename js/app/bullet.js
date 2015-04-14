@@ -68,7 +68,7 @@ Bullet.prototype.collide = function () {
     if (intersects.length > 0) {
         var intersect = intersects[0].object.parent;
         
-        if (intersect instanceof Alien && intersects[0].distance <= 10 && this.owner instanceof Player) {
+        if (intersect instanceof Alien && intersects[0].distance <= 20 && this.owner instanceof Player) {
             intersect.getPointCanvas();
             game.current_level.army.destroyAlien(intersect);
             this.owner.score += intersect.score_value;

@@ -5,6 +5,7 @@
  * @param {type} score_value
  * @param {type} strength
  * @param {type} batallion
+ * @param {type} color
  * @returns {Alien}
  */
 function Alien(alien_data, speed, score_value, strength, batallion) {
@@ -21,10 +22,7 @@ function Alien(alien_data, speed, score_value, strength, batallion) {
     this.engage = false;                            // 1rst shot delay
 
 
-    // Set Alien's Color
-    for (var i = 0; i < this.children.length; i++) {
-        this.children[i].material.color.setHex(0xFF0000);
-    }
+ 
     // Positioning alien
     this.position.z += 15;
     this.rotation.z += -90 * Math.PI / 180;
@@ -40,11 +38,23 @@ function Alien(alien_data, speed, score_value, strength, batallion) {
         this.bullets_light.push(tmp_bullet);
         game.add(tmp_bullet);
     }
-}
-;
+};
 
 Alien.prototype = Object.create(Structure3d.prototype);
 Alien.prototype.constructor = Alien;
+
+/**
+ * 
+ * @param {type} color
+ * @returns {undefined}
+ */
+Alien.prototype.setColor = function (color){
+    // Set Alien's Color
+    for (var i = 0; i < this.children.length; i++) {
+        //this.children[i].material.color.setHex(0x00FF00); 
+        this.children[i].material.color.setHex(color);
+    }
+};
 
 
 /**
@@ -56,6 +66,8 @@ Alien.prototype.move = function (direction) {
     this.position.y += (direction[1] * this.speed);
     this.position.z += (direction[2] * this.speed);
 };
+
+
 
 
 /**
@@ -168,4 +180,5 @@ Alien.prototype.getPointCanvas = function () {
                 })
                 .start();
     return sprite;
-}
+};
+
