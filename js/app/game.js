@@ -85,7 +85,7 @@ Game.prototype.init = function () {
     this._init_camera();
     this._init_HTML();
     this.hideInfos();
-    this.displayLogo("SPACE INVADERS 3D");
+    this.displayLogo("SPACE INVADERS 3D", "Press ENTER to play");
     //this.displayHowToPlay();
     this.pp_manager = new PostProcessingManager(renderer, this);
     THREEx.WindowResize.bind(renderer, this.current_camera);
@@ -198,11 +198,15 @@ Game.prototype.cameraManagement = function () {
 
     if (this.current_camera_state === this.camera_states.PLAYER) {
         this.cameraTransition(this.cameras_views["old"][0], this.cameras_views["old"][1]);
+        this.pp_manager.startEffect("dotscreenshader",0);
+        this.pp_manager.startEffect("rgbshiftshader",0);
         this.current_camera_state = this.camera_states.OLD;
     } else
 
     if (this.current_camera_state === this.camera_states.OLD) {
         this.cameraTransition(this.cameras_views["funny"][0], this.cameras_views["funny"][1]);
+        this.pp_manager.stopEffect("dotscreenshader");
+        this.pp_manager.stopEffect("rgbshiftshader");
         this.current_camera_state = this.camera_states.FUNNY;
     } else
 
@@ -414,7 +418,6 @@ Game.prototype._create_dialog = function (text,description, duration) {
         document.getElementById("dialog").style.visibility = "hidden";
         document.getElementById("vertical-center").style.visibility = "hidden";
         document.getElementById("main-title").style.visibility = "hidden";
-        document.getElementById("howtoplay").style.visibility = "hidden";
         document.getElementById("description").style.visibility = "hidden";
             that.current_state = that.states.PLAYING;
         }, duration);
@@ -435,16 +438,14 @@ Game.prototype.debug = function () {
 };
 
 
-Game.prototype.displayLogo = function (text) {
+Game.prototype.displayLogo = function (text,description) {
     document.getElementById("dialog").style.visibility = "visible";
     document.getElementById("vertical-center").style.visibility = "visible";
     document.getElementById("vertical-center").style.background = 'transparent';
     document.getElementById("main-title").innerHTML = text;
+     document.getElementById("description").innerHTML = description;
 };
 
-Game.prototype.displayHowToPlay = function (){
-    document.getElementById("howtoplay").innerHTML = "Press Enter to start";
-};
 
 Game.prototype.displayScore = function (){
     document.getElementById("score").innerHTML = this.player.score;

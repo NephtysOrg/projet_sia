@@ -113,9 +113,14 @@ Player.prototype.fire = function () {
  * @param {type} direction
  */
 Player.prototype.move = function (direction) {
+    this.bullets_light[0].visible = true;
+    this.bullets_light[0].intensity = 3;
     this.position.x += (direction[0] * this.speed);
     this.position.y += (direction[1] * this.speed);
     this.position.z += (direction[2] * this.speed);
+    this.bullets_light[0].position.copy(this.position);
+    this.bullets_light[0].position.z += 10;
+    this.bullets_light[0].position.x -= this.width;
 };
 
 /**

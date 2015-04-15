@@ -4,8 +4,9 @@
  */
 function Environement() {
     THREE.Group.call(this);
-
-    this.particles;                     // ztars
+    
+    this.hemLight;                      // hemilight
+    this.particles;                     // stars
     this.ground;                        // ruins
     this.ground_lights = new Array();   // lights    
 }
@@ -18,7 +19,11 @@ Environement.prototype.constructor = Environement;
  */
 Environement.prototype.animate = function () {
     var time = Date.now() * 0.00025;
-
+    if(game.current_camera_state === game.camera_states.OLD){
+        this.hemLight.intensity = 1;
+    }else{
+        this.hemLight.intensity = .1;
+    }
     var d1 = map_width / 2;
     var d2 = map_height / 2;
     this.particles.rotation.x += (Math.cos(time * 0.7) + Math.sin(time * 0.7)) / 1000;
@@ -114,8 +119,8 @@ Environement.prototype.initParticles = function () {
 Environement.prototype.initLights = function () {
     
     // Ambient light 
-var hemLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, .1);
-this.add(hemLight);
+this.hemLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, .1);
+this.add(this.hemLight);
 
     var light_numer = 4;
     var colors = Please.make_scheme(
