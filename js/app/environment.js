@@ -19,11 +19,6 @@ Environement.prototype.constructor = Environement;
  */
 Environement.prototype.animate = function () {
     var time = Date.now() * 0.00025;
-    if(game.current_camera_state === game.camera_states.OLD){
-        this.hemLight.intensity = 1;
-    }else{
-        this.hemLight.intensity = .1;
-    }
     var d1 = map_width / 2;
     var d2 = map_height / 2;
     this.particles.rotation.x += (Math.cos(time * 0.7) + Math.sin(time * 0.7)) / 1000;

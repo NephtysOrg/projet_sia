@@ -70,6 +70,8 @@ Bullet.prototype.collide = function () {
         
         if (intersect instanceof Alien && intersects[0].distance <= 20 && this.owner instanceof Player) {
             intersect.getPointCanvas();
+            game.sound_manager.sound_effects["blast_impact"].stop();
+             game.sound_manager.sound_effects["blast_impact"].play();
             game.current_level.army.destroyAlien(intersect);
             this.owner.score += intersect.score_value;
             game.displayScore();
@@ -83,6 +85,7 @@ Bullet.prototype.collide = function () {
         if (intersect instanceof Player && intersects[0].distance <= 10 && this.owner instanceof Alien) 	{
             if(intersect.killable){
                 game.pp_manager.startEffect("glitch", 0.2);
+                game.sound_manager.sound_effects["cinematic_impact_1"].play();
                 intersect.lives--;
                 game.displayLives();
             }
@@ -90,6 +93,8 @@ Bullet.prototype.collide = function () {
         }
         
         if (intersect instanceof Bunker && intersects[0].distance <= 20 ){
+            game.sound_manager.sound_effects["metal_impact"].stop();
+             game.sound_manager.sound_effects["metal_impact"].play();
             intersect.autoDestruction(intersects[0].object); 
             this.owner.destroyBullet(this);
         }

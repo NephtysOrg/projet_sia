@@ -90,21 +90,22 @@ Player.prototype.fire = function () {
     if (this.can_fire) {
         this.spotlight.intensity = .7;
         this.can_fire = false;
-
+        game.sound_manager.sound_effects["player_shot_swoosh"].stop();
+        game.sound_manager.sound_effects["player_shot_swoosh"].play();
         // fire a bullet
         var tmp_bullet = new Bullet(bullet_data, 15, 0x00BFFF, this.getLightAvaliable(), this);
         tmp_bullet.position.set(this.position.x - this.height, this.position.y, this.position.z);
         tmp_bullet.rotation.z += 90 * Math.PI / 180;
         this.game.add(tmp_bullet);
         this.bullets.push(tmp_bullet);
-
+        
         var that = this;    //setTimeOut use the global scope so the keyword this need to be changed
         setTimeout(function () {
             that.spotlight.intensity = .5;
         }, 100);
         setTimeout(function () {
             that.can_fire = true;
-        }, 500);
+        }, (that.killable == true)?500:100);
     }
 };
 

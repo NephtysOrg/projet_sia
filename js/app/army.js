@@ -71,8 +71,12 @@ Army.prototype.destroyBatallion = function (batallion) {
  * Command the last batallion to fire
  */
 Army.prototype.fire = function () {
-    if (this.battalions.length > 0)
-        this.battalions[this.battalions.length - 1].fire();
+    // the 2 first bataillon fire
+    for(var i = 0; i < 2; i++){
+        if(this.battalions[i] !== undefined)
+            this.battalions[i].fire();
+    }
+        
 };
 
 /**

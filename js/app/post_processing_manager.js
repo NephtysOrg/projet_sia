@@ -16,18 +16,6 @@ function PostProcessingManager(renderer, game) {
     this.effects["glitch"]["effect"] = new THREE.GlitchPass();
     this.effects["glitch"]["render"] = true;
     this.effects["glitch"]["effect"].goWild = true;
-   
-    /*Dotscreen effect */
-    this.effects["dotscreenshader"] = new Array();
-    this.effects["dotscreenshader"]["effect"] = new THREE.ShaderPass( THREE.DotScreenShader);
-    this.effects["dotscreenshader"]["render"] = true;
-    this.effects["dotscreenshader"]["effect"].uniforms['scale'].value = 4;
-   
-    /*RGB effect */
-    this.effects["rgbshiftshader"] = new Array();
-    this.effects["rgbshiftshader"]["effect"] = new THREE.ShaderPass(THREE.RGBShiftShader);
-    this.effects["rgbshiftshader"]["render"] = false;
-    this.effects["rgbshiftshader"]["effect"].uniforms['amount'].value = 0.0015;
 };
  
 /**
@@ -55,7 +43,6 @@ PostProcessingManager.prototype.stopEffect = function (effectName) {
  */
 PostProcessingManager.prototype.startEffect = function (effectName, duration) {
     if (this.effects[effectName] !== undefined) {
-        
         this.composer.addPass( this.effects[effectName]["effect"] );
         this.effects[effectName]["effect"].renderToScreen = this.effects[effectName]["render"];
         if (duration > 0) {

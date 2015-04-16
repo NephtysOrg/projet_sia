@@ -21,7 +21,7 @@ function Game() {
 
     this.keyboard = new THREEx.KeyboardState();     // handling key press
     this.pp_manager;                                // post processing class manager
-
+    this.sound_manager = new SoundManager();
     this.states = {// game possible state
         GREETING: "greeting",
         PAUSED: "paused",
@@ -74,6 +74,7 @@ Game.prototype.constructor = Game;
  */
 Game.prototype.init = function () {
     this.current_difficulty = 1;
+    this.sound_manager.musics["stay"].play();
     this.player = new Player(player_data, 3, 10, this);
     this.player.position.y = min_height + this.player.height;
     this.add(this.player);
@@ -86,7 +87,6 @@ Game.prototype.init = function () {
     this._init_HTML();
     this.hideInfos();
     this.displayLogo("SPACE INVADERS 3D", "Press ENTER to play");
-    //this.displayHowToPlay();
     this.pp_manager = new PostProcessingManager(renderer, this);
     THREEx.WindowResize.bind(renderer, this.current_camera);
     THREEx.FullScreen.bindKey({ charCode : 'F11'.charCodeAt(0) });
@@ -198,15 +198,11 @@ Game.prototype.cameraManagement = function () {
 
     if (this.current_camera_state === this.camera_states.PLAYER) {
         this.cameraTransition(this.cameras_views["old"][0], this.cameras_views["old"][1]);
-        this.pp_manager.startEffect("dotscreenshader",0);
-        this.pp_manager.startEffect("rgbshiftshader",0);
         this.current_camera_state = this.camera_states.OLD;
     } else
 
     if (this.current_camera_state === this.camera_states.OLD) {
         this.cameraTransition(this.cameras_views["funny"][0], this.cameras_views["funny"][1]);
-        this.pp_manager.stopEffect("dotscreenshader");
-        this.pp_manager.stopEffect("rgbshiftshader");
         this.current_camera_state = this.camera_states.FUNNY;
     } else
 
@@ -245,6 +241,8 @@ Game.prototype.update_player_view = function () {
  */
 Game.prototype.cameraTransition = function (position, look) {
 
+    this.sound_manager.sound_effects["long_swoosh"].stop();
+    this.sound_manager.sound_effects["long_swoosh"].play();
     
     switch (this.current_camera_state){
         case this.camera_states.DEFAULT: 
@@ -315,6 +313,11 @@ Game.prototype.animate = function () {
 
     if (this.current_state === this.states.INITIALIZING) {
         this.current_difficulty++;
+        if(this.player.lives < 3){
+            this.player.lives ++;
+            this.displayLives();
+        }
+        this.sound_manager.sound_effects["positive_effect"].play();
         document.getElementById("level").innerHTML = this.current_difficulty;
         this._computeTransition("level");
         this.current_level.clear();
@@ -339,6 +342,8 @@ Game.prototype._handleKeyEvents = function () {
     if (this.keyboard.pressed("enter") && this.current_state === this.states.GREETING) {
         this.cameraTransition(this.cameras_views['default'][0], this.cameras_views['default'][1]);
         this._computeTransition("level");
+        this.sound_manager.musics["stay"].fadeOut(10000);
+        this.sound_manager.musics["veridis_quo"].loop().play().fadeIn(50000).fadeOut(50000);
         this.showInfos();
     }
     

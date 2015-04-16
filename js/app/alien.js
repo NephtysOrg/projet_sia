@@ -20,7 +20,7 @@ function Alien(alien_data, speed, score_value, strength, batallion) {
     this.direction = new THREE.Vector3(0, -1, 0);   //pointing to -y (Alien direction)
     this.can_fire = true;                           // Shot Cadence
     this.engage = false;                            // 1rst shot delay
-
+    this.color = 0xff0000;
 
  
     // Positioning alien
@@ -31,7 +31,7 @@ function Alien(alien_data, speed, score_value, strength, batallion) {
 
     // Light 
     for (var i = 0; i < 3; i++) {
-        var tmp_bullet = new THREE.PointLight(0xff2222);
+        var tmp_bullet = new THREE.PointLight();
         tmp_bullet.intensity = 0;
         tmp_bullet.visible = false;
         tmp_bullet.distance = 60;
@@ -50,9 +50,12 @@ Alien.prototype.constructor = Alien;
  */
 Alien.prototype.setColor = function (color){
     // Set Alien's Color
+    this.color = color;
     for (var i = 0; i < this.children.length; i++) {
-        //this.children[i].material.color.setHex(0x00FF00); 
-        this.children[i].material.color.setHex(color);
+        this.children[i].material.color.setHex(this.color);
+    }
+    for(var i= 0; i < this.bullets_light.length; i++){
+        this.bullets_light[i].color.setHex(this.color);
     }
 };
 
@@ -88,9 +91,11 @@ Alien.prototype.getLightAvaliable = function () {
 Alien.prototype.fire = function () {
     if (this.engage) {
         if (this.can_fire) {
+            game.sound_manager.sound_effects["alien_shot_swoosh"].play();
             this.can_fire = false;
-            var tmp_bullet = new Bullet(bullet_data, 5 + this.strength, 0xff0000, this.getLightAvaliable(), this);
+            var tmp_bullet = new Bullet(bullet_data, 5 + this.strength, this.color, this.getLightAvaliable(), this);
             tmp_bullet.position.set(this.position.x + (this.height), this.position.y - this.width, 0);
+            tmp_bullet.rotation.z += 90 * Math.PI / 180;
             game.add(tmp_bullet);
             this.bullets.push(tmp_bullet);
             var that = this;
