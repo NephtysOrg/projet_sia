@@ -10,7 +10,7 @@ if (Detector.webgl) {
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMapType = THREE.PCFSoftShadowMap;
-renderer.shadowMapEnabled = true;
+//renderer.shadowMapEnabled = true;
 document.body.appendChild(renderer.domElement);
 
 

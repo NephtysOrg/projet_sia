@@ -40,12 +40,17 @@ var invader3_data = [   [0,0,0,0,3,3,3,3,0,0,0,0],
                         [3,3,0,0,0,0,0,0,0,0,3,3]];
                     
 var invaders_data = new Array();
-invaders_data.push(invader1_data);
-invaders_data.push(invader2_data);
-invaders_data.push(invader3_data);
+invaders_data[0] = new Array();
+invaders_data[0]["data"] = invader1_data;
+invaders_data[0]["score"] = 10;
 
-/*invaders_data.push(invader4_data);
-invaders_data.push(invader5_data);*/
+invaders_data[1] = new Array();
+invaders_data[1]["data"] = invader2_data;
+invaders_data[1]["score"] = 30;
+
+invaders_data[2] = new Array();
+invaders_data[2]["data"] = invader3_data;
+invaders_data[2]["score"] = 50;
 
 
 var player_data = [ [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],

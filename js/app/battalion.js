@@ -113,7 +113,7 @@ Battalion.prototype.bunkerOverflow = function () {
     if(game.current_level.defense.bunkers.length > 0){
         y_limit =  game.current_level.defense.bunkers[0].position.y;
     }
-    if(this.aliens[0].position.y <= y_limit){
+    if(this.aliens[0]!== undefined && this.aliens[0].position.y <= y_limit){
         return true;
     }
     return false;

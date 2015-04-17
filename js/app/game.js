@@ -74,7 +74,7 @@ Game.prototype.constructor = Game;
  */
 Game.prototype.init = function () {
     this.current_difficulty = 1;
-    this.sound_manager.musics["stay"].play();
+    this.sound_manager.musics["stay"].loop().play().fadeIn(50000).fadeOut(50000);
     this.player = new Player(player_data, 3, 10, this);
     this.player.position.y = min_height + this.player.height;
     this.add(this.player);
@@ -86,7 +86,8 @@ Game.prototype.init = function () {
     this._init_camera();
     this._init_HTML();
     this.hideInfos();
-    this.displayLogo("SPACE INVADERS 3D", "Press ENTER to play");
+    var link = "&nbsp;&nbsp;&nbsp;&nbsp;<a onClick=\"game.sound_manager.muteMusics()\" ><span id=\"music\" ><i class=\"fa fa-music\"></i></span></a>";
+    this.displayLogo("SPACE INVADERS 3D", "Press ENTER to play"+link);
     this.pp_manager = new PostProcessingManager(renderer, this);
     THREEx.WindowResize.bind(renderer, this.current_camera);
     THREEx.FullScreen.bindKey({ charCode : 'F11'.charCodeAt(0) });

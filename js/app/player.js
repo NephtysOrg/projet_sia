@@ -105,7 +105,7 @@ Player.prototype.fire = function () {
         }, 100);
         setTimeout(function () {
             that.can_fire = true;
-        }, (that.killable == true)?500:100);
+        }, (that.killable === true)?500:100);
     }
 };
 

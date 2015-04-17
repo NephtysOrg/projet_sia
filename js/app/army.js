@@ -37,7 +37,7 @@ Army.prototype.move = function () {
     for (var i = 0; i < this.battalions.length; i++) {
         this.battalions[i].move();
     }
-    if (this.battalions[this.battalions.length - 1].bunkerOverflow()) {
+    if (this.battalions.length >0 &&  this.battalions[this.battalions.length - 1].bunkerOverflow()) {
         this.level.game.current_state = this.level.game.states.OVER;
     }
 };
