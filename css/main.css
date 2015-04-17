@@ -2,6 +2,10 @@
     font-family: 'arcade_game'; /*a name to be used later*/
     src: url('fonts/ca.ttf'); /*URL to font*/
     }
+    @font-face {
+       font-family: 'space_invaders'; /*a name to be used later*/
+       src: url('fonts/invaders.from.space.[fontvir.us].ttf'); /*URL to font*/
+    }
 
     body {
         overflow:hidden;
@@ -82,7 +86,20 @@
                 text-transform:uppercase;
     }
     
-    #howtoplay{
-        font-size:100%;
+    #points_system{
+        padding-top: 50px;
+        font-size:250%;
+        text-align: center;
+    }
+    
+    #points_system span{
+        text-align: center;
+    }
+    
+    #alienV{
         color:#FF0000;
+    }
+    
+    #alienG, #alienB, #alienD, #alienV{
+        font-family: space_invaders;
     }

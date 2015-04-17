@@ -299,6 +299,7 @@ Game.prototype.animate = function () {
     this._handleKeyEvents();
 
     if (this.current_state === this.states.PLAYING) {
+        this.sound_manager.musics["veridis_quo"].setVolume(80);
         this.player.moveBullets();
         this.current_level.army.animate();
         this.current_level.defense.move();
@@ -343,6 +344,7 @@ Game.prototype._handleKeyEvents = function () {
     if (this.keyboard.pressed("enter") && this.current_state === this.states.GREETING) {
         this.cameraTransition(this.cameras_views['default'][0], this.cameras_views['default'][1]);
         this._computeTransition("level");
+
         this.sound_manager.musics["stay"].fadeOut(10000);
         this.sound_manager.musics["veridis_quo"].loop().play().fadeIn(50000).fadeOut(50000);
         this.showInfos();
@@ -398,6 +400,8 @@ Game.prototype._computeTransition = function (type) {
             (this.current_difficulty === 1) ? this._create_dialog(level,"", 5000) : this._create_dialog("Stage Clear <br>" + level,"", 5000);
             break;
         case "over" :
+            this.sound_manager.musics["veridis_quo"].setVolume(0);
+            this.sound_manager.sound_effects["game_over"].play();
             this._create_dialog("Game Over","Press Enter to try Again", 0);
             break;
     }
@@ -413,7 +417,7 @@ Game.prototype._create_dialog = function (text,description, duration) {
     document.getElementById("vertical-center").style.background = 'rgba(0,191,255,0.3)';
     document.getElementById("main-title").innerHTML = text;
     document.getElementById("description").innerHTML = description;
-    
+    document.getElementById("points_system").innerHTML = "";
     document.getElementById("dialog").style.visibility = "visible";
     document.getElementById("vertical-center").style.visibility = "visible";
     document.getElementById("main-title").style.visibility = "visible";

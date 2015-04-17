@@ -11,6 +11,7 @@ function SoundManager() {
     for(var sound in this.musics){
         this.musics[sound].setVolume(80);
     }
+    this.musics["stay"].setVolume(100);
     
     // Init effects
     this.sound_effects["player_shot_swoosh"] = new buzz.sound("medias/sounds/effects/player_shot_swoosh.mp3");
@@ -20,6 +21,7 @@ function SoundManager() {
     this.sound_effects["cinematic_impact_1"] = new buzz.sound("medias/sounds/effects/cinematic_impact_1.mp3");
     this.sound_effects["blast_impact"] = new buzz.sound("medias/sounds/effects/blast_impact.mp3");
     this.sound_effects["positive_effect"] = new buzz.sound("medias/sounds/effects/positive_effect.mp3");
+    this.sound_effects["game_over"] = new buzz.sound("medias/sounds/effects/game_over.mp3");
     
     for(var sound in this.sound_effects){
         this.sound_effects[sound].setVolume(70);
