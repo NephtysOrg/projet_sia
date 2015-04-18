@@ -41,12 +41,15 @@ function Game() {
     var _this = this;
     _this.keyboard.domElement.addEventListener('keydown', function (event) {
         if (_this.keyboard.eventMatches(event, 'p')) {
-            wasPressed['p'] = true;
-            if (_this.current_state === _this.states.PAUSED) {
-                _this.current_state = _this.states.PLAYING;
-            } else if (_this.current_state === _this.states.PLAYING) {
-                _this.current_state = _this.states.PAUSED;
-            }
+                wasPressed['p'] = true;
+                if (_this.current_state === _this.states.PAUSED) {
+                     _this.sound_manager.musics["veridis_quo"].play();
+                    _this.current_state = _this.states.PLAYING;
+                } else if (_this.current_state === _this.states.PLAYING) {
+                     _this.sound_manager.musics["veridis_quo"].pause();
+                    _this.current_state = _this.states.PAUSED;
+                }
+               
         }
         if (_this.keyboard.eventMatches(event, 'c') && !wasPressed['c']) {
             wasPressed['c'] = true;
@@ -299,7 +302,7 @@ Game.prototype.animate = function () {
     this._handleKeyEvents();
 
     if (this.current_state === this.states.PLAYING) {
-        this.sound_manager.musics["veridis_quo"].setVolume(80);
+        this.sound_manager.musics["stay"].pause();
         this.player.moveBullets();
         this.current_level.army.animate();
         this.current_level.defense.move();
@@ -355,6 +358,7 @@ Game.prototype._handleKeyEvents = function () {
         this.player.score = 0;
         this.player.lives = 3;
         this._init_HTML();
+        this.sound_manager.musics["veridis_quo"].play();
         this.current_state = this.states.INITIALIZING;
     }
 
@@ -400,7 +404,7 @@ Game.prototype._computeTransition = function (type) {
             (this.current_difficulty === 1) ? this._create_dialog(level,"", 5000) : this._create_dialog("Stage Clear <br>" + level,"", 5000);
             break;
         case "over" :
-            this.sound_manager.musics["veridis_quo"].setVolume(0);
+            this.sound_manager.musics["veridis_quo"].pause();
             this.sound_manager.sound_effects["game_over"].play();
             this._create_dialog("Game Over","Press Enter to try Again", 0);
             break;
