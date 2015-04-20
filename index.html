@@ -77,7 +77,7 @@ Nous avons préféré cette approche au chargement de modèle pour des soucis de
 
 <ol>
 <li>Le tireur peut <strong>tirer plusieurs balles</strong>. Il suffit de créer un tableau de balle dans la classe du tireur, ensuite c'est au tireur de les détruire quand il le faut et de faire avancer ses balles.</li>
-<li>Les <strong>balles sont éclairantes</strong>. Ce défis nous à pas mal tracassé car Three.js ne permet pas de créer de façon élégante des lumières pendant l’exécution du renderer (cf <a href="https://github.com/mrdoob/three.js/issues/598">issue</a>). Alors il a fallut créer une poignée de lumière sous chaque tireur.<br>
+<li>Les <strong>balles sont éclairantes</strong>. Ce défis nous à pas mal tracassé car Three.js ne permet pas de créer de façon élégante des lumières pendant l’exécution du renderer (cf <a href="https://github.com/mrdoob/three.js/issues/598">issue</a>). Alors il a fallu créer une poignée de lumière sous chaque tireur.<br>
 Ces lumières, initialement éteintes, s'allume lorsqu'une balle part d'un tireur et suit celle-ci puis s’éteint lorsque la balle et détruite.<br>
 L’effet est au rendez-vous, même si le WebGLRenderer classique ne supporte que 8 lumières à la fois ce qui a pour effet d'éteindre temporairement certaines lumière de l’environnement (La solution du WebGLDeferredRenderer à été exploré sans succès).</li>
 <li>La <strong>vitesse des tirs</strong> est gérée aléatoirement de même que la cadence des tirs ennemis.</li>
@@ -86,8 +86,15 @@ L’effet est au rendez-vous, même si le WebGLRenderer classique ne supporte qu
 <h2>
 <a id="larmée" class="anchor" href="#larm%C3%A9e" aria-hidden="true"><span class="octicon octicon-link"></span></a>L'armée</h2>
 
-<p>L'<strong>armée ennemie est "hiérarchisée"</strong>. Elle contrôle des bataillons. Les bataillons eux, contrôlent leurs aliene=s. L'avantage d'avoir une organisation comme celle-ci est principalement la modularité. On peut créer différent type d'invaders, avec des valeurs de points différents, des mouvements différents et les incorporer a notre armée via des bataillons.<br>
+<p>L'<strong>armée ennemie est "hiérarchisée"</strong>. Elle contrôle des bataillons. Les bataillons eux, contrôlent leurs aliens. L'avantage d'avoir une organisation comme celle-ci est principalement la modularité. On peut créer différent type d'invaders, avec des valeurs de points différents, des mouvements différents et les incorporer a notre armée via des bataillons.<br>
 Un mouvement non similaire de chaque bataillon nécessite quand même de contrôler qu'il y ai non chevauchement si un bataillon va plus vite que son suivant.</p>
+
+<h2>
+<a id="le-son" class="anchor" href="#le-son" aria-hidden="true"><span class="octicon octicon-link"></span></a>Le son</h2>
+
+<p>L'introduction  du jeu se fait calmement avec une musique originale du film Interstellar : <strong>Stay</strong>.<br>
+Nous avons voulu une ambiance  un peu disco, sombre et colorée. Avec un bon morceau de nos fameux robot Daft Punk : <strong>Veridis Quo</strong>.
+Nous avons préféré  des musiques complètes à celles 8bits/game pour souligner les aspects aboutis et soignés de l'interface/du jeu.</p>
 
 <p><a name="lib"></a></p>
 
