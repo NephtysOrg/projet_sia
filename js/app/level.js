@@ -30,7 +30,7 @@ Level.prototype.init=function(){
     var army_strength = this.difficulty;
     
     for (var i = 0; i < battalion_number; i++){
-        var indice_random = Math.floor(Math.random() * 2) + 0;
+        var indice_random = Math.floor(Math.random() * invaders_data.length);
         alien_datas.push(invaders_data[indice_random]["data"]);
         scores.push(invaders_data[indice_random]["score"]*this.difficulty);
         speeds.push(Math.floor((Math.random() * 1*this.difficulty) + 1));
