@@ -143,8 +143,7 @@ Battalion.prototype.destroyAlien = function (alien) {
  * Command alien to fire
  */
 Battalion.prototype.fire = function () {
-    for (var i = 0; i < this.aliens.length; i++)
-                this.aliens[i].fire();
+    this.selectNearestAlien().fire();
 };
 
 /**
@@ -155,3 +154,22 @@ Battalion.prototype.moveBullets = function () {
         this.aliens[i].moveBullets();
     }
 };
+
+/**
+ * Select the nearest alien based to position player
+ * @returns {Alien}
+ */
+Battalion.prototype.selectNearestAlien = function(){
+    var nearest = map_width*100;
+    var alien;
+    for (var i = 0; i < this.aliens.length; i++ ){
+        if(nearest > distance(this.aliens[i].position,game.player.position)){
+            nearest = distance(this.aliens[i].position,game.player.position);
+            alien = this.aliens[i];
+        }
+    }
+    
+    return alien;
+}
+
+
