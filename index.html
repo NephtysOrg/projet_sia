@@ -1,34 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on https://github.com/jonrohan -->
 <html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen">
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
 
-    <title>Space Invaders 3D by NephtysOrg</title>
-  </head>
+  <title>Space Invaders 3D</title>
+  <meta name="description" content="Projet de Synthèse d&#39;Image Avancée">
 
-  <body>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
     <header>
-      <div class="inner">
-        <h1>Space Invaders 3D</h1>
-        <h2>Projet de Synthèse d&#39;Image Avancée</h2>
-        <a href="https://github.com/NephtysOrg/projet_sia" class="button"><small>View project on</small> GitHub</a>
-      </div>
+      <h1 class="title">Space Invaders 3D</h1>
     </header>
+    <div id="container">
+      <p class="tagline">Projet de Synthèse d&#39;Image Avancée</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/NephtysOrg/projet_sia/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/NephtysOrg/projet_sia/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/NephtysOrg/projet_sia" class="code">View Space Invaders 3D on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <p>Démo : <a href="http://cfollet.olympe.in/projet_sia/space_invaders_3D.html">lien vers olympe.in</a></p>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
+<h1>
 <a id="table-des-matières" class="anchor" href="#table-des-mati%C3%A8res" aria-hidden="true"><span class="octicon octicon-link"></span></a>Table des matières</h1>
 
 <ul>
@@ -70,7 +80,8 @@ Mais un schéma vaut mieux qu'un long discours :
 <ol>
 <li>
 <strong>Fusionner les objets</strong> (à l'aide de merge) ne nécessitants pas de précision dessus (ie. une défense doit se détruire petit à petit, elle ne doit donc pas être fusionnée).</li>
-<li>A défaut d'avoir eu le temps (et la patience) de trouver une alternative aux Raycaster, nous avons du donner aux Raycaster un <strong>ensemble de Mesh cibles minimal</strong> (ie. pour le joueur, les aliens et les bunkers sont les seules cibles, donc inutile de faire scene.children).</li>
+<li>A défaut d'avoir eu le temps (et la patience) de trouver une alternative aux Raycaster, nous avons du donner aux Raycaster un <strong>ensemble de Mesh cibles minimal</strong> (ie. pour le joueur, les aliens et les bunkers sont les seules cibles, donc inutile de faire scene.children).<br>
+Le jeu tourne en moyenne entre 30 et 60 FPS.</li>
 </ol>
 
 <h2>
@@ -98,8 +109,8 @@ Un mouvement non similaire de chaque bataillon nécessite quand même de contrô
 <p>Nous avons simulé une pseudo IA par les points suivants :</p>
 
 <ul>
-<li>Les aliens tire a intervalle de temps aléatoire, mais cet intervalle diminue en fonction de la difficulté.</li>
-<li>Le bataillon sélectionne l'alien le plus proche du joueur comme candidat au tir</li>
+<li>Les aliens tire a <strong>intervalle de temps aléatoire</strong>, mais cet intervalle diminue en fonction de la difficulté.</li>
+<li>Le bataillon sélectionne l'<strong>alien le plus proche</strong> du joueur comme candidat au tir</li>
 </ul>
 
 <h2>
@@ -136,25 +147,41 @@ Nous avons préféré  des musiques complètes à celles 8bits/game pour soulign
 <li>
 <a href="http://buzz.jaysalvat.com/">Buzz.js</a> : Pour gérer la musique, les effets facilement.</li>
 </ul>
-        </section>
 
-        <aside id="sidebar">
-          <a href="https://github.com/NephtysOrg/projet_sia/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/NephtysOrg/projet_sia/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+<h1>
+<a id="quelques-captures" class="anchor" href="#quelques-captures" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quelques captures</h1>
 
-          <p class="repo-owner"><a href="https://github.com/NephtysOrg/projet_sia"></a> is maintained by <a href="https://github.com/NephtysOrg">NephtysOrg</a>.</p>
+<p><img src="https://raw.githubusercontent.com/NephtysOrg/projet_sia/master/medias/images/screen_1.png" alt="Screen"></p>
 
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
+<p><img src="https://raw.githubusercontent.com/NephtysOrg/projet_sia/master/medias/images/screen_2.png" alt="Screen"></p>
+
+<p><img src="https://raw.githubusercontent.com/NephtysOrg/projet_sia/master/medias/images/screen_3.png" alt="Screen"></p>
+
+<p><img src="https://raw.githubusercontent.com/NephtysOrg/projet_sia/master/medias/images/screen_4.png" alt="Screen"></p>
+
+<p><img src="https://raw.githubusercontent.com/NephtysOrg/projet_sia/master/medias/images/screen_5.png" alt="Screen"></p>
+
+<p><img src="https://raw.githubusercontent.com/NephtysOrg/projet_sia/master/medias/images/screen_6.png" alt="Screen"></p>
+        </article>
       </div>
     </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/NephtysOrg" class="avatar"><img src="https://avatars2.githubusercontent.com/u/10256791?v=3&amp;s=60" width="48" height="48"></a> <a href="https://github.com/NephtysOrg">NephtysOrg</a> maintains <a href="https://github.com/NephtysOrg/projet_sia">Space Invaders 3D</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/NephtysOrg/projet_sia/tarball/master" class="tar">tar</a><a href="https://github.com/NephtysOrg/projet_sia/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
 
   
-  </body>
+</body>
 </html>
