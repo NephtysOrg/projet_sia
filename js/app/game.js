@@ -101,8 +101,9 @@ Game.prototype.init = function () {
     this._init_camera();
     this._init_HTML();
     this.hideInfos();
-    var link = "&nbsp;&nbsp;&nbsp;&nbsp;<a onClick=\"game.sound_manager.muteMusics()\" ><span id=\"music\" ><i class=\"fa fa-music\"></i></span></a>";
-    this.displayLogo("SPACE INVADERS 3D", "Press ENTER to play" + link);
+    var link = "&nbsp;&nbsp;&nbsp;&nbsp;<a onClick=\"game.sound_manager.muteMusics()\" ><span id=\"music\" ><i class=\"fa fa-music\"></i></span></a><br/><br/><br/>";
+    var help_message = "<i class='fa fa-arrow-circle-left'></i> : Move Left | <i class='fa fa-arrow-circle-right'></i> : Move Right | <i class='fa fa-minus'></i> : Fire <br/><br/>"
+    this.displayLogo("SPACE INVADERS 3D", help_message + "Press ENTER to play" + link);
     this.pp_manager = new PostProcessingManager(renderer, this);
     THREEx.WindowResize.bind(renderer, this.current_camera);
     THREEx.FullScreen.bindKey({charCode: 'F11'.charCodeAt(0)});
