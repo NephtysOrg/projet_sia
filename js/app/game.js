@@ -31,30 +31,39 @@ function Game() {
     this.current_state = this.states.GREETING;      // Current game state
 
     this.logo;                                      // Game logo basically Space Invaders
-    
+
     // debug 
     this.camera_control;
     this.rendererStats;
-    
+
     // add non repeat on certain key press (not managed by default by threex)
     var wasPressed = {};
     var _this = this;
     _this.keyboard.domElement.addEventListener('keydown', function (event) {
         if (_this.keyboard.eventMatches(event, 'p')) {
-                wasPressed['p'] = true;
-                if (_this.current_state === _this.states.PAUSED) {
-                     _this.sound_manager.musics["veridis_quo"].play();
-                    _this.current_state = _this.states.PLAYING;
-                } else if (_this.current_state === _this.states.PLAYING) {
-                     _this.sound_manager.musics["veridis_quo"].pause();
-                    _this.current_state = _this.states.PAUSED;
-                }
-               
+            wasPressed['p'] = true;
+            if (_this.current_state === _this.states.PAUSED) {
+                _this.sound_manager.musics["veridis_quo"].play();
+                _this.current_state = _this.states.PLAYING;
+            } else if (_this.current_state === _this.states.PLAYING) {
+                _this.sound_manager.musics["veridis_quo"].pause();
+                _this.current_state = _this.states.PAUSED;
+            }
+
         }
         if (_this.keyboard.eventMatches(event, 'c') && !wasPressed['c']) {
             wasPressed['c'] = true;
             _this.cameraManagement();
         }
+        if (_this.keyboard.eventMatches(event, 'h') && !wasPressed['h']) {
+            wasPressed['h'] = true;
+            var e = document.getElementById("info_bottom");
+            if (e.style.display == 'block')
+                e.style.display = 'none';
+            else
+                e.style.display = 'block';
+        }
+
     });
     // listen on keyup to maintain ```wasPressed``` array
     _this.keyboard.domElement.addEventListener('keyup', function (event) {
@@ -63,6 +72,9 @@ function Game() {
         }
         if (_this.keyboard.eventMatches(event, 'c')) {
             wasPressed['c'] = false;
+        }
+        if (_this.keyboard.eventMatches(event, 'h')) {
+            wasPressed['h'] = false;
         }
     });
 }
@@ -90,10 +102,10 @@ Game.prototype.init = function () {
     this._init_HTML();
     this.hideInfos();
     var link = "&nbsp;&nbsp;&nbsp;&nbsp;<a onClick=\"game.sound_manager.muteMusics()\" ><span id=\"music\" ><i class=\"fa fa-music\"></i></span></a>";
-    this.displayLogo("SPACE INVADERS 3D", "Press ENTER to play"+link);
+    this.displayLogo("SPACE INVADERS 3D", "Press ENTER to play" + link);
     this.pp_manager = new PostProcessingManager(renderer, this);
     THREEx.WindowResize.bind(renderer, this.current_camera);
-    THREEx.FullScreen.bindKey({ charCode : 'F11'.charCodeAt(0) });
+    THREEx.FullScreen.bindKey({charCode: 'F11'.charCodeAt(0)});
 };
 
 
@@ -247,46 +259,46 @@ Game.prototype.cameraTransition = function (position, look) {
 
     this.sound_manager.sound_effects["long_swoosh"].stop();
     this.sound_manager.sound_effects["long_swoosh"].play();
-    
-    switch (this.current_camera_state){
-        case this.camera_states.DEFAULT: 
-                var that = this;
+
+    switch (this.current_camera_state) {
+        case this.camera_states.DEFAULT:
+            var that = this;
             new TWEEN.Tween(that.current_camera.position).to({
-            x: position.x,
-            y: position.y,
-            z: position.z}, 2000)
-                .easing(TWEEN.Easing.Quadratic.Out)
-                .onComplete(function () {
-                    that.current_camera.position.x = that.player.position.x;
-                })
-                .start();
+                x: position.x,
+                y: position.y,
+                z: position.z}, 2000)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .onComplete(function () {
+                        that.current_camera.position.x = that.player.position.x;
+                    })
+                    .start();
             break;
         case this.camera_states.GREETING:
-                var that = this;
-             new TWEEN.Tween(that.current_camera.position).to({
-            x: position.x,
-            y: position.y,
-            z: position.z}, 5000)
-                .easing(TWEEN.Easing.Quadratic.Out)
-                .onUpdate(function () {
-                    that.current_camera.lookAt(look);
-                })
-                .onComplete(function () {
-                    that.current_camera_state = that.camera_states.DEFAULT;
-                })
-                .start();
+            var that = this;
+            new TWEEN.Tween(that.current_camera.position).to({
+                x: position.x,
+                y: position.y,
+                z: position.z}, 5000)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .onUpdate(function () {
+                        that.current_camera.lookAt(look);
+                    })
+                    .onComplete(function () {
+                        that.current_camera_state = that.camera_states.DEFAULT;
+                    })
+                    .start();
             break;
         default :
-                var that = this;
+            var that = this;
             new TWEEN.Tween(that.current_camera.position).to({
-            x: position.x,
-            y: position.y,
-            z: position.z}, 3000)
-                .easing(TWEEN.Easing.Quadratic.Out)
-                .onUpdate(function () {
-                    that.current_camera.lookAt(look);
-                })
-                .start();
+                x: position.x,
+                y: position.y,
+                z: position.z}, 3000)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .onUpdate(function () {
+                        that.current_camera.lookAt(look);
+                    })
+                    .start();
             break;
     }
 };
@@ -318,8 +330,8 @@ Game.prototype.animate = function () {
 
     if (this.current_state === this.states.INITIALIZING) {
         this.current_difficulty++;
-        if(this.player.lives < 3){
-            this.player.lives ++;
+        if (this.player.lives < 3) {
+            this.player.lives++;
             this.displayLives();
         }
         this.sound_manager.sound_effects["positive_effect"].play();
@@ -352,7 +364,7 @@ Game.prototype._handleKeyEvents = function () {
         this.sound_manager.musics["veridis_quo"].loop().play().fadeIn(50000).fadeOut(50000);
         this.showInfos();
     }
-    
+    THREEx.Screenshot.bindKey(renderer);
     if (this.keyboard.pressed("enter") && this.current_state === this.states.OVER) {
         this.current_difficulty = -1;
         this.player.score = 0;
@@ -391,6 +403,7 @@ Game.prototype._handleKeyEvents = function () {
     if (this.keyboard.pressed("k") && this.current_state === this.states.PLAYING) {
         this.current_level.clear();
     }
+
 };
 
 /**
@@ -401,12 +414,12 @@ Game.prototype._computeTransition = function (type) {
     switch (type) {
         case "level" :
             var level = "Level " + this.current_difficulty;
-            (this.current_difficulty === 1) ? this._create_dialog(level,"", 5000) : this._create_dialog("Stage Clear <br>" + level,"", 5000);
+            (this.current_difficulty === 1) ? this._create_dialog(level, "", 5000) : this._create_dialog("Stage Clear <br>" + level, "", 5000);
             break;
         case "over" :
             this.sound_manager.musics["veridis_quo"].pause();
             this.sound_manager.sound_effects["game_over"].play();
-            this._create_dialog("Game Over","Press Enter to try Again", 0);
+            this._create_dialog("Game Over", "Press Enter to try Again", 0);
             break;
     }
 };
@@ -417,7 +430,7 @@ Game.prototype._computeTransition = function (type) {
  * @param {type} color
  * @param {type} duration
  */
-Game.prototype._create_dialog = function (text,description, duration) {
+Game.prototype._create_dialog = function (text, description, duration) {
     document.getElementById("vertical-center").style.background = 'rgba(0,191,255,0.3)';
     document.getElementById("main-title").innerHTML = text;
     document.getElementById("description").innerHTML = description;
@@ -429,10 +442,10 @@ Game.prototype._create_dialog = function (text,description, duration) {
     var that = this;
     if (duration > 0) {
         setTimeout(function () {
-        document.getElementById("dialog").style.visibility = "hidden";
-        document.getElementById("vertical-center").style.visibility = "hidden";
-        document.getElementById("main-title").style.visibility = "hidden";
-        document.getElementById("description").style.visibility = "hidden";
+            document.getElementById("dialog").style.visibility = "hidden";
+            document.getElementById("vertical-center").style.visibility = "hidden";
+            document.getElementById("main-title").style.visibility = "hidden";
+            document.getElementById("description").style.visibility = "hidden";
             that.current_state = that.states.PLAYING;
         }, duration);
     }
@@ -452,38 +465,38 @@ Game.prototype.debug = function () {
 };
 
 
-Game.prototype.displayLogo = function (text,description) {
+Game.prototype.displayLogo = function (text, description) {
     document.getElementById("dialog").style.visibility = "visible";
     document.getElementById("vertical-center").style.visibility = "visible";
     document.getElementById("vertical-center").style.background = 'transparent';
     document.getElementById("main-title").innerHTML = text;
-     document.getElementById("description").innerHTML = description;
+    document.getElementById("description").innerHTML = description;
 };
 
 
-Game.prototype.displayScore = function (){
+Game.prototype.displayScore = function () {
     document.getElementById("score").innerHTML = this.player.score;
 };
 
-Game.prototype.displayLevel = function (){
+Game.prototype.displayLevel = function () {
     document.getElementById("level").innerHTML = this.current_difficulty;
 };
 
-Game.prototype.displayLives = function (){
-     document.getElementById("life").innerHTML = "";
+Game.prototype.displayLives = function () {
+    document.getElementById("life").innerHTML = "";
     for (var i = 0; i < this.player.lives; i++) {
         document.getElementById("life").innerHTML += "<i class=\"fa fa-space-shuttle\"></i>";
     }
 };
 
-Game.prototype.displayKillable = function (){
-    document.getElementById("killable").innerHTML = (this.player.killable)?"<i class=\"fa fa-times\"></i>":"<i class=\"fa fa-check\"></i>";
+Game.prototype.displayKillable = function () {
+    document.getElementById("killable").innerHTML = (this.player.killable) ? "<i class=\"fa fa-times\"></i>" : "<i class=\"fa fa-check\"></i>";
 };
 
-Game.prototype.hideInfos = function (){
-     document.getElementById("info").style.visibility = "hidden";
+Game.prototype.hideInfos = function () {
+    document.getElementById("info").style.visibility = "hidden";
 };
 
-Game.prototype.showInfos = function (){
-     document.getElementById("info").style.visibility = "visible";
+Game.prototype.showInfos = function () {
+    document.getElementById("info").style.visibility = "visible";
 }
