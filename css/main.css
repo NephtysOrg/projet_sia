@@ -11,7 +11,7 @@
         overflow:hidden;
         padding:0;
         margin:0;
-        color:#222;
+        color:#00BFFF;
         background-color:#000;
         font-family:arial;
         font-size:100%;
@@ -21,11 +21,9 @@
         text-decoration:none;
         position:absolute;
         font-family:arcade_game;
-        color:#00BFFF;
         background-color: rgba(0,191,255,0.3);
         top:0;
         left:0;
-       // margin:10px;
         padding:5px;
     }
     
@@ -33,7 +31,6 @@
         text-decoration:none;
         position:absolute;
         font-family:arcade_game;
-        color:#00BFFF;
         background-color: rgba(0,191,255,0.3);
  top:0;
         right:0;
@@ -45,7 +42,6 @@
         text-decoration:none;
         position: absolute; 
         font-family:arcade_game;
-        color:#00BFFF;
         background-color: rgba(0,191,255,0.3);
         padding : 5px;
         right:0;
@@ -75,14 +71,27 @@
         width:100%;
         text-align:center;
         display: table-cell;
-        color:#00BFFF;
+        color:#ffffff;
         background-color:rgba(0,191,255,0.2);
         vertical-align:middle;
         font-family:arcade_game;
     }
     
+    .text-blue{
+                color:#00BFFF;
+    }
+    
+        .text-orange{
+                color:orangered;
+    }
+    
+    
+    .text-large{
+        font-size: 120%;
+    }
+    
     #main-title{
-                font-size:500%;
+                font-size:400%;
                 text-transform:uppercase;
     }
     
@@ -101,4 +110,16 @@
     
     #alienG, #alienB, #alienD, #alienV{
         font-family: space_invaders;
+    }
+    
+    #alienG{
+        color: #72FF0D;
+    }
+    
+    #alienB{
+        color: #E800F9;
+    }
+    
+    #alienD{
+        color: #F7FF00;
     }

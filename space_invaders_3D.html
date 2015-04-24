@@ -36,7 +36,7 @@
     <body>
         <!-- three.js container -->
         <div id="container"></div>
-        <div id="dialog">
+        <div id="dialog" >
             <div id="vertical-center">
                 <div id="main-title"></div>
                 <div id="description"></div>
@@ -52,25 +52,25 @@
         <!-- info on screen display -->
         <div id="info">
             <div id="info_top_left">
-                <span class="score">SCORE &lt<span id="score"></span>&gt</span>
-                <span class="level">LEVEL &lt<span id="level"></span>&gt</span>
+                <span class="score">SCORE &lt<span class="text-orange" id="score"></span>&gt</span>
+                <span class="level">LEVEL &lt<span class="text-orange"  id="level"></span>&gt</span>
             </div>
             <div id="info_top_right">
                 <span>
                     <a onclick="game.sound_manager.muteMusics()"><span id="music"><i  class="fa fa-music"></i></span></a>&nbsp;&nbsp;
                     <a onclick="game.sound_manager.muteEffects()"><span id="effect"><i class="fa fa-volume-up"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 </span>
-                <span class="life">LIFE &lt<span id="life"></span>&gt</span>
-                <span class="killable">GOD MODE &lt<span id="killable"></span>&gt</span>
+                <span class="life">LIFE &lt<span class="text-orange"  id="life"></span>&gt</span>
+                <span class="killable">GOD MODE &lt<span class="text-orange"  id="killable"></span>&gt</span>
             </div>
 
             <div id="info_bottom">
-                  <i>h</i> Toggle help
-                | <i>x</i> Screenshot
-                | <i>F11</i> Fullscreen
-                | <i>c</i> Camera transition
-                | <i>p</i> Pause
-                | <i>i</i> God mode
+                  <i class="text-orange">h</i> Toggle help
+                | <i class="text-orange">x</i> Screenshot
+                | <i class="text-orange">F11</i> Fullscreen
+                | <i class="text-orange">c</i> Camera transition
+                | <i class="text-orange">p</i> Pause
+                | <i class="text-orange">i</i> God mode
             </div>
         </div>
         <script src="js/app/context.js" type="text/javascript"></script>
