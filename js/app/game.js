@@ -365,7 +365,7 @@ Game.prototype._handleKeyEvents = function () {
         this.sound_manager.musics["veridis_quo"].loop().play().fadeIn(50000).fadeOut(50000);
         this.showInfos();
     }
-    THREEx.Screenshot.bindKey(renderer);
+    
     if (this.keyboard.pressed("enter") && this.current_state === this.states.OVER) {
         this.current_difficulty = -1;
         this.player.score = 0;
