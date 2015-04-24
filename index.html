@@ -43,7 +43,7 @@
 
 <ul>
 <li><a href="#classes">Les classes</a></li>
-<li><a href="#details">Les details</a></li>
+<li><a href="#details">Les détails</a></li>
 <li><a href="#limites">Les limites d'implémentation</a></li>
 <li><a href="#lib">Les librairies</a></li>
 </ul>
@@ -54,7 +54,7 @@
 <a id="les-classes" class="anchor" href="#les-classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Les classes</h1>
 
 <p>Familiers avec la technologie orientée objet, nous avons décidé d'implémenter des classes en Javascript. Cette technologie est adaptée à ce style d'application, elle permet d'améliorer la lisibilité du code et sa modularité. Nous nous sommes aidés du cours sur le site <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Introduction_%C3%A0_JavaScript_orient%C3%A9_objet">Mozilla</a>.<br>
-Nous avons, pendant deux semaines, recommencé tout notre projet encore et encore jusqu'à ce que l'organisation du code nous convienne. L'architecture de notre code est un des aspects les plus important que nous avons voulu mener à bien pour que le jeu soit adaptatif et évolutif.</p>
+Nous avons, pendant deux semaines, recommencé notre projet encore et encore jusqu'à ce que l'organisation du code nous convienne. L'architecture du code est un des aspects les plus important que nous avons voulu mener à bien pour que le jeu soit adaptatif et évolutif.</p>
 
 <ul>
 <li><p>La classe <em>Game</em> contient l'ensemble du jeu, c'est à dire un <em>Environment</em>, le <em>Level</em> courant et le <em>Player</em>.</p></li>
@@ -62,15 +62,15 @@ Nous avons, pendant deux semaines, recommencé tout notre projet encore et encor
 <li><p>La classe <em>Level</em> contient : l'armée ennemie et les défenses.</p></li>
 </ul>
 
-<p>Pour ce qui est des classes décrivant les "objets" de notre jeu, à savoir : les invaders, le joueur, les défenses, les balles... Elles héritent de THREE.Group. Nous construisons chaque "objet" à l'aide d'une matrice produisant un ensemble de cubes de taille unitaire que nous ajoutons au groupe.<br>
+<p>Les classes décrivant les "objets" de notre jeu sont : les invaders, le joueur, les défenses, les balles... Elles héritent de THREE.Group. Nous construisons chaque "objet" à l'aide d'une matrice produisant un ensemble de cubes de taille unitaire que nous ajoutons au groupe.<br>
 Par soucis de performance et pour un aspect rétro du jeu, nous avons préféré cette approche au chargement de modèle.<br>
-Mais un dessin vaut mieux qu'un long discours : 
+Un dessin vaut mieux qu'un long discours : 
 <img src="https://raw.githubusercontent.com/NephtysOrg/projet_sia/master/medias/images/sia%20Class%20diagram.png" alt="Diagramme UML"></p>
 
 <p><a name="details"></a></p>
 
 <h1>
-<a id="les-details" class="anchor" href="#les-details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Les details</h1>
+<a id="les-détails" class="anchor" href="#les-d%C3%A9tails" aria-hidden="true"><span class="octicon octicon-link"></span></a>Les détails</h1>
 
 <h2>
 <a id="la-performance" class="anchor" href="#la-performance" aria-hidden="true"><span class="octicon octicon-link"></span></a>La performance</h2>
@@ -91,8 +91,8 @@ Le jeu tourne en moyenne entre 30 et 60 FPS.</li>
 
 <ol>
 <li>Le tireur peut <strong>tirer plusieurs missiles</strong>. Il suffit de créer un tableau de balles dans la classe du tireur. Ensuite, à lui de les détruire quand il le faut et de les faire avancer.</li>
-<li>Les <strong>balles sont éclairantes</strong>. Ce défis nous a tracassé car Three.js ne permet pas de créer de façon élégante des lumières pendant l’exécution du renderer (cf <a href="https://github.com/mrdoob/three.js/issues/598">issue</a>). Il a fallu créer une poignée de lumières sous chaque tireur.<br>
-Lorsqu'un missile part une des lumières s'allume et le suit. Elle s’éteint lorsqu'il est détruit.<br>
+<li>Les <strong>balles sont éclairantes</strong>. Ce défi nous a tracassé car Three.js ne permet pas de créer de façon élégante des lumières pendant l’exécution du renderer (cf <a href="https://github.com/mrdoob/three.js/issues/598">issue</a>). Il a fallu créer une poignée de lumières sous chaque tireur.<br>
+Lorsqu'un missile part, une des lumières s'allume et le suit. Elle s’éteint lorsqu'il est détruit.<br>
 L’effet est au rendez-vous même si le WebGLRenderer classique ne supporte que 8 lumières à la fois. Cela a pour effet d'éteindre temporairement certaines lumières de l’environnement (la solution du WebGLDeferredRenderer a été explorée sans succès).</li>
 <li>La <strong>vitesse des missiles</strong> et la cadence des tirs se gèrent aléatoirement.</li>
 </ol>
@@ -100,8 +100,8 @@ L’effet est au rendez-vous même si le WebGLRenderer classique ne supporte que
 <h2>
 <a id="larmée" class="anchor" href="#larm%C3%A9e" aria-hidden="true"><span class="octicon octicon-link"></span></a>L'armée</h2>
 
-<p>L'<strong>armée ennemie est "hiérarchisée"</strong>. Elle contrôle ses bataillons qui contrôlent leurs aliens. Le principal avantage d'avoir une telle organisation est la modularité. On peut créer différents types d'aliens, avec des valeurs de points différents, des mouvements différents, et les incorporer à l'armée dans des bataillons.<br>
-Un mouvement non similaire de chaque bataillon nécessite néamoins de contrôler qu'il n'y ait pas chevauchement si un bataillon va plus vite que son suivant.</p>
+<p>L'<strong>armée ennemie est "hiérarchisée"</strong>. Elle contrôle ses bataillons qui contrôlent leurs aliens. Le principal avantage d'avoir une telle organisation est la modularité. On peut créer différents types d'aliens avec des valeurs de points différents, des mouvements différents, et les incorporer à l'armée dans des bataillons.<br>
+Un mouvement non similaire de chaque bataillon nécessite néanmoins de contrôler qu'il n'y ait pas chevauchement si un bataillon va plus vite que le suivant.</p>
 
 <h2>
 <a id="lintelligence-artificielle" class="anchor" href="#lintelligence-artificielle" aria-hidden="true"><span class="octicon octicon-link"></span></a>L'intelligence artificielle</h2>
@@ -129,7 +129,7 @@ Nous avons préféré  des musiques complètes à celles des 8bits/game pour sou
 <a id="la-gestion-des-bibliothèques--require-js" class="anchor" href="#la-gestion-des-biblioth%C3%A8ques--require-js" aria-hidden="true"><span class="octicon octicon-link"></span></a>La gestion des bibliothèques : Require JS</h2>
 
 <p>Dans cette étape, nous devions constituer des modules à partir des différents fichiers javascript chargés depuis un fichier javascript dit "main". Le but était de réduire le nombre d'appels de script afin d'optimiser le chargement dans le fichier principal html.<br>
-Arrivés en milieu de projet, nous n'avons donc pas réussi à intégrer ce gestionnaire.</p>
+Arrivés en milieu de projet, nous avons essayé d’intégrer Require.js sans succes.</p>
 
 <p><a name="lib"></a></p>
 
